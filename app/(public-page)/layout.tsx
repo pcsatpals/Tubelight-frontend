@@ -1,6 +1,7 @@
 import { Figtree } from "next/font/google";
-import "../styles/globals.css";
+import "@/styles/globals.css";
 import { Metadata } from "next";
+import CustomCursor from "@/components/animation/custom-cursor";
 
 const figTreeSans = Figtree({
   variable: "--font-figtree",
@@ -86,6 +87,8 @@ export default function RootLayout({
       <body
         className={`${figTreeSans.variable} ${figTreeSans.className} antialiased`}
       >
+        <CustomCursor />
+
         {children}
       </body>
     </html>
