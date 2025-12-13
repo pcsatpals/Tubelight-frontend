@@ -1,13 +1,15 @@
 
 import Navbar from "@/components/layout/navbar";
+import TubeLightFeatures from "@/features/landing-page/components/features";
 import HeroSection from "@/features/landing-page/components/hero";
 
 
 export default function Home() {
   return (
-    <div className="h-screen bg-linear-to-r from-[#000012] via-[#0a010f] via-60% lg:to-[#19071b] md:to-[#18071b] to-[#0c020f] relative w-full font-figtree">
+    <main className="bg-[black] min-h-screen backdrop-blur-2xl relative w-full font-figtree flex flex-col gap-4">
       <Navbar />
       <HeroSection />
-    </div>
+      <TubeLightFeatures />
+    </main>
   );
 }

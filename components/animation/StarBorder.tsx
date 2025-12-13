@@ -46,7 +46,7 @@ const StarBorder = <T extends React.ElementType = 'button'>({
           animationDuration: speed
         }}
       ></div>
-      <div className="inner-content backdrop-blur-2xl">{children}</div>
+      <div className="inner-content backdrop-blur-xl">{children}</div>
     </Component>
   );
 };

@@ -13,6 +13,7 @@
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-slot": "^1.2.4",
     "@tabler/icons-react": "^3.35.0",
+    "aos": "^2.3.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gsap": "^3.14.1",
@@ -21,6 +22,7 @@
     "next": "16.0.8",
     "react": "19.2.1",
     "react-dom": "19.2.1",
+    "swiper": "^12.0.3",
     "tailwind-merge": "^3.4.0",
     "three": "^0.167.1"
   },
