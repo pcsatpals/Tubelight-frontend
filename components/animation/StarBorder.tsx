@@ -4,7 +4,6 @@ import React from 'react';
 import './StarBorder.css';
 
 type StarBorderProps<T extends React.ElementType> = React.ComponentPropsWithoutRef<T> & {
-  as?: T;
   className?: string;
   children?: React.ReactNode;
   color?: string;
@@ -13,7 +12,6 @@ type StarBorderProps<T extends React.ElementType> = React.ComponentPropsWithoutR
 };
 
 const StarBorder = <T extends React.ElementType = 'button'>({
-  as,
   className = '',
   color = 'white',
   speed = '6s',
@@ -21,10 +19,8 @@ const StarBorder = <T extends React.ElementType = 'button'>({
   children,
   ...rest
 }: StarBorderProps<T>) => {
-  const Component = as || 'button';
-
   return (
-    <Component
+    <button
       className={`star-border-container ${className}`}
       {...(rest)}
       style={{
@@ -47,7 +43,7 @@ const StarBorder = <T extends React.ElementType = 'button'>({
         }}
       ></div>
       <div className="inner-content backdrop-blur-xl">{children}</div>
-    </Component>
+    </button>
   );
 };
 
