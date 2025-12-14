@@ -229,14 +229,14 @@ export const NavbarLogo = () => {
   return (
     <a
       href="#"
-      className="relative z-20 md:ml-8 ml-6 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black md:[&_img]:size-12"
+      className="relative z-20  flex items-center space-x-2 text-sm font-normal text-black"
     >
       <Image
         src={"./logo.svg"}
         alt="Logo"
         width={400}
         height={400}
-        className="scale-[3] md:scale-[3] md:w-16 md:h-16 w-10 h-10" // Override scale for responsive
+        className=" md:w-20 md:h-20 w-10 h-10" // Override scale for responsive
         priority // Optional: faster LCP for above-fold logo
       />
     </a>
@@ -245,20 +245,17 @@ export const NavbarLogo = () => {
 
 export const NavbarButton = ({
   href,
-  as: Tag = "a",
   children,
   className,
   variant = "primary",
   ...props
 }: {
   href?: string;
-  as?: React.ElementType;
   children: React.ReactNode;
   className?: string;
   variant?: "primary" | "secondary" | "dark" | "gradient";
 } & (
-    | React.ComponentPropsWithoutRef<"a">
-    | React.ComponentPropsWithoutRef<"button">
+    React.ComponentPropsWithoutRef<"a">
   )) => {
   const baseStyles =
     "px-4 py-2 rounded-md bg-white button bg-white text-black text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
@@ -273,12 +270,12 @@ export const NavbarButton = ({
   };
 
   return (
-    <Tag
+    <a
       href={href || undefined}
       className={cn(baseStyles, variantStyles[variant], className)}
       {...props}
     >
       {children}
-    </Tag>
+    </a>
   );
 };
