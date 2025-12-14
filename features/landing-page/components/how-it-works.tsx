@@ -45,14 +45,12 @@ const howItWorksData = [
     },
 ];
 
-const HowItWorks = () => {
-    return (
-        <section className='flex flex-col gap-4 w-full items-center'>
-            <SectionHeadingContent />
-            <StickyScroll content={howItWorksData} />
-        </section>
-    )
-}
+const HowItWorks = () => (
+    <section className='flex flex-col gap-4 w-full items-center'>
+        <SectionHeadingContent />
+        <StickyScroll content={howItWorksData} />
+    </section>
+)
 
 const SectionHeadingContent = () => (
     <SectionHeading section={{

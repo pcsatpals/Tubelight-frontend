@@ -11,15 +11,13 @@ import { Autoplay, EffectCoverflow } from 'swiper/modules';
 import { useEffect, useRef } from 'react';
 import SectionHeading from './common/section-heading';
 
-const TubeLightDiscover = () => {
-    return (
-        <section className='flex flex-col gap-4 w-full items-center'>
-            <SectionHeadingContent />
-            <DiscoverSwiper />
-        </section>
+const TubeLightDiscover = () => (
+    <section className='flex flex-col gap-4 w-full items-center'>
+        <SectionHeadingContent />
+        <DiscoverSwiper />
+    </section>
 
-    )
-}
+)
 
 
 
@@ -87,39 +85,37 @@ const discoverData = [
 ];
 
 
-const DiscoverSwiper = () => {
-    return (
-        <Swiper
-            loop
-            speed={1000}
-            autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-            }}
-            effect="coverflow"
-            grabCursor
-            centeredSlides
-            slideToClickedSlide
-            slidesPerView={3}
-            coverflowEffect={{
-                rotate: 10,
-                stretch: 40,
-                depth: 120,
-                modifier: 1,
-                slideShadows: false,
-            }}
-            pagination={false}
-            modules={[EffectCoverflow, Autoplay]}
-            className="w-full xl:h-150 lg:h-125 md:h-100 sm:h-62.5 max-xs:h-50 h-45"
-        >
-            {discoverData.map((slideData, i) => (
-                <SwiperSlide key={i} className="h-75 max-w-125 rounded-3xl overflow-hidden">
-                    <VideoSlide slideData={slideData} />
-                </SwiperSlide>
-            ))}
-        </Swiper>
-    );
-};
+const DiscoverSwiper = () => (
+    <Swiper
+        loop
+        speed={1000}
+        autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+        }}
+        effect="coverflow"
+        grabCursor
+        centeredSlides
+        slideToClickedSlide
+        slidesPerView={3}
+        coverflowEffect={{
+            rotate: 10,
+            stretch: 40,
+            depth: 120,
+            modifier: 1,
+            slideShadows: false,
+        }}
+        pagination={false}
+        modules={[EffectCoverflow, Autoplay]}
+        className="w-full xl:h-150 lg:h-125 md:h-100 sm:h-62.5 max-xs:h-50 h-45"
+    >
+        {discoverData.map((slideData, i) => (
+            <SwiperSlide key={i} className="h-75 max-w-125 rounded-3xl overflow-hidden">
+                <VideoSlide slideData={slideData} />
+            </SwiperSlide>
+        ))}
+    </Swiper>
+);
 
 const VideoSlide = ({ slideData }: {
     slideData: {

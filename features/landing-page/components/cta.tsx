@@ -8,14 +8,12 @@ import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-const CTX = () => {
-    return (
-        <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto">
-            <CTASectionHeading />
-            <GlobeCanvas />
-        </section>
-    )
-}
+const CTX = () => (
+    <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto">
+        <CTASectionHeading />
+        <GlobeCanvas />
+    </section>
+)
 
 
 const CTASectionHeading = () => (
@@ -41,40 +39,38 @@ const CTASectionHeading = () => (
             showButton={false}
 
         />
-        <Button className="rounded-full transition-transform duration-500 hover:-translate-y-1/2 font-medium">Join Now</Button>
+        <Button className="rounded-full transition-transform duration-500 hover:-translate-y-1 font-medium">Join Now</Button>
     </div>
 )
 
-function GlobeCanvas() {
-    return (
-        <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
-            <Canvas
-                camera={{
-                    position: [0, 0, 8],
-                    fov: 45,
-                    near: 0.1,
-                    far: 100,
-                }}
-                className="h-full w-full"
-            >
-                <ambientLight intensity={0.8} />
-                <directionalLight position={[5, 5, 5]} intensity={1} />
+const GlobeCanvas = () => (
+    <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
+        <Canvas
+            camera={{
+                position: [0, 0, 8],
+                fov: 45,
+                near: 0.1,
+                far: 100,
+            }}
+            className="h-full w-full"
+        >
+            <ambientLight intensity={0.8} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
 
-                <Suspense fallback={null}>
-                    <GlobeModel />
-                </Suspense>
+            <Suspense fallback={null}>
+                <GlobeModel />
+            </Suspense>
 
-                <OrbitControls
-                    enableZoom={false}
-                    enablePan={false}
-                    minDistance={10}
-                    rotateSpeed={-1}
-                    autoRotate
-                    maxDistance={14}
-                />
-            </Canvas>
-        </section>
-    );
-}
+            <OrbitControls
+                enableZoom={false}
+                enablePan={false}
+                minDistance={10}
+                rotateSpeed={-1}
+                autoRotate
+                maxDistance={14}
+            />
+        </Canvas>
+    </section>
+);
 
 export default CTX

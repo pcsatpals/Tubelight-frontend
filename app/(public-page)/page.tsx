@@ -1,4 +1,5 @@
 
+import Footer from "@/components/layout/footer";
 import Navbar from "@/components/layout/navbar";
 import CTX from "@/features/landing-page/components/cta";
 import DiscoverSection from "@/features/landing-page/components/discover";
@@ -14,6 +15,7 @@ export default function Home() {
       <DiscoverSection />
       <HowItWorks />
       <CTX />
+      <Footer />
     </main>
   );
 }

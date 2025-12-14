@@ -56,7 +56,6 @@ const HeroSectionContent = () => (
       className="md:text-xl font-base text-muted-foreground font-figtree font-medium sm:max-w-full max-w-[80%] flex justify-center"
     />
     <StarBorder
-      as="button"
       className="h-12 mt-4"
       color="cyan"
       speed="5s"
