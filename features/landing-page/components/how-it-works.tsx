@@ -1,6 +1,7 @@
+"use client"
 import { StickyScroll } from '@/components/ui/sticky-scroll-reveal';
 import { Footprints, LogIn, Play, Sparkles } from 'lucide-react';
-import React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SectionHeading from './common/section-heading';
 
 const howItWorksData = [
@@ -45,12 +46,44 @@ const howItWorksData = [
     },
 ];
 
-const HowItWorks = () => (
-    <section className='flex flex-col gap-4 w-full items-center'>
-        <SectionHeadingContent />
-        <StickyScroll content={howItWorksData} />
-    </section>
-)
+const HowItWorks = () => {
+    const sectionRef = useRef<HTMLDivElement | null>(null);
+    const [isInView, setIsInView] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsInView(entry.intersectionRatio > 0.8);
+            },
+            {
+                threshold: [0.8],
+            }
+        );
+
+        if (sectionRef.current) {
+            observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <section
+            className="flex flex-col gap-4 w-full items-center"
+        >
+            <SectionHeadingContent />
+            <div
+                ref={sectionRef}
+                className={`w-full transition-all ${isInView
+                    ? "pointer-events-auto"
+                    : "pointer-events-none"
+                    }`}
+            >
+                <StickyScroll content={howItWorksData} />
+            </div>
+        </section>
+    )
+}
 
 const SectionHeadingContent = () => (
     <SectionHeading section={{

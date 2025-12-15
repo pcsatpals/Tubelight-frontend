@@ -236,7 +236,7 @@ export const NavbarLogo = () => {
         alt="Logo"
         width={400}
         height={400}
-        className=" md:w-20 md:h-20 w-10 h-10" // Override scale for responsive
+        className=" md:w-16 md:h-16 w-10 h-10" // Override scale for responsive
         priority // Optional: faster LCP for above-fold logo
       />
     </a>

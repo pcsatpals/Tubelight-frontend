@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 const CTX = () => (
-    <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto">
+    <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto md:max-w-360">
         <CTASectionHeading />
         <GlobeCanvas />
     </section>
@@ -17,7 +17,7 @@ const CTX = () => (
 
 
 const CTASectionHeading = () => (
-    <div className="flex flex-col  items-center md:min-w-1/2 w-full">
+    <div className="flex flex-col  items-center md:min-w-1/2 w-full mac">
         <Image
             src={"/logo.svg"}
             height={600}
