@@ -7,13 +7,12 @@
     "dev:turbo": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "optimize:glb": "gltfpack -i public/globe.glb -o public/globe.glb -cc -tc -kn -km"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@radix-ui/react-slot": "^1.2.4",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.4.2",
     "@tabler/icons-react": "^3.35.0",
     "aos": "^2.3.4",
     "class-variance-authority": "^0.7.1",

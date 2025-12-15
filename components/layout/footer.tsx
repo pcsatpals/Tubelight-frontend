@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Button } from '../ui/button'
 
 const Footer = () => (
-    <footer className='relative w-full bg-black px-10 mb-10'>
+    <footer className='relative w-full bg-black mb-10 md:max-w-360 mx-auto h-full'>
         {/* A blurry div */}
         <div className='absolute left-1/2 -translate-x-1/2 bottom-2 w-[10%] xl:border-300 border-200  border-transparent  border-b-blue-300 to-blue-200 blur-3xl h-60' />
         <FooterContent />
