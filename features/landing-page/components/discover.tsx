@@ -14,7 +14,7 @@ import SectionHeading from './common/section-heading';
 const TubeLightDiscover = () => (
     <section className='flex flex-col gap-4 w-full items-center md:max-w-370 mx-auto overflow-visible'>
         <SectionHeadingContent />
-        <DiscoverSwiper />
+        {/* <DiscoverSwiper /> */}
     </section>
 
 )
@@ -110,7 +110,7 @@ const DiscoverSwiper = () => (
         className="w-full xl:h-150 lg:h-125 md:h-100 sm:h-62.5 max-xs:h-50 h-45"
     >
         {discoverData.map((slideData, i) => (
-            <SwiperSlide key={i} className="h-75 max-w-125 rounded-3xl overflow-hidden">
+            <SwiperSlide key={i} className="h-full w-full rounded-3xl overflow-hidden">
                 <VideoSlide slideData={slideData} />
             </SwiperSlide>
         ))}
@@ -154,17 +154,7 @@ const VideoSlide = memo(
                 />
 
                 <div
-                    className={`
-            absolute bottom-0
-            bg-transparent backdrop-blur-md
-            flex-col gap-2
-            xl:px-8 xl:py-6 lg:p-5 p-3
-            lg:rounded-3xl rounded-2xl
-            transition-opacity duration-700
-            md:flex hidden
-            ${isActive ? "opacity-100" : "opacity-0"}
-          `}
-                >
+                    className={`absolute bottom-0 bg-transparent backdrop-blur-md flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3 lg:rounded-3xl rounded-2xl transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}>
                     <p className="text-lg font-semibold">{slideData.title}</p>
                     <p className="lg:text-sm text-xs text-muted-foreground">
                         {slideData.description}
