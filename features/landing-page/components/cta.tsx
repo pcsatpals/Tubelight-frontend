@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 const CTX = () => (
     <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto md:max-w-360">
         <CTASectionHeading />
-        <GlobeCanvas />
+        {/* <GlobeCanvas /> */}
     </section>
 )
 
