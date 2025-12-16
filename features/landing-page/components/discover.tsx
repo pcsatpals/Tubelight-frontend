@@ -14,7 +14,7 @@ import SectionHeading from './common/section-heading';
 const TubeLightDiscover = () => (
     <section className='flex flex-col gap-4 w-full items-center md:max-w-370 mx-auto overflow-visible'>
         <SectionHeadingContent />
-        {/* <DiscoverSwiper /> */}
+        <DiscoverSwiper />
     </section>
 
 )
