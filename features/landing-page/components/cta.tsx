@@ -3,10 +3,10 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import { OrbitControls } from "@react-three/drei";
-import { GlobeModel } from "./common/globe.model";
 import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Model } from "./common/Scene"
 
 const CTX = () => (
     <section className="flex md:flex-row flex-col justify-between items-center px-10 w-full mx-auto md:max-w-360">
@@ -66,7 +66,7 @@ export function GlobeSection({ className }: GlobeSectionProps) {
                 />
 
                 <Suspense fallback={null}>
-                    <GlobeModel />
+                    <Model />
                 </Suspense>
             </Canvas>
         </div>

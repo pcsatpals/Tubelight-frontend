@@ -8,12 +8,12 @@ Title: A Windy Day
 */
 
 import React from 'react'
-import { useGLTF, useAnimations } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 
 export function Model(props) {
   const group = React.useRef()
-  const { nodes, materials, animations } = useGLTF('/scene.gltf')
-  const { actions } = useAnimations(animations, group)
+  const { nodes, materials } = useGLTF('/models/scene.gltf');
+  
   return (
     <group ref={group} {...props} dispose={null}>
       <group name="Sketchfab_Scene">
@@ -376,4 +376,4 @@ export function Model(props) {
   )
 }
 
-useGLTF.preload('/scene.gltf')
+useGLTF.preload('/models/scene.gltf')
