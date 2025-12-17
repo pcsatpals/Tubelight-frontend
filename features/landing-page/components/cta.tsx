@@ -1,44 +1,19 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-// import { Suspense } from "react";
-// import { OrbitControls } from "@react-three/drei";
-// import { GlobeModel } from "./common/globe.model";
+import { Suspense } from "react";
+import { OrbitControls } from "@react-three/drei";
+import { GlobeModel } from "./common/globe.model";
 import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Suspense } from "react";
-import Model from "./common/model";
-import { Center, Environment, OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
 
 const CTX = () => (
-    <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto md:max-w-360">
+    <section className="flex md:flex-row flex-col justify-between items-center px-10 w-full mx-auto md:max-w-360">
         <CTASectionHeading />
-        {/* <GlobeCanvas /> */}
-        <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
-            <Canvas
-                camera={{ position: [0, 0, 5], fov: 35 }}
-                gl={{
-                    antialias: true,
-                    toneMappingExposure: 1,
-                }}
-                dpr={[1, 1.5]}
-            >
+        <GlobeSection />
 
-                <Suspense fallback={null}>
-                    <Environment preset="studio" />
-                    <Center>
-                        <Model />
-                    </Center>
-                </Suspense>
-                <OrbitControls
-                    enableZoom={false}
-                    enablePan={false}
-                    autoRotate
-                    autoRotateSpeed={0.8}
-                />
-            </Canvas>
-        </section>
     </section>
 )
 
@@ -70,34 +45,43 @@ const CTASectionHeading = () => (
     </div>
 )
 
-// const GlobeCanvas = () => (
-//     <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
-//         <Canvas
-//             camera={{
-//                 position: [0, 0, 8],
-//                 fov: 45,
-//                 near: 0.1,
-//                 far: 100,
-//             }}
-//             className="h-full w-full"
-//         >
-//             <ambientLight intensity={0.8} />
-//             <directionalLight position={[5, 5, 5]} intensity={1} />
+type GlobeSectionProps = {
+    /** Optional height (Tailwind or plain CSS) */
+    className?: string
+}
 
-//             <Suspense fallback={null}>
-//                 <div className="sketchfab-embed-wrapper"> <iframe title="A Windy Day" frameBorder="0" allowFullScreen allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/fb78f4cc938144e6902dd5cff354d525/embed"> </iframe> <p > <a href="https://sketchfab.com/3d-models/a-windy-day-fb78f4cc938144e6902dd5cff354d525?utm_medium=embed&utm_campaign=share-popup&utm_content=fb78f4cc938144e6902dd5cff354d525" target="_blank" rel="nofollow" > A Windy Day </a> by <a href="https://sketchfab.com/norgeotloic?utm_medium=embed&utm_campaign=share-popup&utm_content=fb78f4cc938144e6902dd5cff354d525" target="_blank" rel="nofollow" > Loïc Norgeot </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=fb78f4cc938144e6902dd5cff354d525" target="_blank" rel="nofollow" >Sketchfab</a></p></div>
-//             </Suspense>
+export function GlobeSection({ className }: GlobeSectionProps) {
+    return (
+        <div className={className ?? 'relative lg:h-250 h-160 md:w-1/2 w-full'}>
+            <Canvas
+                camera={{ position: [0, 0, 6], fov: 45 }}
+                dpr={[1, 1.2]}              // lower DPR
+                gl={{
+                    powerPreference: 'low-power',
+                    antialias: false,         // big win on weak GPUs
+                }}
+            >
+                {/* Basic lighting for a clean globe */}
+                <ambientLight intensity={0.6} />
+                <directionalLight position={[5, 5, 5]} intensity={1.2} />
 
-//             <OrbitControls
-//                 enableZoom={false}
-//                 enablePan={false}
-//                 minDistance={10}
-//                 rotateSpeed={-1}
-//                 autoRotate
-//                 maxDistance={14}
-//             /><GlobeModel />
-//         </Canvas>
-//     </section>
-// );
+                {/* Orbit controls but damped and non‑zoom to avoid heavy interactions */}
+                <OrbitControls
+                    enableZoom={false}
+                    enablePan={false}
+                    enableDamping
+                    dampingFactor={0.08}
+                    autoRotate
+                    rotateSpeed={-1}
+                    autoRotateSpeed={0.2}       // small, not -1
+                />
+
+                <Suspense fallback={null}>
+                    <GlobeModel />
+                </Suspense>
+            </Canvas>
+        </div>
+    )
+}
 
 export default CTX

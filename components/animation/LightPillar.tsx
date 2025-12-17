@@ -3,6 +3,7 @@
 import { useRef, useEffect, useMemo, useCallback } from 'react';
 import * as THREE from 'three';
 import './LightPillar.css';
+import { cn } from '@/lib/utils';
 
 interface LightPillarProps {
   topColor?: string;
@@ -332,8 +333,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
 
   if (!webGLSupported) return null;
 
-  return <div ref={containerRef} className={`light-pillar-container ${className}`}
-    style={{ mixBlendMode: mixBlendMode as React.CSSProperties['mixBlendMode'] }}
+  return <div ref={containerRef} className={cn(`light-pillar-container [mixBlendMode:${mixBlendMode}]`, className)}
   />;
 };
 

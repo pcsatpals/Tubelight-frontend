@@ -1,34 +1,54 @@
-"use client";
+'use client'
 
-import { useEffect, useRef } from "react";
-import { useGLTF } from "@react-three/drei";
-import * as THREE from "three";
+import { useEffect, useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { useGLTF } from '@react-three/drei'
+import { AnimationMixer, Object3D } from 'three'
+import * as THREE from 'three'
 
 export function GlobeModel() {
-  const { scene, animations } = useGLTF("/globe.glb");
-  const mixer = useRef<THREE.AnimationMixer | null>(null);
+  const { scene } = useGLTF('/globe-pack.glb', true)
 
-  useEffect(() => {
-    if (!animations.length) return;
+  // const mixer = useRef<AnimationMixer | null>(null)
 
-    mixer.current = new THREE.AnimationMixer(scene);
-    mixer.current.clipAction(animations[0]).play();
+  // // Play only one (e.g. rotation) clip instead of all
+  // useEffect(() => {
+  //   if (!animations.length) return
+  //   return () => {
+  //     mixer.current?.stopAllAction()
+  //     mixer.current = null
+  //   }
+  // }, [animations, scene])
 
-    return () => {
-      mixer.current?.stopAllAction();
-      mixer.current = null;
-    };
-  }, [animations, scene]);
-
+  // // Advance animation every frame
   // useFrame((_, delta) => {
-  //   mixer.current?.update(delta);
-  // });
+  //   if (mixer.current) mixer.current.update(delta * 0.5) // 0.5 = slower, smoother
+  // })
 
-  return <primitive
-    object={scene}
-    scale={2.5}
-    position={[0, 0, 0]}
-  />;
+  // // ONE‑TIME glow tweak; if this is too strong, remove or narrow by name
+  // useEffect(() => {
+  //   scene.traverse((child: Object3D) => {
+  //     if (child instanceof THREE.Mesh) {
+  //       const mat = child.material as THREE.Material | THREE.Material[]
+  //       const apply = (m: any) => {
+  //         m.transparent = true
+  //         m.depthWrite = false
+  //         m.blending = THREE.AdditiveBlending
+  //       }
+  //       if (Array.isArray(mat)) mat.forEach(apply)
+  //       else if (mat) apply(mat)
+  //     }
+  //   })
+  // }, [scene])
+
+  return (
+    <primitive
+      scale={1}
+      object={scene}
+      position={[0, 0, 0]}
+      dispose={null}
+    />
+  )
 }
 
-useGLTF.preload("/globe.glb");
+useGLTF.preload('/globe-pack.glb')
