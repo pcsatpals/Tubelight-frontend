@@ -7,7 +7,6 @@ import { GlobeModel } from "./common/globe.model";
 import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import * as THREE from "three";
 
 const CTX = () => (
     <section className="flex md:flex-row flex-col justify-between items-center px-10 w-full mx-auto md:max-w-360">
@@ -55,16 +54,7 @@ export function GlobeSection({ className }: GlobeSectionProps) {
         <div className={className ?? 'relative lg:h-250 h-160 md:w-1/2 w-full'}>
             <Canvas
                 camera={{ position: [0, 0, 6], fov: 45 }}
-                dpr={[1, 1.2]}              // lower DPR
-                gl={{
-                    powerPreference: 'low-power',
-                    antialias: false,         // big win on weak GPUs
-                }}
             >
-                {/* Basic lighting for a clean globe */}
-                <ambientLight intensity={0.6} />
-                <directionalLight position={[5, 5, 5]} intensity={1.2} />
-
                 {/* Orbit controls but damped and non‑zoom to avoid heavy interactions */}
                 <OrbitControls
                     enableZoom={false}
@@ -72,8 +62,7 @@ export function GlobeSection({ className }: GlobeSectionProps) {
                     enableDamping
                     dampingFactor={0.08}
                     autoRotate
-                    rotateSpeed={-1}
-                    autoRotateSpeed={0.2}       // small, not -1
+                    autoRotateSpeed={0.4}
                 />
 
                 <Suspense fallback={null}>
