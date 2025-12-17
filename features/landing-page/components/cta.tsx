@@ -1,17 +1,44 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
-import { OrbitControls } from "@react-three/drei";
-import { GlobeModel } from "./common/globe.model";
+// import { Suspense } from "react";
+// import { OrbitControls } from "@react-three/drei";
+// import { GlobeModel } from "./common/globe.model";
 import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
+import Model from "./common/model";
+import { Center, Environment, OrbitControls } from "@react-three/drei";
 
 const CTX = () => (
     <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto md:max-w-360">
         <CTASectionHeading />
-        <GlobeCanvas />
+        {/* <GlobeCanvas /> */}
+        <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
+            <Canvas
+                camera={{ position: [0, 0, 5], fov: 35 }}
+                gl={{
+                    antialias: true,
+                    toneMappingExposure: 1,
+                }}
+                dpr={[1, 1.5]}
+            >
+
+                <Suspense fallback={null}>
+                    <Environment preset="studio" />
+                    <Center>
+                        <Model />
+                    </Center>
+                </Suspense>
+                <OrbitControls
+                    enableZoom={false}
+                    enablePan={false}
+                    autoRotate
+                    autoRotateSpeed={0.8}
+                />
+            </Canvas>
+        </section>
     </section>
 )
 
@@ -43,34 +70,34 @@ const CTASectionHeading = () => (
     </div>
 )
 
-const GlobeCanvas = () => (
-    <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
-        <Canvas
-            camera={{
-                position: [0, 0, 8],
-                fov: 45,
-                near: 0.1,
-                far: 100,
-            }}
-            className="h-full w-full"
-        >
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
+// const GlobeCanvas = () => (
+//     <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
+//         <Canvas
+//             camera={{
+//                 position: [0, 0, 8],
+//                 fov: 45,
+//                 near: 0.1,
+//                 far: 100,
+//             }}
+//             className="h-full w-full"
+//         >
+//             <ambientLight intensity={0.8} />
+//             <directionalLight position={[5, 5, 5]} intensity={1} />
 
-            <Suspense fallback={null}>
-                <GlobeModel />
-            </Suspense>
+//             <Suspense fallback={null}>
+//                 <div className="sketchfab-embed-wrapper"> <iframe title="A Windy Day" frameBorder="0" allowFullScreen allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/fb78f4cc938144e6902dd5cff354d525/embed"> </iframe> <p > <a href="https://sketchfab.com/3d-models/a-windy-day-fb78f4cc938144e6902dd5cff354d525?utm_medium=embed&utm_campaign=share-popup&utm_content=fb78f4cc938144e6902dd5cff354d525" target="_blank" rel="nofollow" > A Windy Day </a> by <a href="https://sketchfab.com/norgeotloic?utm_medium=embed&utm_campaign=share-popup&utm_content=fb78f4cc938144e6902dd5cff354d525" target="_blank" rel="nofollow" > Loïc Norgeot </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=fb78f4cc938144e6902dd5cff354d525" target="_blank" rel="nofollow" >Sketchfab</a></p></div>
+//             </Suspense>
 
-            <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                minDistance={10}
-                rotateSpeed={-1}
-                autoRotate
-                maxDistance={14}
-            />
-        </Canvas>
-    </section>
-);
+//             <OrbitControls
+//                 enableZoom={false}
+//                 enablePan={false}
+//                 minDistance={10}
+//                 rotateSpeed={-1}
+//                 autoRotate
+//                 maxDistance={14}
+//             /><GlobeModel />
+//         </Canvas>
+//     </section>
+// );
 
 export default CTX
