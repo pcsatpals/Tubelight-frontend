@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldDescription, FieldGroup, FieldSeparator } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { LockKeyhole, LogIn, Mail } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 const SignIn = () => {
     return (
-        <div className='w-full h-screen relative bg-black font-figtree'>
+        <div className='w-full min-h-screen relative bg-black font-figtree'>
             <LightRays
                 raysOrigin="top-center"
                 raysColor="#9179af"
@@ -21,8 +22,8 @@ const SignIn = () => {
                 distortion={0.05}
                 className="custom-rays"
             />
-            <div className='w-full h-full absolute top-0 left-0 flex items-center justify-center sm:py-6'>
-                <div className='bg-background/40 rounded-3xl sm:border-2 backdrop-blur-4xl w-125 xs:h-fit h-full overflow-auto no-scrollbar flex flex-col items-center sm:p-10 p-5'>
+            <div className='w-full h-full absolute top-0 left-0 flex items-center justify-center py-6 px-3'>
+                <div className='bg-background/40 rounded-3xl border-2 backdrop-blur-4xl w-125 h-fit max-h-full flex flex-col items-center sm:p-10 p-5'>
                     <div className='md:w-16 md:h-16 h-12 w-12 md:[&_svg]:size-8 [&_svg]:size-5 flex items-center justify-center bg-white shrink-0 text-background rounded-2xl'>
                         <LogIn />
                     </div>
@@ -92,7 +93,7 @@ const SignIn = () => {
                                         Sign in
                                     </p>
                                 </StarBorder>                                <FieldDescription className="text-center">
-                                    Don&apos;t have an account? <a href="#">Sign up</a>
+                                    Don&apos;t have an account? <Link href="/sign-up">Sign up</Link>
                                 </FieldDescription>
                             </Field>
                         </FieldGroup>

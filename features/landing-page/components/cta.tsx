@@ -1,15 +1,13 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { OrbitControls } from "@react-three/drei";
 import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Model } from "./common/Scene"
+import { ParticleGlobe } from "./common/globe.model";
 
 const CTX = () => (
-    <section className="flex md:flex-row flex-col justify-between items-center px-10 w-full mx-auto md:max-w-360">
+    <section className="flex my-10 pb-10 md:flex-row flex-col justify-between items-center px-10 w-full mx-auto md:max-w-360">
         <CTASectionHeading />
         <GlobeSection />
 
@@ -51,24 +49,8 @@ type GlobeSectionProps = {
 
 export function GlobeSection({ className }: GlobeSectionProps) {
     return (
-        <div className={className ?? 'relative lg:h-250 h-160 md:w-1/2 w-full'}>
-            <Canvas
-                camera={{ position: [0, 0, 6], fov: 45 }}
-            >
-                {/* Orbit controls but damped and non‑zoom to avoid heavy interactions */}
-                <OrbitControls
-                    enableZoom={false}
-                    enablePan={false}
-                    enableDamping
-                    dampingFactor={0.08}
-                    autoRotate
-                    autoRotateSpeed={0.4}
-                />
-
-                <Suspense fallback={null}>
-                    <Model />
-                </Suspense>
-            </Canvas>
+        <div className={className ?? 'relative lg:h-100 h-160 md:w-1/2 w-full'}>
+            <ParticleGlobe />
         </div>
     )
 }
