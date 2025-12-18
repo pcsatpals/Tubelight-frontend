@@ -8,10 +8,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "optimize:glb": "gltfpack -i public/globe.glb -o public/globe.glb -cc -tc -kn -km"
+    "optimize:glb": "gltfpack -i public/globe-pack-1.glb -o public/globe-pack-2.glb -cc -si 0.5"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
+    "@hookform/resolvers": "^5.2.2",
+    "@radix-ui/react-avatar": "^1.1.11",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-separator": "^1.1.8",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
@@ -23,11 +27,14 @@
     "lucide-react": "^0.559.0",
     "motion": "^12.23.26",
     "next": "16.0.8",
+    "ogl": "^1.0.11",
     "react": "19.2.1",
     "react-dom": "19.2.1",
+    "react-hook-form": "^7.68.0",
     "swiper": "^12.0.3",
     "tailwind-merge": "^3.4.0",
-    "three": "^0.167.1"
+    "three": "^0.167.1",
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

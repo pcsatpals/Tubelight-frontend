@@ -25,7 +25,7 @@ export default function Navbar() {
     },
     {
       name: "Contact",
-      link: "#contact",
+      link: "#cta",
     },
   ];
 
@@ -38,7 +38,7 @@ export default function Navbar() {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton variant="secondary" className="text-white">Login</NavbarButton>
+          <NavbarButton variant="secondary" className="text-white" href="/sign-in">Login</NavbarButton>
 
           <NavbarButton variant="primary" className="rounded-full">Sign up free</NavbarButton>
         </div>
@@ -72,6 +72,7 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               variant="primary"
               className="w-full"
+              href="/sign-in"
             >
               Login
             </NavbarButton>
@@ -80,7 +81,7 @@ export default function Navbar() {
               variant="primary"
               className="w-full"
             >
-              Book a call
+              Sign up free
             </NavbarButton>
           </div>
         </MobileNavMenu>

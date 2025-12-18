@@ -1,17 +1,16 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
-import { OrbitControls } from "@react-three/drei";
-import { GlobeModel } from "./common/globe.model";
 import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { ParticleGlobe } from "./common/globe.model";
 
 const CTX = () => (
-    <section className="flex md:flex-row flex-col justify-between items-center p-10 w-full mx-auto md:max-w-360">
+    <section className="flex my-10 pb-10 md:flex-row flex-col justify-between items-center px-10 w-full mx-auto md:max-w-360">
         <CTASectionHeading />
-        <GlobeCanvas />
+        <GlobeSection />
+
     </section>
 )
 
@@ -43,34 +42,17 @@ const CTASectionHeading = () => (
     </div>
 )
 
-const GlobeCanvas = () => (
-    <section className="relative lg:h-150 h-100 md:w-1/2 w-full">
-        <Canvas
-            camera={{
-                position: [0, 0, 8],
-                fov: 45,
-                near: 0.1,
-                far: 100,
-            }}
-            className="h-full w-full"
-        >
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
+type GlobeSectionProps = {
+    /** Optional height (Tailwind or plain CSS) */
+    className?: string
+}
 
-            <Suspense fallback={null}>
-                <GlobeModel />
-            </Suspense>
-
-            <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                minDistance={10}
-                rotateSpeed={-1}
-                autoRotate
-                maxDistance={14}
-            />
-        </Canvas>
-    </section>
-);
+export function GlobeSection({ className }: GlobeSectionProps) {
+    return (
+        <div className={className ?? 'relative lg:h-100 h-160 md:w-1/2 w-full'}>
+            <ParticleGlobe />
+        </div>
+    )
+}
 
 export default CTX

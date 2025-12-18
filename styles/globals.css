@@ -46,7 +46,9 @@
 }
 
 :root {
+    --radius: 0.625rem;
    --foreground: oklch(0.985 0 0);
+   --background:#1e063d;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -136,4 +138,26 @@
     scrollbar-width: none;
     /* Firefox */
   }
+}
+
+
+@layer utilities{
+   @keyframes star-movement-bottom {
+    0% { transform: translate(0%, 0%); opacity: 1; }
+    100% { transform: translate(-100%, 0%); opacity: 0; }
+  }
+
+  @keyframes star-movement-top {
+    0% { transform: translate(0%, 0%); opacity: 1; }
+    100% { transform: translate(100%, 0%); opacity: 0; }
+  }
+
+  .animate-star-movement-bottom {
+    animation: star-movement-bottom 5s linear infinite alternate;
+  }
+
+  .animate-star-movement-top {
+    animation: star-movement-top 5s linear infinite alternate;
+  }
+
 }
