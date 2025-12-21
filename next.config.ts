@@ -1,13 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
- turbopack: {
+// Config for Turbopack (next dev --turbopack)
+  turbopack: {
     rules: {
       '*.svg': {
-        loaders: ['@svgr/webpack'],
-        as: '*.js',  // Critical: must be *.js not *.jsx [web:12][web:29]
+        loaders: [
+          {
+            loader: '@svgr/webpack',
+            options: { icon: true },
+          },
+        ],
+        as: '*.js',
       },
     },
+  },
+  // Config for Webpack (next dev --webpack or next build)
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      use: [{ loader: '@svgr/webpack', options: { icon: true } }],
+    });
+    return config;
   },
 };
 

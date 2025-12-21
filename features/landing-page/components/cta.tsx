@@ -49,7 +49,7 @@ type GlobeSectionProps = {
 
 export function GlobeSection({ className }: GlobeSectionProps) {
     return (
-        <div className={className ?? 'relative lg:h-100 h-160 md:w-1/2 w-full'}>
+        <div className={className ?? 'relative lg:h-100 h-80 md:w-1/2 w-full'}>
             <ParticleGlobe />
         </div>
     )

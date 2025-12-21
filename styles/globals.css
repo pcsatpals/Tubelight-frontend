@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import 'react-toastify/dist/ReactToastify.css';
+@import 'aos/dist/aos.css';
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -159,5 +160,15 @@
   .animate-star-movement-top {
     animation: star-movement-top 5s linear infinite alternate;
   }
+
+  /* To specifically change the font size */
+.Toastify__toast {
+font-size: 14px; /* Set your desired font size */
+}
+
+/* Or target the inner body content if needed */
+.Toastify__toast-body {
+  font-size: 14px;
+}
 
 }
