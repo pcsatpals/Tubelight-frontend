@@ -350,7 +350,7 @@ const LightPillar: React.FC<LightPillarProps> = ({
   ]);
 
   return (
-    <div ref={containerRef} className={`w-full h-full absolute top-0 left-0 ${className}`} style={{ mixBlendMode }} />
+    <div ref={containerRef} className={`w-full h-full shrink-0 absolute top-0 left-0 ${className}`} style={{ mixBlendMode }} />
   );
 };
 

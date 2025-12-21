@@ -36,14 +36,11 @@ function EarthGlobe() {
 
 
 export function ParticleGlobe() {
-  console.log("[v0] ParticleGlobe component rendering")
-
   return (
     <div className="w-full h-full relative">
       <Canvas
         camera={{ position: [0, 0, 6], fov: 50 }}
         className="bg-black"
-        onCreated={() => console.log("[v0] Canvas created successfully")}
       >
         <ambientLight intensity={0.6} />
         <directionalLight position={[100, 100, 100]} intensity={3} />

@@ -12,9 +12,11 @@ import { memo, useEffect, useRef } from 'react';
 import SectionHeading from './common/section-heading';
 
 const TubeLightDiscover = () => (
-    <section className='flex flex-col gap-4 w-full items-center md:max-w-370 mx-auto overflow-visible'>
-        <SectionHeadingContent />
-        <DiscoverSwiper />
+    <section className='gap-4 w-full overflow-hidden'>
+        <div className='flex flex-col  items-center lg:max-w-370 md:max-w-360 mx-auto overflow-visible'>
+            <SectionHeadingContent />
+            <DiscoverSwiper />
+        </div>
     </section>
 
 )
@@ -107,7 +109,7 @@ const DiscoverSwiper = () => (
         }}
         pagination={false}
         modules={[EffectCoverflow, Autoplay]}
-        className="w-full xl:h-150 lg:h-125 md:h-100 sm:h-62.5 max-xs:h-50 h-45"
+        className="w-full xl:h-150 lg:h-125 md:h-100 sm:h-62.5 max-xs:h-50 h-45 overflow-visible!"
     >
         {discoverData.map((slideData, i) => (
             <SwiperSlide key={i} className="h-full w-full rounded-3xl overflow-hidden">

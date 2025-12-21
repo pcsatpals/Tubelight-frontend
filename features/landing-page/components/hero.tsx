@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 const HeroSection = () => {
   return (
-    <section className='relative h-full lg:min-h-150 sm:min-h-137.5 min-h-125 shrink-0 flex items-center justify-center font-figtree xl:-mt-26'>
+    <section className='relative h-full xl:min-h-150 lg:min-h-160 sm:min-h-137.5 min-h-125 shrink-0 flex items-center justify-center font-figtree xl:-mt-26 sm:-mt-28'>
       {/* Lighting Canvas */}
       <LightPillar
         topColor="#5227ff"

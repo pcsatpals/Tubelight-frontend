@@ -12,8 +12,13 @@ import {
   MobileNavMenu,
 } from "@/components/ui/resizable-navbar";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { Avatar, AvatarImage } from "../ui/avatar";
+import Link from "next/link";
 
 export default function Navbar() {
+  const { data } = useSession();
+
   const navItems = [
     {
       name: "Features",
@@ -38,9 +43,16 @@ export default function Navbar() {
         <NavbarLogo />
         <NavItems items={navItems} />
         <div className="flex items-center gap-4">
-          <NavbarButton variant="secondary" className="text-white" href="/sign-in">Login</NavbarButton>
-
-          <NavbarButton variant="primary" className="rounded-full">Sign up free</NavbarButton>
+          {!data ? <>
+            <NavbarButton variant="secondary" className="text-white" href="/sign-in">Login</NavbarButton>
+            <NavbarButton variant="primary" className="rounded-full" href="/sign-up">Sign up free</NavbarButton>
+          </> :
+            <Link href="/dashboard">
+              <Avatar className="h-full">
+                <AvatarImage src={data.user.image || ""} />
+              </Avatar>
+            </Link>
+          }
         </div>
       </NavBody>
 
@@ -48,10 +60,17 @@ export default function Navbar() {
       <MobileNav>
         <MobileNavHeader>
           <NavbarLogo />
-          <MobileNavToggle
-            isOpen={isMobileMenuOpen}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          />
+          <div className="flex gap-2">
+            {data && <Link href="/dashboard">
+              <Avatar className="h-6 w-6">
+                <AvatarImage src={data.user.image || ""} />
+              </Avatar>
+            </Link>}
+            <MobileNavToggle
+              isOpen={isMobileMenuOpen}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          </div>
         </MobileNavHeader>
 
         <MobileNavMenu
@@ -67,23 +86,25 @@ export default function Navbar() {
               <span className="block">{item.name}</span>
             </a>
           ))}
-          <div className="flex w-full flex-col gap-4">
-            <NavbarButton
-              onClick={() => setIsMobileMenuOpen(false)}
-              variant="primary"
-              className="w-full"
-              href="/sign-in"
-            >
-              Login
-            </NavbarButton>
-            <NavbarButton
-              onClick={() => setIsMobileMenuOpen(false)}
-              variant="primary"
-              className="w-full"
-            >
-              Sign up free
-            </NavbarButton>
-          </div>
+          {!data ?
+            <div className="flex w-full flex-col gap-4">
+              <NavbarButton
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="primary"
+                className="w-full"
+                href="/sign-in"
+              >
+                Login
+              </NavbarButton>
+              <NavbarButton
+                onClick={() => setIsMobileMenuOpen(false)}
+                variant="primary"
+                className="w-full"
+              >
+                Sign up free
+              </NavbarButton>
+            </div> : null
+          }
         </MobileNavMenu>
       </MobileNav>
     </NavBarComponent>
