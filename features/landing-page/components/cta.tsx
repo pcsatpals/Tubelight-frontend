@@ -1,6 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
 import SectionHeading from "./common/section-heading";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";

@@ -1,6 +1,5 @@
 "use client"
 
-import LightRays from '@/components/animation/LightRays'
 import StarBorder from '@/components/animation/StarBorder'
 import { Button } from '@/components/ui/button'
 import { Field, FieldDescription, FieldGroup, FieldSeparator } from '@/components/ui/field'
