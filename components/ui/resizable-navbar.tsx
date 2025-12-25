@@ -9,8 +9,6 @@ import {
   useMotionValueEvent,
 } from "motion/react";
 import React, { useRef, useState } from "react";
-import Image from "next/image";
-
 
 interface NavbarProps {
   children: React.ReactNode;
@@ -222,24 +220,6 @@ export const MobileNavToggle = ({
     <X className="text-white" onClick={onClick} />
   ) : (
     <MenuIcon className="text-white" onClick={onClick} />
-  );
-};
-
-export const NavbarLogo = () => {
-  return (
-    <a
-      href="#"
-      className="relative z-20  flex items-center space-x-2 text-sm font-normal text-black"
-    >
-      <Image
-        src={"./logo.svg"}
-        alt="Logo"
-        width={400}
-        height={400}
-        className=" md:w-16 md:h-16 w-10 h-10" // Override scale for responsive
-        priority // Optional: faster LCP for above-fold logo
-      />
-    </a>
   );
 };
 

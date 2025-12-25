@@ -42,14 +42,16 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --default-font-family:var(--font-figtree);
-  --font-figtree: 'Figtree', -apple-system, BlinkMacSystemFont, sans-serif;
+  --default-font-family: var(--font-figtree);
+  --font-figtree: var(--font-figtree);
+  --font-bartle: var(--font-bartle);
+  --font-creepster: var(--font-creepster);
 }
 
 :root {
-    --radius: 0.625rem;
-   --foreground: oklch(0.985 0 0);
-   --background:#1e063d;
+  --radius: 0.625rem;
+  --foreground: oklch(0.985 0 0);
+  --background: #1e063d;
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
@@ -128,7 +130,7 @@
     cursor: pointer;
   }
 
-    .no-scrollbar::-webkit-scrollbar {
+  .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
 
@@ -141,16 +143,29 @@
   }
 }
 
+@layer utilities {
+  @keyframes star-movement-bottom {
+    0% {
+      transform: translate(0%, 0%);
+      opacity: 1;
+    }
 
-@layer utilities{
-   @keyframes star-movement-bottom {
-    0% { transform: translate(0%, 0%); opacity: 1; }
-    100% { transform: translate(-100%, 0%); opacity: 0; }
+    100% {
+      transform: translate(-100%, 0%);
+      opacity: 0;
+    }
   }
 
   @keyframes star-movement-top {
-    0% { transform: translate(0%, 0%); opacity: 1; }
-    100% { transform: translate(100%, 0%); opacity: 0; }
+    0% {
+      transform: translate(0%, 0%);
+      opacity: 1;
+    }
+
+    100% {
+      transform: translate(100%, 0%);
+      opacity: 0;
+    }
   }
 
   .animate-star-movement-bottom {
@@ -162,13 +177,14 @@
   }
 
   /* To specifically change the font size */
-.Toastify__toast {
-font-size: 14px; /* Set your desired font size */
-}
+  .Toastify__toast {
+    font-size: 14px;
+    /* Set your desired font size */
+  }
 
-/* Or target the inner body content if needed */
-.Toastify__toast-body {
-  font-size: 14px;
-}
+  /* Or target the inner body content if needed */
+  .Toastify__toast-body {
+    font-size: 14px;
+  }
 
 }

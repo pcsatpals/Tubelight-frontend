@@ -1,9 +1,9 @@
-import React from 'react'
+import { VideoGrid } from '@/features/dashboard/components/layout/video-grid'
 
 const Dashboard = () => {
     return (
-        <div>
-            Dashboard
+        <div className="p-4 overflow-auto ">
+            <VideoGrid />
         </div>
     )
 }

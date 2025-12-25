@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-// Config for Turbopack (next dev --turbopack)
+  // Config for Turbopack (next dev --turbopack)
   turbopack: {
     rules: {
       '*.svg': {
@@ -23,6 +23,15 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
+    ]
+  }
 };
 
 export default nextConfig;

@@ -5,7 +5,6 @@ import {
   NavBody,
   NavItems,
   MobileNav,
-  NavbarLogo,
   NavbarButton,
   MobileNavHeader,
   MobileNavToggle,
@@ -15,9 +14,10 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import Link from "next/link";
+import Logo from "@/public/logo.svg";
 
 export default function Navbar() {
-  const { data } = useSession();
+  const { data, status } = useSession();
 
   const navItems = [
     {
@@ -40,9 +40,14 @@ export default function Navbar() {
     <NavBarComponent>
       {/* Desktop Navigation */}
       <NavBody>
-        <NavbarLogo />
+        <Link
+          href="/"
+          className="relative z-20  flex items-center space-x-2 text-sm font-normal text-black"
+        >
+          <Logo className=" md:w-16 md:h-16 w-10 h-10" />
+        </Link>
         <NavItems items={navItems} />
-        <div className="flex items-center gap-4">
+        {status != "loading" && <div className="flex items-center gap-4">
           {!data ? <>
             <NavbarButton variant="secondary" className="text-white" href="/sign-in">Login</NavbarButton>
             <NavbarButton variant="primary" className="rounded-full" href="/sign-up">Sign up free</NavbarButton>
@@ -53,13 +58,18 @@ export default function Navbar() {
               </Avatar>
             </Link>
           }
-        </div>
+        </div>}
       </NavBody>
 
       {/* Mobile Navigation */}
       <MobileNav>
         <MobileNavHeader>
-          <NavbarLogo />
+          <Link
+            href="/"
+            className="relative z-20  flex items-center space-x-2 text-sm font-normal text-black"
+          >
+            <Logo className=" md:w-16 md:h-16 w-10 h-10" />
+          </Link>
           <div className="flex gap-2">
             {data && <Link href="/dashboard">
               <Avatar className="h-6 w-6">

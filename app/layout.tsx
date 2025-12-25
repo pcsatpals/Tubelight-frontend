@@ -1,10 +1,21 @@
-import { Figtree } from "next/font/google";
+import { Figtree, BBH_Sans_Bartle, Creepster } from "next/font/google";
 import "@/styles/globals.css";
 import { Metadata } from "next";
 import CustomCursor from "@/components/animation/custom-cursor";
 import AOSProvider from "@/components/common/aos-provider";
 import SessionProvider from "@/providers/next-auth-provider";
 import { ToastContainer } from 'react-toastify';
+
+const bartleSans = BBH_Sans_Bartle({
+  variable: "--font-bartle",
+  subsets: ["latin"],
+  weight: ["400"]
+});
+const creepsterSans = Creepster({
+  variable: "--font-creepster",
+  subsets: ["latin"],
+  weight: ["400"]
+});
 
 const figTreeSans = Figtree({
   variable: "--font-figtree",
@@ -88,7 +99,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${figTreeSans.variable} ${figTreeSans.className} antialiased`}
+        className={`${figTreeSans.variable} ${figTreeSans.className} ${bartleSans.variable} ${bartleSans.className} ${creepsterSans.variable} ${creepsterSans.className} antialiased`}
       >
         <AOSProvider />
         <CustomCursor />
