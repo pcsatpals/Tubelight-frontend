@@ -9,9 +9,8 @@ interface VideoCardProps {
 }
 
 export const VideoCard = ({ video }: VideoCardProps) => {
-    console.log(video)
     return (
-        <div className="flex flex-col gap-3 w-full group cursor-pointer border pb-4 rounded-xl overflow-hidden">
+        <div className="flex flex-col gap-3 w-full group cursor-pointer border-8 transition-all border-transparent bg-transparent hover:bg-background/60 hover:border-background/10 pb-4 rounded-xl overflow-hidden">
             {/* Thumbnail Container */}
             <div className="relative aspect-video w-full overflow-hidden  bg-slate-800">
                 <Image
@@ -40,11 +39,11 @@ export const VideoCard = ({ video }: VideoCardProps) => {
                 </div>
 
                 {/* Text Details */}
-                <div className="flex flex-col overflow-hidden">
-                    <h3 className="text-white font-semibold leading-snug line-clamp-1">
+                <div className="flex flex-col">
+                    <h3 className="text-white font-semibold leading-snug line-clamp-2">
                         {video.title}
                     </h3>
-                    <p className="text-slate-400 text-sm mt-1 hover:text-white transition-colors">
+                    <p className="text-slate-400 text-sm my-1 hover:text-white transition-colors">
                         {video.channel?.username}
                     </p>
                     <div className="text-slate-400 text-xs flex items-center gap-1">

@@ -6,7 +6,6 @@ import { Field, FieldDescription, FieldGroup, FieldSeparator } from '@/component
 import { Input } from '@/components/ui/input'
 import { Eye, EyeClosed, LockKeyhole, LogIn, Mail } from 'lucide-react'
 import Link from 'next/link'
-import AppleLogo from "@/public/apple-logo.svg"
 import GoogleLogo from "@/public/google-logo.svg"
 import z from 'zod'
 import { useForm } from 'react-hook-form'
@@ -65,9 +64,26 @@ const SignIn = () => {
             });
     }
 
+
+    async function handleGoogleLogin() {
+        try {
+            toast.info("Redirecting to Google...", { autoClose: 2000 });
+
+            // OAuth providers usually need redirect: true to function correctly
+            // because they must leave your site to go to accounts.google.com
+            await signIn("google", {
+                callbackUrl: "/dashboard", // Where to go after Google is done
+                redirect: true,
+            });
+        } catch (error) {
+            toast.error("Failed to initialize Google login.");
+            console.error(error);
+        }
+    }
+
     return (
         <Card className="mx-auto bg-background/40 rounded-3xl border backdrop-blur-xl w-125 sm:p-8 p-5">
-            <CardHeader className="px-0 flex flex-col items-center px-0">
+            <CardHeader className="flex flex-col items-center px-0">
                 <div className='md:w-16 md:h-16 h-12 w-12 md:[&_svg]:size-8 [&_svg]:size-5 flex items-center justify-center bg-white shrink-0 text-background rounded-2xl'>
                     <LogIn />
                 </div>
@@ -81,11 +97,11 @@ const SignIn = () => {
 
                 <FieldGroup className='mt-2'>
                     <Field>
-                        <Button variant="outline" type="button" className='rounded-3xl'>
+                        {/* <Button variant="outline" type="button" className='rounded-3xl'>
                             <AppleLogo />
                             Login with Apple
-                        </Button>
-                        <Button variant="outline" type="button" className='rounded-3xl'>
+                        </Button> */}
+                        <Button variant="outline" type="button" className='rounded-3xl' onClick={handleGoogleLogin}>
                             <GoogleLogo />
                             Login with Google
                         </Button>
@@ -98,7 +114,7 @@ const SignIn = () => {
             <CardContent className='px-0'>
                 <Form {...form}>
                     <form
-                        className='w-full mt-4'
+                        className='w-full mt-4 flex flex-col gap-2'
                         onSubmit={form.handleSubmit(onSubmit)}
                     >
                         <FormField
