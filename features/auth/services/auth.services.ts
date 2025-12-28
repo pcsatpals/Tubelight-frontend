@@ -11,15 +11,21 @@ export async function handleRegisterAction(formData: FormData) {
                 withCredentials: true, // CRITICAL: Matches your backend CORS config
             });
 
-        if (data && data.success === true) {
-            await signIn("credentials", {
+        // Check if data exists and backend reports success
+        if (data?.success) {
+            // NextAuth signIn
+            const res = await signIn("credentials", {
                 userObject: JSON.stringify(data.data),
-                redirect: false, // Set to false to handle redirect manually after toast
+                redirect: false,
             });
-            return data; // This triggers 'success' in toast.promise
+
+            if (res?.error) {
+                throw new Error(res.error || "Login failed after registration");
+            }
+
+            return data; // SUCCESS PATH
         } else {
-            // 2. If backend sent success: false, MANUALLY THROW
-            throw new Error(data.message || "Registration failed");
+            throw new Error(data?.message || "Registration failed");
         }
     } catch (error) {
         // 3. Extract the message from Axios error response

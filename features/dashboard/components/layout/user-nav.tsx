@@ -48,7 +48,7 @@ export function UserNav({ user }: UserNavProps) {
                     <ChevronDown className="transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="mt-2 w-[200px] bg-background" align="end">
+            <DropdownMenuContent className="mt-2 w-50 bg-background" align="end">
                 <DropdownMenuItem
                     onClick={handleLogout}
                     disabled={isPending}

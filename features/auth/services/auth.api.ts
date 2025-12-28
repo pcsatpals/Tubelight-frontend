@@ -1,5 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { User } from "next-auth";
+import { jwtDecode } from "jwt-decode";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
@@ -33,7 +34,7 @@ export async function refreshAccessToken(user: User) {
             ...user,
             accessToken: data.accessToken,
             refreshToken: data.refreshToken || user.refreshToken,
-            accessTokenExpires: Date.now() + 86400000,
+            accessTokenExpires: decodedJWT(data.accessToken).exp * 1000,
         }
     } catch (error) {
         return {
@@ -41,4 +42,15 @@ export async function refreshAccessToken(user: User) {
             error: "RefreshAccessTokenError",
         }
     }
+}
+
+interface MyTokenPayload {
+    exp: number; // Expiration time in seconds
+    iat: number; // Issued at time
+    _id: string;
+}
+
+export function decodedJWT(token: string): MyTokenPayload {
+    const decoded = jwtDecode<MyTokenPayload>(token);
+    return decoded
 }

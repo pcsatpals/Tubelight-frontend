@@ -10,7 +10,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
-                    <main className="h-full bg-radial from-[#28114698] via-[#2a0e4d86] to-black/30">
+                    <main className="h-full bg-radial from-[#28114698] via-[#4a227b] to-black/30">
                         <DashboardHeader />
                         {children}
                     </main>

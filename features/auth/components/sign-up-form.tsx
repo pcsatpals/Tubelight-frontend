@@ -21,9 +21,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { handleRegisterAction } from "../services/auth.services";
 import { Field, FieldGroup, FieldSeparator } from "@/components/ui/field";
-import AppleLogo from "@/public/apple-logo.svg"
 import GoogleLogo from "@/public/google-logo.svg"
 import StarBorder from "@/components/animation/StarBorder";
+import { signIn } from "next-auth/react";
 
 // 1. Define Schema
 const signupSchema = z.object({
@@ -70,11 +70,27 @@ export default function SignupForm() {
             success: "Registration successful! Redirecting...",
             error: {
                 render({ data }) {
-                    // 'data' here is the error object thrown by handleRegisterAction
                     return data && typeof data == "object" && "message" in data ? data?.message as string : "Registration failed. Please try again.";
                 },
             },
         });
+    }
+
+
+    async function handleGoogleLogin() {
+        try {
+            toast.info("Redirecting to Google...", { autoClose: 2000 });
+
+            // OAuth providers usually need redirect: true to function correctly
+            // because they must leave your site to go to accounts.google.com
+            await signIn("google", {
+                callbackUrl: "/dashboard", // Where to go after Google is done
+                redirect: true,
+            });
+        } catch (error) {
+            toast.error("Failed to initialize Google login.");
+            console.error(error);
+        }
     }
 
     return (
@@ -132,7 +148,7 @@ export default function SignupForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Full Name *</FormLabel>
-                                    <FormControl className="-mb-2">
+                                    <FormControl>
                                         <Input placeholder="John Doe" {...field} />
                                     </FormControl>
                                     <FormMessage />
@@ -239,11 +255,11 @@ export default function SignupForm() {
                         Or continue with
                     </FieldSeparator>
                     <Field>
-                        <Button variant="outline" type="button" className='rounded-3xl opacity-70'>
+                        {/* <Button variant="outline" type="button" className='rounded-3xl opacity-70'>
                             <AppleLogo />
                             Login with Apple
-                        </Button>
-                        <Button variant="outline" type="button" className='rounded-3xl opacity-70'>
+                        </Button> */}
+                        <Button variant="outline" type="button" className='rounded-3xl opacity-70' onClick={handleGoogleLogin}>
                             <GoogleLogo />
                             Login with Google
                         </Button>
