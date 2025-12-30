@@ -22,7 +22,7 @@ export async function authenticateUser(email: string, password: string) {
 
 export async function refreshAccessToken(user: User) {
     try {
-        const { data } = await axios.post(`${API_BASE_URL}/auth/refresh`, {
+        const { data } = await axios.post(`${API_BASE_URL}/v1/users/refresh-token`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -37,6 +37,7 @@ export async function refreshAccessToken(user: User) {
             accessTokenExpires: decodedJWT(data.accessToken).exp * 1000,
         }
     } catch (error) {
+        console.log(error)
         return {
             ...user,
             error: "RefreshAccessTokenError",

@@ -6,8 +6,9 @@ export default withAuth(
         const { pathname } = req.nextUrl;
         const token = req.nextauth.token;
 
-        // 1. If user is logged in and tries to access sign-in or sign-up
-        if (token && (pathname === "/sign-in" || pathname === "/sign-up")) {
+        // If user is logged in and tries to access sign-in or sign-up, redirect to dashboard
+        // Note: We also check for the error here to ensure we don't redirect a "broken" session to dashboard
+        if (token && !token.error && (pathname === "/sign-in" || pathname === "/sign-up")) {
             return NextResponse.redirect(new URL("/dashboard", req.url));
         }
 
@@ -23,8 +24,16 @@ export default withAuth(
                     pathname === "/sign-in" ||
                     pathname === "/sign-up";
 
+                // 1. Always allow public paths
                 if (isPublicPath) return true;
 
+                // 2. CRITICAL: If token has a refresh error, treat as unauthorized
+                // Returning false here triggers an automatic redirect to the sign-in page
+                if (token?.error === "RefreshAccessTokenError") {
+                    return false;
+                }
+
+                // 3. Otherwise, check if token exists
                 return !!token;
             },
         },
