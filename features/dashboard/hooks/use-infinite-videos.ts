@@ -18,7 +18,9 @@ export interface Video {
         username: string
     },
     duration: number;
+    isLiked: boolean;
     views: number;
+    likesCount: number;
     createdAt: string
 }
 

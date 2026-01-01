@@ -64,7 +64,7 @@ export function AppSidebar() {
                                             isActive && "bg-linear-to-br to-[#28114698]  via-[#4a227b] from-black/30 shadow-sm"
                                         )}
                                     >
-                                        <Link href={item.href}>
+                                        <Link href={item.href} className="w-full">
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </Link>

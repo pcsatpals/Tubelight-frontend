@@ -23,18 +23,18 @@ export async function authenticateUser(email: string, password: string) {
 export async function refreshAccessToken(user: User) {
     try {
         const { data } = await axios.post(`${API_BASE_URL}/v1/users/refresh-token`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 refreshToken: user.refreshToken,
             }),
         })
 
+        const newTokens = data.data || data;
+
         return {
             ...user,
-            accessToken: data.accessToken,
-            refreshToken: data.refreshToken || user.refreshToken,
-            accessTokenExpires: decodedJWT(data.accessToken).exp * 1000,
+            accessToken: newTokens.accessToken,
+            refreshToken: newTokens.refreshToken || user.refreshToken,
+            accessTokenExpires: decodedJWT(newTokens.accessToken).exp * 1000,
         }
     } catch (error) {
         console.log(error)
