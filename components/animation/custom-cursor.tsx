@@ -29,14 +29,9 @@ export default function CustomCursor() {
     }, []);
 
     return (
-        <>
-            {/* Main small dot */}
-            <div
-                ref={cursorRef}
-                className="fixed w-3 h-3 bg-white rounded-full pointer-events-none z-[9999]"
-            />
-
-
-        </>
+        <div
+            ref={cursorRef}
+            className="fixed w-3 h-3 bg-white rounded-full pointer-events-none z-[9999]"
+        />
     );
 }

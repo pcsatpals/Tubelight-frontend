@@ -265,10 +265,8 @@ void main() {
       const uniforms: Uniforms = {
         iTime: { value: 0 },
         iResolution: { value: [1, 1] },
-
         rayPos: { value: [0, 0] },
         rayDir: { value: [0, 1] },
-
         raysColor: { value: hexToRgb(raysColor) },
         raysSpeed: { value: raysSpeed },
         lightSpread: { value: lightSpread },

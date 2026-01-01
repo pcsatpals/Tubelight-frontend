@@ -167,7 +167,7 @@ const SignIn = () => {
                         />
                         <a
                             href="#"
-                            className="float-end my-1 mb-3 text-sm underline-offset-4 hover:underline"
+                            className="float-end ml-auto mb-3 text-sm underline-offset-4 hover:underline"
                         >
                             Forgot your password?
                         </a>
