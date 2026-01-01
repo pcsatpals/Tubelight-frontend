@@ -1,31 +1,41 @@
-// services/auth.ts
 import { signIn } from "next-auth/react";
 import axios from "axios";
+import { authenticateUser } from "./auth.api";
 
 export async function handleRegisterAction(formData: FormData) {
     try {
-        // 1. ONE CALL to your external backend (Register + Get Tokens)
-        const { data } = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/users/register`, formData,
-            {
-                headers: { "Content-Type": "multipart/form-data" },
-                withCredentials: true, // CRITICAL: Matches your backend CORS config
-            });
+        // 1. Register the user
+        const registrationRes = await axios.post(
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/users/register`,
+            formData,
+            { headers: { "Content-Type": "multipart/form-data" } }
+        );
 
-        // Check if data exists and backend reports success
-        if (data?.success) {
-            // NextAuth signIn
-            const res = await signIn("credentials", {
-                userObject: JSON.stringify(data.data),
-                redirect: false,
-            });
+        // Your backend returns "statusCode: true" for success
+        if (registrationRes.data?.statusCode === true) {
 
-            if (res?.error) {
-                throw new Error(res.error || "Login failed after registration");
+            // 2. Since the register API doesn't provide tokens, call the login API
+            const email = formData.get("email") as string;
+            const password = formData.get("password") as string;
+
+            const loginRes = await authenticateUser(email, password);
+
+            if (!loginRes?.data) {
+                throw new Error("Registration succeeded, but auto-login failed. Please sign in manually.");
             }
 
-            return data; // SUCCESS PATH
+            // 3. Trigger next-auth signIn with the credentials
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: true,
+            });
+
+            if (res?.error) throw new Error(res.error);
+
+            return registrationRes.data;
         } else {
-            throw new Error(data?.message || "Registration failed");
+            throw new Error(registrationRes.data?.message || "Registration failed");
         }
     } catch (error) {
         // 3. Extract the message from Axios error response

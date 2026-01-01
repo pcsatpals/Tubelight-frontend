@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
 
-export const formatViews = (views: number = 0) => {
+export const formatCount = (views: number = 0) => {
     if (views >= 1000000) return `${(views / 1000000).toFixed(1)}M`;
     if (views >= 1000) return `${(views / 1000).toFixed(1)}K`;
     return views.toString();
