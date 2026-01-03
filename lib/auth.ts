@@ -25,7 +25,6 @@ export const authOptions: NextAuthOptions = {
                 // 1. Handle Registration Redirect (userObject)
                 if (credentials?.userObject) {
                     const { data } = JSON.parse(credentials.userObject);
-                    console.log(data)
                     return formatUserSession(data, {
                         accessToken: data.accessToken,
                         refreshToken: data.refreshToken

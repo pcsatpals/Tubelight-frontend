@@ -13,6 +13,7 @@ export interface Video {
     _id: string;
     title: string;
     thumbnail: string;
+    comments: number;
     channel: {
         avatar: string;
         username: string

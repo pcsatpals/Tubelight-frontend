@@ -12,6 +12,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import ShareIcon from "@/public/share-icon.svg"
 import VideoLikeButton from "./video-like-button";
+import { VideoComments } from "./video-comments";
 
 const VideoDialog = ({ video }: VideoCardProps) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,7 @@ const VideoDialog = ({ video }: VideoCardProps) => {
                 <DialogTrigger>
                     <DialogTriggerButton />
                 </DialogTrigger>
-                <DialogContent className="sm:max-w-150 max-h-[90%] min-w-[80%] overflow-y-auto no-scrollbar  border-none p-4">
+                <DialogContent className="sm:max-w-150 max-h-[90%] min-w-[80%] sm:overflow-hidden border-none p-4 pt-0 flex flex-col">
                     <VideoDialogContent isOpen={isOpen} video={video} />
                 </DialogContent>
             </Dialog>
@@ -35,7 +36,7 @@ const VideoDialog = ({ video }: VideoCardProps) => {
             <DrawerTrigger>
                 <DialogTriggerButton />
             </DrawerTrigger>
-            <DrawerContent className=" max-h-[90%] border-none p-4">
+            <DrawerContent className=" max-h-[90%] border-none px-4 no-scrollbar">
                 <VideoDialogContent isOpen={isOpen} video={video} />
             </DrawerContent>
         </Drawer>
@@ -43,7 +44,7 @@ const VideoDialog = ({ video }: VideoCardProps) => {
 };
 
 const DialogTriggerButton = () => (
-    <div className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer">
+    <div className="absolute  inset-0 flex items-center justify-center z-10 cursor-pointer">
         <div className="flex size-16 items-center justify-center rounded-full bg-black/20 backdrop-blur transition duration-100 ease-linear group-hover:bg-white/40 hover:bg-white/40 scale-100">
             <Play className="fill-current" />
         </div>
@@ -62,10 +63,8 @@ const VideoDialogContent = ({ video, isOpen }: VideoCardProps & { isOpen: boolea
 
     const videoInfo = videoData?.[0]
 
-    if (!videoInfo) return null;
-
     return (
-        <div className="flex flex-col  lg:flex-row gap-3 h-full overflow-y-auto ">
+        <div className="flex flex-col  lg:flex-row gap-3 overflow-hidden overflow-y-auto no-scrollbar min-h-75">
             <div className="flex flex-col gap-3 grow">
                 <div className="sm:h-auto h-50 object-cover w-full mt-6 flex items-center justify-center">
                     {isLoading ? (
@@ -87,10 +86,10 @@ const VideoDialogContent = ({ video, isOpen }: VideoCardProps & { isOpen: boolea
                         </video>
                     )}
                 </div>
-                <DialogTitle className="text-xl font-bold text-foreground line-clamp-2 mb-3">{videoInfo?.title}</DialogTitle>
+                <DialogTitle className="text-xl font-bold text-foreground line-clamp-2 mb-1">{videoInfo?.title}</DialogTitle>
 
                 {/* Channel Info and Action Buttons */}
-                <div className="flex items-center gap-3 justify-between mb-3 w-full">
+                <div className="flex items-center gap-3 justify-between w-full">
                     {/* Channel Avatar */}
                     <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
                         <Image
@@ -115,32 +114,29 @@ const VideoDialogContent = ({ video, isOpen }: VideoCardProps & { isOpen: boolea
                     <div className="ml-auto grid grid-cols-2 bg-black/20 rounded-full">
                         <div className="flex gap-2 items-center border-r px-3">
                             <VideoLikeButton videoId={video._id} />
-                            {formatCount(videoInfo.likesCount)}
+                            {formatCount(videoInfo?.likesCount)}
                         </div>
                         <div className="flex gap-2 items-center px-3 [&_svg]:size-6"><ShareIcon /> Share</div>
                     </div>
                 </div>
-            </div>
-            <div className="flex flex-col lg:w-[40%] shrink-0 sm:py-6">
-                {/* Video Title and Actions */}
-                <div className="pb-3 border-b border-border">
-
-
-                    <div className="p-4 bg-secondary/30 overflow-y-auto">
-                        {/* Metadata Row */}
-                        <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-4">
-                            <span>{formatCount(videoInfo?.views)} views</span>
-                            <span>•</span>
-                            <span>{formatTimeAgo(videoInfo?.createdAt)}</span>
-                        </div>
-
-                        {/* Description Box */}
-                        <p className="text-sm text-foreground whitespace-pre-line line-clamp-4">
-                            {videoInfo?.description}
-                        </p>
+                <div className="p-3 bg-secondary/30">
+                    {/* Metadata Row */}
+                    <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground mb-4">
+                        <span>{formatCount(videoInfo?.views)} views</span>
+                        <span>•</span>
+                        <span>{formatTimeAgo(videoInfo?.createdAt)}</span>
                     </div>
-                </div>
 
+                    {/* Description Box */}
+                    <p className="text-sm text-foreground whitespace-pre-line line-clamp-4">
+                        {videoInfo?.description}
+                    </p>
+                </div>
+            </div>
+            <div className="flex flex-col lg:w-[40%] shrink-0 sm:py-6 max-h-full overflow-hidden">
+                {/* Video Title and Actions */}
+                <p className="text-xl font-semibold pb-3 border-b">{videoInfo?.comments} Comments</p>
+                <VideoComments videoId={video._id} />
             </div>
         </div>
     )
