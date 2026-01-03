@@ -38,7 +38,7 @@ export function UserNav({ user }: UserNavProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="group">
-                <button className="flex gap-4 items-center w-fit outline-hidden cursor-pointer [&_svg]:size-5">
+                <button className="flex gap-4 items-center w-fit outline-hidden cursor-pointer [&_svg]:size-5 ml-auto">
                     <div className="flex items-center gap-2">
                         <Avatar className="h-6 w-6">
                             <AvatarImage src={user.image || ""} alt={user.name || "User"} />

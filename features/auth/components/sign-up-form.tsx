@@ -19,11 +19,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { handleRegisterAction } from "../services/auth.services";
 import { Field, FieldGroup, FieldSeparator } from "@/components/ui/field";
 import GoogleLogo from "@/public/google-logo.svg"
 import StarBorder from "@/components/animation/StarBorder";
 import { signIn } from "next-auth/react";
+import { handleRegisterAction } from "../services/auth.api";
 
 // 1. Define Schema
 const signupSchema = z.object({
@@ -65,7 +65,31 @@ export default function SignupForm() {
         data.append("password", values.password);
         data.append("avatar", values.avatar);
 
-        await toast.promise(handleRegisterAction(data), {
+        await toast.promise((async () => {
+            // 1. Call the Server Action (Hides your backend API from Network tab)
+            const result = await handleRegisterAction(data);
+
+            if (!result.success) {
+                // This will be caught by the 'error' section of toast.promise
+                throw new Error(result.message);
+            }
+
+            // 2. Registration success! Now sign in to create the session cookie
+            const signRes = await signIn("credentials", {
+                email: values.email,
+                password: values.password,
+                redirect: false, // Don't redirect yet so toast can finish
+            });
+
+            if (signRes?.error) {
+                throw new Error("Account created, but could not sign in automatically.");
+            }
+
+            // 3. Success! Redirect the user
+            window.location.href = "/dashboard";
+
+            return result; // Resolves the promise for the toast
+        })(), {
             pending: "Creating your account...",
             success: "Registration successful! Redirecting...",
             error: {

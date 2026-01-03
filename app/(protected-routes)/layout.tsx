@@ -1,4 +1,3 @@
-import { DashboardHeader } from "@/features/dashboard/components/layout/dashboard-header"
 import { AppSidebar } from "@/features/dashboard/components/layout/sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { QueryProvider } from "@/providers/query-provider"
@@ -10,8 +9,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
-                    <main className="h-full bg-radial from-[#28114698] via-[#4a227b] to-black/30">
-                        <DashboardHeader />
+                    <main className="h-full bg-radial from-[#010002] via-[#240a45] to-black">
                         {children}
                     </main>
                 </SidebarInset>

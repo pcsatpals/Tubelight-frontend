@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signOut, useSession } from "next-auth/react";
-import axios from "axios";
+import { logoutUserAction } from "../services/auth.api";
 
 export const useLogoutMutation = () => {
     const { data: session } = useSession();
@@ -10,26 +10,28 @@ export const useLogoutMutation = () => {
 
     return useMutation({
         mutationFn: async () => {
-            // 1. Backend Logout: Call your API with the current token
             if (session?.accessToken) {
-                return axios.post(
-                    `${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/users/logout`,
-                    {},
-                    {
-                        headers: { Authorization: `Bearer ${session.accessToken}` },
-                    }
-                );
+                // Call the Server Action Proxy instead of direct axios
+                return await logoutUserAction(session.accessToken);
             }
         },
-        onSettled: () => {
-            // 2. Cleanup: Clear all React Query caches
+        onSuccess: () => {
+            // Optional: toast.success("Logged out successfully");
+        },
+        onSettled: async () => {
+            // 1. Clear all React Query caches immediately
             queryClient.clear();
 
-            // 3. Finalize: Sign out from NextAuth (clears cookies)
-            signOut({ callbackUrl: "/sign-in" });
+            // 2. Sign out from NextAuth (Client-side)
+            // This clears the session cookie and redirects
+            await signOut({
+                callbackUrl: "/sign-in",
+                redirect: true
+            });
         },
         onError: (error) => {
-            console.error("Logout failed on backend, but clearing local session anyway.", error);
+            console.error("Logout process error:", error);
+            // We usually proceed with client-side signout anyway to avoid stuck sessions
         }
     });
 };
