@@ -30,25 +30,6 @@ export function AnimatedThumbsUp({ liked = false, onChange, count, variant = "de
                 } relative inline-flex items-center gap-2 transition-all duration-300 bg-none border-none cursor-pointer`}
             aria-label={liked ? "Unlike" : "Like"}
         >
-            {clicked && liked && (
-                <>
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                        {[...Array(8)].map((_, i) => (
-                            <div
-                                key={i}
-                                className="absolute w-1 h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 rounded-full"
-                                style={{
-                                    animation: `burst 0.8s ease-out forwards`,
-                                    transformOrigin: "0 0",
-                                    transform: `rotate(${(i * 360) / 8}deg) translateY(-20px)`,
-                                    animationDelay: `${i * 30}ms`,
-                                }}
-                            />
-                        ))}
-                    </div>
-                </>
-            )}
-
             <div className="relative">
                 <ThumbsUp
                     size={variant === "compact" ? 24 : 48}

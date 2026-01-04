@@ -1,16 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
 import { Video } from "../../hooks/use-infinite-videos";
 import { toast } from "react-toastify";
 import { AnimatedThumbsUp } from "@/components/common/animated-thumbs-up";
 import { toggleVideoLike } from "../../services/toggle-video-like";
+import CountUp from "@/components/ui/CountUp";
 
-const VideoLikeButton = ({ videoId }: { videoId: string }) => {
-    const { data: session } = useSession();
+const VideoLikeButton = ({ videoId, likesCount }: { videoId: string, likesCount?: string }) => {
     const queryClient = useQueryClient();
+    const lastNumberSystemDigit = likesCount?.includes("K") ? "K" : likesCount?.includes("M") ? "M" : ""
+    const likesInNumbers = likesCount?.includes("K") ? Number(likesCount.split("K")[0]) : likesCount?.includes("M") ? Number(likesCount.split("M")[0]) : Number(likesCount);
 
     const { mutate } = useMutation({
-        mutationFn: () => toggleVideoLike(videoId, session?.accessToken),
+        mutationFn: () => toggleVideoLike(videoId),
 
         onMutate: async () => {
             // Cancel outgoing refetches so they don't overwrite our optimistic update
@@ -57,11 +58,24 @@ const VideoLikeButton = ({ videoId }: { videoId: string }) => {
     const isLiked = videoData?.[0]?.isLiked;
 
     return (
-        <AnimatedThumbsUp
-            liked={isLiked}
-            onChange={() => mutate()}
-            variant="compact"
-        />
+        <>
+            <AnimatedThumbsUp
+                liked={isLiked}
+                onChange={() => mutate()}
+                variant="compact"
+            />
+            <span className="flex items-center">
+                <CountUp
+                    from={0}
+                    to={likesInNumbers}
+                    separator=","
+                    direction="up"
+                    duration={1}
+                    className="count-up-text"
+                />
+                {lastNumberSystemDigit}
+            </span>
+        </>
     );
 };
 
