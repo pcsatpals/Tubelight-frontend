@@ -2,7 +2,6 @@ import Play from "@/public/play.svg"
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import { useVideoById } from "../../hooks/use-get-video-by-id";
-import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { formatTimeAgo, formatCount } from "../../utils/format-time";
@@ -13,6 +12,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import ShareIcon from "@/public/share-icon.svg"
 import VideoLikeButton from "./video-like-button";
 import { VideoComments } from "./video-comments";
+import { VideoSkeleton } from "./video-skeleton";
 
 const VideoDialog = ({ video }: VideoCardProps) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -68,10 +68,7 @@ const VideoDialogContent = ({ video, isOpen }: VideoCardProps & { isOpen: boolea
             <div className="flex flex-col gap-3 grow">
                 <div className="sm:h-auto h-50 object-cover w-full mt-6 flex items-center justify-center">
                     {isLoading ? (
-                        <div className="flex flex-col items-center gap-2 text-white">
-                            <Loader2 className="animate-spin size-8" />
-                            <p className="text-sm">Loading video...</p>
-                        </div>
+                        <VideoSkeleton />
                     ) : isError ? (
                         <p className="text-destructive">Failed to load video.</p>
                     ) : (
@@ -113,8 +110,7 @@ const VideoDialogContent = ({ video, isOpen }: VideoCardProps & { isOpen: boolea
                     </Button>
                     <div className="ml-auto grid grid-cols-2 bg-black/20 rounded-full">
                         <div className="flex gap-2 items-center border-r px-3">
-                            <VideoLikeButton videoId={video._id} />
-                            {formatCount(videoInfo?.likesCount)}
+                            <VideoLikeButton videoId={video._id} likesCount={formatCount(videoInfo?.likesCount)} />
                         </div>
                         <div className="flex gap-2 items-center px-3 [&_svg]:size-6"><ShareIcon /> Share</div>
                     </div>

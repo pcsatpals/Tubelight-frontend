@@ -10,15 +10,12 @@ import {
 import { ChevronDown, LogOut, Loader2 } from "lucide-react";
 import { useLogoutMutation } from "@/features/auth/hooks/use-logout";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
-interface UserNavProps {
-    user: {
-        name?: string | null;
-        image?: string | null;
-    }
-}
 
-export function UserNav({ user }: UserNavProps) {
+
+export function UserNav() {
+    const { data } = useSession();
     const { mutateAsync, isPending } = useLogoutMutation();
 
     const handleLogout = async (e: React.MouseEvent) => {
@@ -35,13 +32,16 @@ export function UserNav({ user }: UserNavProps) {
         );
     };
 
+    if (!data) return null;
+
+    const { user } = data;
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="group">
-                <button className="flex gap-4 items-center w-fit outline-hidden cursor-pointer [&_svg]:size-5 ml-auto">
-                    <div className="flex items-center gap-2">
+                <button className="flex sm:gap-4 gap-1 items-center w-fit outline-hidden cursor-pointer [&_svg]:size-5 ml-auto">
+                    <div className="flex items-center sm:gap-2 gap-1">
                         <Avatar className="h-6 w-6">
-                            <AvatarImage src={user.image || ""} alt={user.name || "User"} />
+                            <AvatarImage src={user?.image || ""} alt={user.name || "User"} />
                         </Avatar>
                         <p className="font-medium text-sm">{user.name}</p>
                     </div>
