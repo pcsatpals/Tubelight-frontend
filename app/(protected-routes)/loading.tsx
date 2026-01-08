@@ -1,4 +1,4 @@
-const loading = () => {
+const Loading = () => {
     return (
         <div className='w-screen h-screen flex items-center justify-center'>
             <video
@@ -13,4 +13,4 @@ const loading = () => {
     )
 }
 
-export default loading
+export default Loading
