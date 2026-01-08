@@ -31,7 +31,7 @@ export function VideoComments({ videoId }: { videoId: string }) {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
   if (status === "pending" && !data) return <p>Loading comments...</p>;
   if (status === "error" || error) return <p>Error loading comments</p>;
-
+  console.log(data.pages)
   return (
     <div className="space-y-6 pt-3 grow sm:overflow-y-auto no-scrollbar">
       <div className="space-y-4">
