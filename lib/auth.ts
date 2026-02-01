@@ -58,8 +58,8 @@ export const authOptions: NextAuthOptions = {
                             provider: account.provider,
                             externalId: user.id,
                             avatar: user.image,
+                            coverImage: user.coverImage
                         });
-
                         const { user: dbUser, accessToken, refreshToken } = res.data;
                         return formatUserSession(dbUser, { accessToken, refreshToken });
                     } catch (error) {
@@ -81,6 +81,7 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.image = token.avatar as string;
+                session.user.coverImage = token.coverImage as string;
                 session.user.name = token.fullName as string;
                 session.accessToken = token.accessToken as string;
                 session.error = token.error as string;

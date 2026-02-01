@@ -10,6 +10,7 @@ interface BackendUser {
     email: string;
     avatar?: string;
     image?: string;
+    coverImage?: string
 }
 
 interface BackendTokens {
@@ -19,7 +20,6 @@ interface BackendTokens {
 
 export const formatUserSession = (userData: BackendUser, tokens: BackendTokens): User => {
     const decoded = jwtDecode<{ exp: number }>(tokens.accessToken);
-
     return {
         id: (userData._id || userData.id) as string,
         fullName: (userData.fullName || userData.name) as string,
@@ -28,5 +28,6 @@ export const formatUserSession = (userData: BackendUser, tokens: BackendTokens):
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
         accessTokenExpires: decoded.exp * 1000,
+        coverImage: userData.coverImage
     };
 };
