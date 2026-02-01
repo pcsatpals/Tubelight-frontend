@@ -3,5 +3,6 @@ export interface User {
     token: string;
     refreshToken: string;
     expiresIn: number;
-
+    avatar: string;
+    coverImage?: string
 } 

@@ -18,7 +18,7 @@ import Logo from "@/public/logo.svg";
 
 const NAV_ITEMS = [
     { title: "Home", href: "/dashboard", icon: Home },
-    { title: "My Profile", href: "/my-profile", icon: User },
+    { title: "My Profile", href: "/profile", icon: User },
 ];
 
 export function AppSidebar() {

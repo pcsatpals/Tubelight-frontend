@@ -5,7 +5,6 @@ import { useVideoById } from "../../hooks/use-get-video-by-id";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { formatTimeAgo, formatCount } from "../../utils/format-time";
-import { VideoCardProps } from "./video-card";
 import Image from "next/image";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -13,8 +12,9 @@ import ShareIcon from "@/public/share-icon.svg"
 import VideoLikeButton from "./video-like-button";
 import { VideoComments } from "./video-comments";
 import { VideoSkeleton } from "./video-skeleton";
+import { Video } from "../../hooks/use-infinite-videos";
 
-const VideoDialog = ({ video }: VideoCardProps) => {
+const VideoDialog = ({ video }: { video: Video }) => {
     const [isOpen, setIsOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -52,7 +52,7 @@ const DialogTriggerButton = () => (
 )
 
 
-const VideoDialogContent = ({ video, isOpen }: VideoCardProps & { isOpen: boolean }) => {
+const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }) => {
     const { data: session } = useSession();
     // Fetch only happens when isOpen is true
     const {
@@ -110,9 +110,14 @@ const VideoDialogContent = ({ video, isOpen }: VideoCardProps & { isOpen: boolea
                     </Button>
                     <div className="ml-auto grid grid-cols-2 bg-black/20 rounded-full">
                         <div className="flex gap-2 items-center border-r px-3">
-                            <VideoLikeButton videoId={video._id} likesCount={formatCount(videoInfo?.likesCount)} />
+                            <VideoLikeButton
+                                videoId={video._id}
+                                likesCount={formatCount(videoInfo?.likesCount)}
+                            />
                         </div>
-                        <div className="flex gap-2 items-center px-3 [&_svg]:size-6"><ShareIcon /> Share</div>
+                        <div className="flex gap-2 items-center px-3 [&_svg]:size-6">
+                            <ShareIcon /> Share
+                        </div>
                     </div>
                 </div>
                 <div className="p-3 bg-secondary/30">
