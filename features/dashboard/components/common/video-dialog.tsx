@@ -86,9 +86,9 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                 <DialogTitle className="text-xl font-bold text-foreground line-clamp-2 mb-1">{videoInfo?.title}</DialogTitle>
 
                 {/* Channel Info and Action Buttons */}
-                <div className="flex items-center gap-3 justify-between w-full">
+                <div className="flex items-center gap-2 sm:gap-3 justify-between w-full">
                     {/* Channel Avatar */}
-                    <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full">
+                    <div className="size-8 sm:size-10 shrink-0 overflow-hidden rounded-full">
                         <Image
                             width={40}
                             height={40}
@@ -99,13 +99,13 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                     </div>
 
                     {/* Channel Details */}
-                    <div className="flex flex-col">
+                    <div className="hidden sm:flex flex-col ">
                         <p className="font-semibold text-foreground text-sm line-clamp-1">{videoInfo?.channel?.fullName}</p>
                         <p className="text-muted-foreground text-xs">{videoInfo?.channel?.subscribersCount} subscribers</p>
                     </div>
 
                     {/* Subscribe Button */}
-                    <Button size="sm" className="ml-2 rounded-full">
+                    <Button size="sm" className="sm:ml-2 text-xs h-7 font-medium sm:h-8 sm:text-sm rounded-full">
                         {videoInfo?.channel?.isSubscribed ? "Subscribed" : "Subscribe"}
                     </Button>
                     <div className="ml-auto grid grid-cols-2 bg-black/20 rounded-full">
@@ -115,7 +115,7 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                                 likesCount={formatCount(videoInfo?.likesCount)}
                             />
                         </div>
-                        <div className="flex gap-2 items-center px-3 [&_svg]:size-6">
+                        <div className="flex gap-2 items-center px-3 text-sm sm:text-base [&_svg]:size-4 sm:[&_svg]:size-6">
                             <ShareIcon /> Share
                         </div>
                     </div>
@@ -137,6 +137,7 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
             <div className="flex flex-col lg:w-[40%] shrink-0 sm:py-6 max-h-full overflow-hidden">
                 {/* Video Title and Actions */}
                 <p className="text-xl font-semibold pb-3 border-b">{videoInfo?.comments} Comments</p>
+
                 <VideoComments videoId={video._id} />
             </div>
         </div>

@@ -4,10 +4,29 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer"; // npm i react-intersection-observer
 import Image from "next/image";
-import { getCommentsAction } from "../../services/comment.service";
+import { getCommentsAction, postCommentAction } from "../../services/comment.service";
+import z from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "@/components/ui/form";
+import { Field } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { SendHorizonal } from "lucide-react";
+import { toast } from "react-toastify";
 
+const commentSchema = z.object({
+  comment: z.string().nonempty("Full name must be at least 2 characters")
+})
 export function VideoComments({ videoId }: { videoId: string }) {
   const { ref, inView } = useInView();
+
+  const form = useForm<z.infer<typeof commentSchema>>({
+    resolver: zodResolver(commentSchema),
+    defaultValues: {
+      comment: ""
+    },
+  });
 
   const {
     data,
@@ -16,6 +35,7 @@ export function VideoComments({ videoId }: { videoId: string }) {
     hasNextPage,
     isFetchingNextPage,
     status,
+    refetch
   } = useInfiniteQuery({
     queryKey: ["comments", videoId],
     queryFn: ({ pageParam }) => getCommentsAction({ videoId, pageParam }),
@@ -32,8 +52,53 @@ export function VideoComments({ videoId }: { videoId: string }) {
   if (status === "pending" && !data) return <p>Loading comments...</p>;
   if (status === "error" || error) return <p>Error loading comments</p>;
 
+  const onSubmit = async (data: {
+    comment: string;
+  }) => {
+    await toast.promise(async () => await postCommentAction(videoId, data.comment), {
+      pending: "Adding Comment...",
+      success: {
+        render() {
+          refetch();
+          form.reset()
+          return "Comment Added successfully..."
+        }
+      },
+      error: {
+        render({ data }) {
+          return data && typeof data == "object" && "message" in data ? data?.message as string : "Not able to add Comment. Please try again.";
+        },
+      }
+    })
+
+  }
   return (
     <div className="space-y-6 pt-3 grow sm:overflow-y-auto no-scrollbar">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex justify-between">
+            <Controller
+              name="comment"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <Input
+                    {...field}
+                    id="form-rhf-demo-title"
+                    className="border-0 !ring-0 !shadow-none border-b rounded-none"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Add comment"
+                    autoComplete="off"
+                  />
+                </Field>
+              )}
+            />
+            <Button className="text-white bg-transparent">
+              <SendHorizonal />
+            </Button>
+          </div>
+        </form>
+      </Form>
       <div className="space-y-4">
         {data.pages.map((page, i) => (
           <div key={i} className="space-y-4">

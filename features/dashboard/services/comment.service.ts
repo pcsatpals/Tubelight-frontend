@@ -29,7 +29,7 @@ export async function getCommentsAction({ videoId, pageParam = 1 }: { videoId: s
 export async function postCommentAction(videoId: string, content: string) {
     // Logic to post comment to backend
     try {
-        const { data } = await axios.post(`${API_URL}/v1/comments/${videoId}`, { content });
+        const { data } = await apiClient.post(`${API_URL}/v1/comments/${videoId}`, { content });
         return data.data;
     } catch (error) {
         let errorMessage = "An unexpected error occurred";

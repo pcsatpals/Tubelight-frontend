@@ -27,10 +27,10 @@ export function AnimatedThumbsUp({ liked = false, onChange, count, variant = "de
             onClick={handleClick}
             onAnimationEnd={handleAnimationEnd}
             className={`like-button ${clicked ? "animate-pop" : ""} ${variant === "default" ? "p-4" : "p-2"
-                } relative inline-flex items-center gap-2 transition-all duration-300 bg-none border-none cursor-pointer`}
+                } relative inline-flex items-center gap-1 sm:gap-2 transition-all duration-300 bg-none border-none cursor-pointer`}
             aria-label={liked ? "Unlike" : "Like"}
         >
-            <div className="relative">
+            <div className="relative [&_svg]:size-5 sm:[&_svg]:size-6">
                 <ThumbsUp
                     size={variant === "compact" ? 24 : 48}
                     className={`transition-all duration-300 ${liked ? "text-white fill-white drop-shadow-lg" : "text-gray-400 hover:text-gray-600"
