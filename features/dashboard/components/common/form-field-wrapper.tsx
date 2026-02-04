@@ -1,5 +1,6 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Control, FieldValues, Path } from "react-hook-form";
+import { Fragment } from "react/jsx-runtime";
 
 
 type InputLikeProps = React.InputHTMLAttributes<HTMLInputElement> &
@@ -17,6 +18,7 @@ type FormFieldWrapperProps<T extends FieldValues> = {
     disable?: boolean;
     showMessage?: boolean;
     onFocus?: () => void;
+    icon?: React.ReactNode
 };
 
 const FormFieldWrapper = <T extends FieldValues>({
@@ -31,6 +33,7 @@ const FormFieldWrapper = <T extends FieldValues>({
     disable = false,
     showMessage = true,
     onFocus,
+    icon: Icon
 }: FormFieldWrapperProps<T>) => (
     <FormField
         control={control}
@@ -45,28 +48,31 @@ const FormFieldWrapper = <T extends FieldValues>({
                     </FormLabel>
                 )}
                 <FormControl>
-                    <Component
-                        {...field}
-                        onChange={(
-                            e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-                        ) => {
-                            let value: string | number | null = e.target.value;
-                            if (type === "number") {
-                                value = Number(value);
-                            }
-                            if (value == 0) {
-                                value = null;
-                            }
-                            field.onChange(value);
-                        }}
-                        type={type}
-                        min="0"
-                        max="100"
-                        onFocus={onFocus}
-                        value={field.value ?? ""}
-                        placeholder={placeholder}
-                        className={className}
-                    />
+                    <span className="relative">
+                        <Component
+                            {...field}
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+                            ) => {
+                                let value: string | number | null = e.target.value;
+                                if (type === "number") {
+                                    value = Number(value);
+                                }
+                                if (value == 0) {
+                                    value = null;
+                                }
+                                field.onChange(value);
+                            }}
+                            type={type}
+                            min="0"
+                            max="100"
+                            onFocus={onFocus}
+                            value={field.value ?? ""}
+                            placeholder={placeholder}
+                            className={className}
+                        />
+                        {Icon != undefined && <span className="size-4 absolute top-1/2 -translate-y-1/2 left-4 -mt-1">{Icon}</span>}
+                    </span>
                 </FormControl>
                 {showMessage && <FormMessage />}
             </FormItem>
