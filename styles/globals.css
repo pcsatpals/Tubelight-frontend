@@ -144,6 +144,11 @@
 }
 
 @layer utilities {
+   .text-stroke-1 {
+    -webkit-text-stroke: 1px black/60;
+    text-shadow: -1px -1px 0 #ffffff33,1px 1px 0 #0000001a;
+  }
+  
   @keyframes star-movement-bottom {
     0% {
       transform: translate(0%, 0%);
