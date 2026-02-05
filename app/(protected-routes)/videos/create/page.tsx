@@ -6,10 +6,14 @@ import { Field } from '@/components/ui/field';
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
+import { AddPlaylistModel } from '@/features/create-update-video/components/common/add-playlist-dialog';
+import { useGetPlaylists } from '@/features/create-update-video/hooks/use-get-playlists';
 import FormFieldWrapper from '@/features/dashboard/components/common/form-field-wrapper';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FileUp, HatGlasses, TextCursorInput, Upload, UploadCloud, Users } from 'lucide-react'
+import { useSession } from 'next-auth/react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from "zod";
 
@@ -34,12 +38,17 @@ const videoFormSchema = z.object({
     duration: z.number()
         .positive("Duration must be greater than 0"),
     isPublic: z.boolean(),
+    hasPlaylist: z.string(),
+    playlist: z.string(),
     isPublished: z.boolean(),
 });
 
 type VideoFormData = z.infer<typeof videoFormSchema>;
 
 const CreateVideo = () => {
+    const { data } = useSession();
+    const { data: playlists, isLoading, refetch } = useGetPlaylists(data?.user.id as string)
+
     const form = useForm<VideoFormData>({
         resolver: zodResolver(videoFormSchema),
         defaultValues: {
@@ -50,8 +59,11 @@ const CreateVideo = () => {
             isPublished: true,
             thumbnail: undefined,
             videoFile: undefined,
+            hasPlaylist: "None"
         },
     });
+
+    const hasPlaylist = form.watch("hasPlaylist")
 
     return (
         <div className='p-6 flex flex-col gap-4 grow'>
@@ -60,15 +72,16 @@ const CreateVideo = () => {
                 <p className='text-sm sm:text-base text-white/80'>Upload your video file and other details related to the Video</p>
             </div>
             <Form {...form}>
-                <form className='flex gap-10 grow'>
+                <form className='flex xl:flex-row flex-col gap-10 grow'>
                     <Controller
                         name='videoFile'
                         control={form.control}
                         render={({ field, fieldState }) => (
-                            <Field data-invalid={fieldState.invalid} className='w-fit h-full'>
+                            <Field data-invalid={fieldState.invalid} className='xl:w-fit w-full xl:h-full'>
                                 <FileDropzone
                                     onChange={field.onChange}
                                     value={field.value}
+
                                 />
                             </Field>
                         )}
@@ -95,7 +108,7 @@ const CreateVideo = () => {
                                         <Select value={field.value ? "public" : "private"} onValueChange={(v) => {
                                             field.onChange(v == "private" ? false : true)
                                         }}>
-                                            <SelectTrigger className='w-full text-base'>
+                                            <SelectTrigger className='w-full text-base !h-12 rounded-full'>
                                                 <SelectValue placeholder="Who can view this Video" />
                                             </SelectTrigger>
                                             <SelectContent align='end' position='popper' className='bg-white text-black '>
@@ -115,6 +128,71 @@ const CreateVideo = () => {
                             placeholder='Enter Video Details'
                             className='rounded-3xl min-h-30 p-4'
                         />
+                        <Controller
+                            name='hasPlaylist'
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex gap-0.5 text-sm font-inter ">
+                                        <span>Play list</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger className='w-full text-base !h-12 rounded-full'>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent align='end' position='popper' className='bg-white text-black '>
+                                                {["None", "Use Existing Playlist", "Create New playlist"].map(
+                                                    (k, ix) => (
+                                                        <SelectItem
+                                                            value={k}
+                                                            key={ix}
+                                                            className='capitalize'
+                                                        >
+                                                            {k}
+                                                        </SelectItem>))}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+
+                        {hasPlaylist == "Use Existing Playlist" && <Controller
+                            name='playlist'
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="flex gap-0.5 text-sm font-inter ">
+                                        <span>Select Play list</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Select value={field.value} onValueChange={field.onChange}>
+                                            <SelectTrigger className={`w-full text-base !h-12 rounded-full ${isLoading && "[&_svg]:hidden p-0"}`} disabled={isLoading}>
+                                                {isLoading ? <Skeleton className='w-full h-10' /> : <SelectValue placeholder="Select Existing playlist" />}
+                                            </SelectTrigger>
+                                            <SelectContent align='end' position='popper' className='bg-white text-black '>
+                                                {((playlists?.length || 0) > 0) ? playlists?.map(
+                                                    (k, ix) => (
+                                                        <SelectItem
+                                                            value={k._id}
+                                                            key={ix}
+                                                            className='capitalize'
+                                                        >
+                                                            {k.name}
+                                                        </SelectItem>)) : <p className='py-4 text-center text-sm'>No Result found</p>}
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />}
+                        {hasPlaylist == "Create New playlist" && <AddPlaylistModel onSuccess={async (_id) => {
+                            await refetch()
+                            form.setValue("playlist", _id)
+                            form.setValue("hasPlaylist", "Use Existing Playlist")
+                        }}
+                        />}
                     </div>
                 </form>
             </Form>

@@ -43,7 +43,7 @@ export default function FileDropzone({
             onDragOver={(e) => e.preventDefault()}
             onDrop={onDrop}
             onClick={() => inputRef.current?.click()}
-            className="relative h-full cursor-pointer shrink-0 border rounded-2xl shadow-sm hover:shadow-lg shadow-white/30 min-h-150 min-w-120 bg-black/10 backdrop-blur-3xl flex items-center justify-center transition"
+            className="relative cursor-pointer shrink-0 border rounded-2xl shadow-sm hover:shadow-lg shadow-white/30 xl:min-h-150 h-fit py-10 xl:min-w-120 max-w-full  bg-black/10 backdrop-blur-3xl flex items-center justify-center transition"
         >
             {/* hidden input */}
             <input
