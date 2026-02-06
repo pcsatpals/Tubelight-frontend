@@ -44,7 +44,7 @@ export default function FileDropzone({
             onDragOver={(e) => e.preventDefault()}
             onDrop={onDrop}
             onClick={() => inputRef.current?.click()}
-            className={accept.includes("video") ? "relative cursor-pointer shrink-0 border rounded-2xl shadow-sm hover:shadow-lg shadow-white/30 xl:min-h-150 h-fit py-10 xl:min-w-120 max-w-full  bg-black/10 backdrop-blur-3xl flex items-center justify-center transition" : ""}
+            className={accept.includes("video") ? "relative cursor-pointer shrink-0 border rounded-2xl shadow-sm hover:shadow-lg shadow-white/30 xl:min-h-150 min-h-fit h-fit py-10 xl:min-w-120 max-w-full  bg-black/10 backdrop-blur-3xl flex items-center justify-center transition" : ""}
         >
             {/* hidden input */}
             <input
@@ -59,12 +59,12 @@ export default function FileDropzone({
 
             {value ? (
                 <>
-                    {accept.includes("video") ? <div className="relative h-full w-full">
+                    {accept.includes("video") ? <div className="relative h-full min-h-100 w-full">
 
                         <video
                             src={URL.createObjectURL(value)}
                             controls
-                            className="w-full h-full absolute top-0 bottom-0 left-0"
+                            className="w-full h-full  absolute top-0 bottom-0 left-0"
                         />
 
                         <Button
