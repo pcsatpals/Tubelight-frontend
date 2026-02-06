@@ -30,7 +30,7 @@ const fileOrUrl = z.union([
 ]);
 
 const videoFormSchema = z.object({
-    videoFile: fileOrUrl,
+    video: fileOrUrl,
     thumbnail: fileOrUrl,
     title: z
         .string()
@@ -61,7 +61,7 @@ const CreateVideo = () => {
             duration: 1,
             isPublic: true,
             thumbnail: undefined,
-            videoFile: undefined,
+            video: undefined,
             hasPlaylist: "None"
         },
     });
@@ -105,7 +105,7 @@ const CreateVideo = () => {
             <Form {...form}>
                 <form className='flex xl:flex-row flex-col gap-10 grow' onSubmit={form.handleSubmit(onSubmit)}>
                     <Controller
-                        name='videoFile'
+                        name='video'
                         control={form.control}
                         render={({ field, fieldState }) => (
                             <Field data-invalid={fieldState.invalid} className='xl:w-fit w-full xl:h-full'>
