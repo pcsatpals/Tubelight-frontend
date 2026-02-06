@@ -2,7 +2,7 @@ import { Video } from "@/features/dashboard/hooks/use-infinite-videos";
 import apiClient from "@/lib/api-client";
 
 export type CreateVideoPayload = {
-    videoFile: File;
+    video: File;
     thumbnail: File;
     title: string;
     description: string;

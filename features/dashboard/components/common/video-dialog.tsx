@@ -73,7 +73,7 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                         <p className="text-destructive">Failed to load video.</p>
                     ) : (
                         <video
-                            src={videoInfo?.videoFile} // URL from your backend/Cloudinary
+                            src={videoInfo?.video} // URL from your backend/Cloudinary
                             controls
                             autoPlay
                             className="w-full h-full rounded-xl object-cover"
