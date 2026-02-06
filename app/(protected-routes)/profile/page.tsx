@@ -34,7 +34,7 @@ const UserProfile = async () => {
                 }}>
                     <div className='px-3 sm:px-6 lg:px-10 py-5 xl:py-10 flex gap-2 sm:gap-5 xl:gap-10 items-center h-fit w-full bg-background/80'>
                         <Avatar className="h-10 w-10 lg:h-20 lg:w-20 xl:h-40 xl:w-40 shrink-0">
-                            <AvatarImage src={user?.image || ""} alt={user.name || "User"} className='w-full h-full' />
+                            <AvatarImage src={user?.image || ""} alt={user.name || "User"} className='w-full h-full object-cover' />
                         </Avatar>
                         <div className='flex flex-col gap-2 '>
                             <h1 className='capitalize text-2xl lg:text-3xl xl:text-4xl font-semibold'>{user.name}</h1>

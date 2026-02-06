@@ -3,18 +3,23 @@
 import FileDropzone from '@/components/common/file-dropzone';
 import { Button } from '@/components/ui/button'
 import { Field } from '@/components/ui/field';
-import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
+import { Form, FormControl, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 import { AddPlaylistModel } from '@/features/create-update-video/components/common/add-playlist-dialog';
 import { useGetPlaylists } from '@/features/create-update-video/hooks/use-get-playlists';
+import { addVideoToPlaylist } from '@/features/create-update-video/services/add-playlist';
+import { createVideo, CreateVideoPayload } from '@/features/create-update-video/services/create-video';
 import FormFieldWrapper from '@/features/dashboard/components/common/form-field-wrapper';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FileUp, HatGlasses, TextCursorInput, Upload, UploadCloud, Users } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query';
+import { HatGlasses, TextCursorInput, Users } from 'lucide-react'
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { z } from "zod";
 
 const fileOrUrl = z.union([
@@ -39,8 +44,7 @@ const videoFormSchema = z.object({
         .positive("Duration must be greater than 0"),
     isPublic: z.boolean(),
     hasPlaylist: z.string(),
-    playlist: z.string(),
-    isPublished: z.boolean(),
+    playlist: z.string().optional(),
 });
 
 type VideoFormData = z.infer<typeof videoFormSchema>;
@@ -48,7 +52,7 @@ type VideoFormData = z.infer<typeof videoFormSchema>;
 const CreateVideo = () => {
     const { data } = useSession();
     const { data: playlists, isLoading, refetch } = useGetPlaylists(data?.user.id as string)
-
+    const router = useRouter()
     const form = useForm<VideoFormData>({
         resolver: zodResolver(videoFormSchema),
         defaultValues: {
@@ -56,14 +60,41 @@ const CreateVideo = () => {
             description: "",
             duration: 1,
             isPublic: true,
-            isPublished: true,
             thumbnail: undefined,
             videoFile: undefined,
             hasPlaylist: "None"
         },
     });
 
-    const hasPlaylist = form.watch("hasPlaylist")
+    const hasPlaylist = form.watch("hasPlaylist");
+
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (values: VideoFormData) => {
+            const res = await createVideo(values as unknown as CreateVideoPayload);
+
+            if (values.hasPlaylist && values.playlist) {
+                await addVideoToPlaylist({
+                    playlistId: values.playlist,
+                    videoId: res.data._id,
+                });
+            }
+
+            return res;
+        },
+    });
+
+    const onSubmit = async (values: VideoFormData) => {
+        await toast.promise(
+            mutateAsync(values),
+            {
+                pending: "Uploading video... 🎬",
+                success: "Video uploaded successfully 🚀",
+                error: "Failed to upload video 🤯",
+            }
+        );
+
+        form.reset();
+    };
 
     return (
         <div className='p-6 flex flex-col gap-4 grow'>
@@ -72,7 +103,7 @@ const CreateVideo = () => {
                 <p className='text-sm sm:text-base text-white/80'>Upload your video file and other details related to the Video</p>
             </div>
             <Form {...form}>
-                <form className='flex xl:flex-row flex-col gap-10 grow'>
+                <form className='flex xl:flex-row flex-col gap-10 grow' onSubmit={form.handleSubmit(onSubmit)}>
                     <Controller
                         name='videoFile'
                         control={form.control}
@@ -117,6 +148,7 @@ const CreateVideo = () => {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -127,6 +159,23 @@ const CreateVideo = () => {
                             label='Description'
                             placeholder='Enter Video Details'
                             className='rounded-3xl min-h-30 p-4'
+                        />
+                        <Controller
+                            name='thumbnail'
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid} className='xl:w-fit w-full xl:h-full'>
+                                    <FormLabel className="flex gap-0.5 text-sm font-inter ">
+                                        Select Thumbnail
+                                    </FormLabel>
+                                    <FileDropzone
+                                        onChange={field.onChange}
+                                        value={field.value}
+                                        accept='image/*'
+                                    />
+                                    <FormMessage />
+                                </Field>
+                            )}
                         />
                         <Controller
                             name='hasPlaylist'
@@ -193,6 +242,16 @@ const CreateVideo = () => {
                             form.setValue("hasPlaylist", "Use Existing Playlist")
                         }}
                         />}
+                        <div className='w-full flex items-center justify-between'>
+                            <Button variant="ghost" type='button' disabled={isPending} onClick={() => {
+                                form.reset()
+                            }}>
+                                Reset
+                            </Button>
+                            <Button disabled={isPending}>
+                                Submit
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </Form>

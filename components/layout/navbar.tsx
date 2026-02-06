@@ -54,7 +54,7 @@ export default function Navbar() {
           </> :
             <Link href="/dashboard">
               <Avatar className="h-full">
-                <AvatarImage src={data.user.image || ""} />
+                <AvatarImage src={data.user.image || ""} className="object-cover" />
               </Avatar>
             </Link>
           }
@@ -73,7 +73,7 @@ export default function Navbar() {
           <div className="flex gap-2">
             {data && <Link href="/dashboard">
               <Avatar className="h-6 w-6">
-                <AvatarImage src={data.user.image || ""} />
+                <AvatarImage src={data.user.image || ""} className="object-cover" />
               </Avatar>
             </Link>}
             <MobileNavToggle
