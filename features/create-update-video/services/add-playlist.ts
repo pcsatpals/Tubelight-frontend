@@ -8,3 +8,19 @@ export const addPlaylist = async (body: { name: string, description: string }): 
     );
     return data;
 };
+
+
+export const addVideoToPlaylist = async ({
+    playlistId,
+    videoId,
+}: {
+    playlistId: string;
+    videoId: string;
+}) => {
+    const { data } = await apiClient.patch(
+        `/v1/playlist/${playlistId}/videos`,
+        { videoId }
+    );
+
+    return data;
+};

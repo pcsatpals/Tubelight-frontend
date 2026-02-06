@@ -135,8 +135,10 @@ export default function SignupForm() {
                                 <FormItem className="flex flex-col items-center gap-0">
                                     <div className="relative">
                                         <Avatar className="w-24 h-24 border-2">
-                                            <AvatarImage src={previewUrl || ""} />
-                                            <AvatarFallback><User className="w-12 h-12" /></AvatarFallback>
+                                            <AvatarImage src={previewUrl || ""} className="object-cover" />
+                                            <AvatarFallback>
+                                                <User className="w-12 h-12" />
+                                            </AvatarFallback>
                                         </Avatar>
                                         <FormLabel htmlFor="avatar" className="absolute bottom-0 right-0 bg-primary text-primary-foreground rounded-full p-2 cursor-pointer hover:opacity-90">
                                             <Upload className="w-4 h-4 text-accent" />

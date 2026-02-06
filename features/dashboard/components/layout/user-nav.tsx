@@ -41,7 +41,7 @@ export function UserNav() {
                 <button className="flex sm:gap-4 gap-1 items-center w-fit outline-hidden cursor-pointer [&_svg]:size-5 ml-auto">
                     <div className="flex items-center sm:gap-2 gap-1">
                         <Avatar className="h-6 w-6">
-                            <AvatarImage src={user?.image || ""} alt={user.name || "User"} />
+                            <AvatarImage src={user?.image || ""} alt={user.name || "User"} className="object-cover" />
                         </Avatar>
                         <p className="font-medium text-sm">{user.name}</p>
                     </div>
