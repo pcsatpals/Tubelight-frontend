@@ -13,6 +13,9 @@ import VideoLikeButton from "./video-like-button";
 import { VideoComments } from "./video-comments";
 import { VideoSkeleton } from "./video-skeleton";
 import { Video } from "../../hooks/use-infinite-videos";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toggleSubscribeChannel } from "../../services/subscribe-user";
+import { toast } from "react-toastify";
 
 const VideoDialog = ({ video }: { video: Video }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -61,7 +64,53 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
         isError
     } = useVideoById(video._id, session?.accessToken, isOpen);
 
-    const videoInfo = videoData?.[0]
+    const videoInfo = videoData?.[0];
+
+    const queryClient = useQueryClient();
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: () => toggleSubscribeChannel(video.channel._id),
+
+        onMutate: async () => {
+            // Cancel outgoing refetches so they don't overwrite our optimistic update
+            await queryClient.cancelQueries({ queryKey: ["video", video._id] });
+
+            // Snapshot the previous value
+            const previousData = queryClient.getQueryData<Video[]>(["video", video._id]);
+
+            // Optimistically update the cache
+            queryClient.setQueryData(["video", video._id], (old: Video[]) => {
+                if (!old) return old;
+
+                // Assuming videoInfo is the first element based on your code: videoData?.[0]
+                return old.map((item, index: number) => {
+                    if (index === 0) {
+                        const currentSubscription = item.channel.isSubscribed;
+                        return {
+                            ...item,
+                            channel: {
+                                ...item.channel,
+                                isSubscribed: !currentSubscription
+
+                            }
+                        };
+                    }
+                    return item;
+                });
+            });
+
+            return { previousData };
+        },
+        onError: (err, variables, context) => {
+            // Rollback if the API fails
+            queryClient.setQueryData(["video", video._id], context?.previousData);
+            toast.error("Could not able to subscribe");
+        },
+        onSettled: () => {
+            // Sync with server in the background
+            queryClient.invalidateQueries({ queryKey: ["video", video._id] });
+        },
+    });
 
     return (
         <div className="flex flex-col  lg:flex-row gap-3 overflow-hidden overflow-y-auto no-scrollbar min-h-75">
@@ -76,7 +125,7 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                             src={videoInfo?.videoFile} // URL from your backend/Cloudinary
                             controls
                             autoPlay
-                            className="w-full h-full rounded-xl object-cover"
+                            className="max-h-100 w-full h-full rounded-xl "
                             poster={video?.thumbnail}
                         >
                             Your browser does not support the video tag.
@@ -105,7 +154,9 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                     </div>
 
                     {/* Subscribe Button */}
-                    <Button size="sm" className="sm:ml-2 text-xs h-7 font-medium sm:h-8 sm:text-sm rounded-full">
+                    <Button size="sm" className="sm:ml-2 text-xs h-7 font-medium sm:h-8 sm:text-sm rounded-full" disabled={isPending} onClick={() => {
+                        mutate()
+                    }}>
                         {videoInfo?.channel?.isSubscribed ? "Subscribed" : "Subscribe"}
                     </Button>
                     <div className="ml-auto grid grid-cols-2 bg-black/20 rounded-full">

@@ -60,8 +60,8 @@ export function AppSidebar() {
                                         tooltip={item.title}
                                         className={cn(
                                             "font-semibold font-figtree px-4 h-12 text-xl transition-colors",
-                                            "hover:bg-[#28114698] active:bg-destructive/20 [&>svg]:size-5.5",
-                                            isActive && "bg-linear-to-br to-[#28114698]  via-[#4a227b] from-black/30 shadow-sm"
+                                            "hover:bg-[#28114644] active:bg-destructive/10 [&>svg]:size-5.5",
+                                            isActive && "bg-[#4a227b21] shadow-sm"
                                         )}
                                     >
                                         <Link href={item.href} className="w-full">

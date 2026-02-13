@@ -1,6 +1,6 @@
 "use client";
 
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer"; // npm i react-intersection-observer
 import Image from "next/image";
@@ -14,6 +14,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SendHorizonal } from "lucide-react";
 import { toast } from "react-toastify";
+import { Comment, CommentsResponse } from "../../types/comment.types";
+import { formatCount } from "../../utils/format-time";
+import { toggleCommentLike } from "../../services/toggle-comment-like.service";
+import { Video } from "../../hooks/use-infinite-videos";
+import { AnimatedThumbsUp } from "@/components/common/animated-thumbs-up";
+import CountUp from "@/components/ui/CountUp";
 
 const commentSchema = z.object({
   comment: z.string().nonempty("Full name must be at least 2 characters")
@@ -103,21 +109,7 @@ export function VideoComments({ videoId }: { videoId: string }) {
         {data.pages.map((page, i) => (
           <div key={i} className="space-y-4">
             {page.docs.map((comment) => (
-              <div key={comment._id} className="flex flex-col">
-                <div className="flex gap-3 p-2">
-                  <Image
-                    src={comment.commentor.avatar}
-                    className="w-10 h-10 rounded-full object-cover"
-                    alt={comment.commentor.username}
-                    height={600}
-                    width={600}
-                  />
-                  <div>
-                    <p className="text-sm font-semibold">@{comment.commentor.username}</p>
-                    <p className="text-sm text-gray-300">{comment.content}</p>
-                  </div>
-                </div>
-              </div>
+              <VideoComment comment={comment} key={comment._id} videoId={videoId} />
             ))}
           </div>
         ))}
@@ -136,3 +128,105 @@ export function VideoComments({ videoId }: { videoId: string }) {
     </div>
   );
 }
+
+
+
+const VideoComment = ({ comment, videoId }: { comment: Comment, videoId: string }) => {
+  const queryClient = useQueryClient();
+  const commentLikes = formatCount(comment.likes)
+  const lastNumberSystemDigit = commentLikes.includes("K") ? "K" : commentLikes?.includes("M") ? "M" : ""
+  const likesInNumbers = commentLikes?.includes("K") ? Number(commentLikes.split("K")[0]) : commentLikes?.includes("M") ? Number(commentLikes.split("M")[0]) : Number(commentLikes);
+
+  const { mutate } = useMutation({
+    mutationFn: () => toggleCommentLike(comment._id),
+
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ["comments", videoId] });
+
+      const previousData =
+        queryClient.getQueryData<InfiniteData<CommentsResponse>>([
+          "comments",
+          videoId,
+        ]);
+
+      queryClient.setQueryData<InfiniteData<CommentsResponse>>(
+        ["comments", videoId],
+        (old) => {
+          if (!old) return old;
+
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              docs: page.docs.map((item) => {
+                if (item._id !== comment._id) return item;
+
+                const currentlyLiked = item.isLiked;
+
+                return {
+                  ...item,
+                  isLiked: !currentlyLiked,
+                  likes: currentlyLiked
+                    ? Math.max(0, item.likes - 1)
+                    : item.likes + 1,
+                };
+              }),
+            })),
+          };
+        }
+      );
+
+      return { previousData };
+    },
+
+    onError: (_, __, context) => {
+      queryClient.setQueryData(
+        ["comments", videoId],
+        context?.previousData
+      );
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["comments", videoId],
+      });
+    },
+  });
+
+  return (
+    <div className="flex gap-3 p-2">
+      <Image
+        src={comment.commentor.avatar}
+        className="w-10 h-10 rounded-full object-cover"
+        alt={comment.commentor.username}
+        height={600}
+        width={600}
+      />
+      <div key={comment._id} className="flex flex-col">
+
+        <p className="text-sm font-semibold">@{comment.commentor.username}</p>
+        <p className="text-sm text-gray-300">{comment.content}</p>
+        <div className="flex items-center relative [&_svg]:!size-4">
+          <AnimatedThumbsUp
+            liked={comment.isLiked}
+            onChange={() => mutate()}
+            variant="compact"
+          />
+          <span className="flex items-center">
+            <CountUp
+              from={0}
+              to={likesInNumbers}
+              separator=","
+              direction="up"
+              duration={1}
+              className="count-up-text"
+            />
+            {lastNumberSystemDigit}
+          </span>
+        </div>
+      </div>
+
+    </div>
+  )
+}
+

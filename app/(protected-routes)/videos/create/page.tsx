@@ -35,7 +35,7 @@ const videoFormSchema = z.object({
     title: z
         .string()
         .min(5, "Title must be at least 5 characters.")
-        .max(32, "Title must be at most 32 characters."),
+        .max(100, "Title must be at most 100 characters."),
     description: z
         .string()
         .min(20, "Description must be at least 20 characters.")

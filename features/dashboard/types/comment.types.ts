@@ -10,7 +10,9 @@ export interface Commentor {
 export interface Comment {
     _id: string;
     content: string;
+    likes: number;
     video: string;
+    isLiked: boolean;
     commentor: Commentor;
     createdAt?: string; // Often included in MongoDB responses
     updatedAt?: string;
