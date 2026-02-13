@@ -15,8 +15,10 @@ export interface Video {
     thumbnail: string;
     comments: number;
     channel: {
+        _id: string;
         avatar: string;
-        username: string
+        username: string;
+        isSubscribed: boolean;
     },
     duration: number;
     isLiked: boolean;

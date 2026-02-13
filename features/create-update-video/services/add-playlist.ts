@@ -17,9 +17,9 @@ export const addVideoToPlaylist = async ({
     playlistId: string;
     videoId: string;
 }) => {
-    const { data } = await apiClient.patch(
-        `/v1/playlist/${playlistId}/videos`,
-        { videoId }
+    const { data } = await apiClient.post(
+        `/v1/playlist/add-video`,
+        { playlistId, videoId }
     );
 
     return data;
