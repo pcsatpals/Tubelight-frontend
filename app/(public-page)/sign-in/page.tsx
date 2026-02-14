@@ -91,7 +91,7 @@ const SignIn = () => {
                     <CardTitle className='md:text-2xl text-xl font-bold'>Sign in with email</CardTitle>
                     <CardDescription
                         className='md:text-sm text-xs'>
-                        Sign in to enjoy a personalized, video‑first experience with interactive thumbnails, smooth animations, and a fully responsive layout.
+                        Sign in to manage your learning journey, complete lessons, and build practical projects step by step.
                     </CardDescription>
                 </div>
 

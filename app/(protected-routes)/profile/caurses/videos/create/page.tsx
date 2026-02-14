@@ -17,7 +17,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { HatGlasses, TextCursorInput, Users } from 'lucide-react'
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { z } from "zod";
@@ -34,12 +33,10 @@ const videoFormSchema = z.object({
     thumbnail: fileOrUrl,
     title: z
         .string()
-        .min(5, "Title must be at least 5 characters.")
-        .max(100, "Title must be at most 100 characters."),
+        .min(5, "Title must be at least 5 characters."),
     description: z
         .string()
-        .min(20, "Description must be at least 20 characters.")
-        .max(100, "Description must be at most 100 characters."),
+        .min(20, "Description must be at least 20 characters."),
     duration: z.number()
         .positive("Duration must be greater than 0"),
     isPublic: z.boolean(),
@@ -52,7 +49,6 @@ type VideoFormData = z.infer<typeof videoFormSchema>;
 const CreateVideo = () => {
     const { data } = useSession();
     const { data: playlists, isLoading, refetch } = useGetPlaylists(data?.user.id as string)
-    const router = useRouter()
     const form = useForm<VideoFormData>({
         resolver: zodResolver(videoFormSchema),
         defaultValues: {
@@ -99,8 +95,8 @@ const CreateVideo = () => {
     return (
         <div className='p-6 flex flex-col gap-4 grow'>
             <div className='flex flex-col gap-2 pb-4 border-b'>
-                <h1 className='text-5xl font-bold text-stroke-1'>Upload Your Video File</h1>
-                <p className='text-sm sm:text-base text-white/80'>Upload your video file and other details related to the Video</p>
+                <h1 className='text-5xl font-bold text-stroke-1'>Upload Lesson Video</h1>
+                <p className='text-sm sm:text-base text-white/80'>Upload your lesson video and provide the necessary details to publish it inside your book.</p>
             </div>
             <Form {...form}>
                 <form className='flex xl:flex-row flex-col gap-10 grow' onSubmit={form.handleSubmit(onSubmit)}>
@@ -144,7 +140,7 @@ const CreateVideo = () => {
                                             </SelectTrigger>
                                             <SelectContent align='end' position='popper' className='bg-white text-black '>
                                                 <SelectItem value="public"><Users />All People (Public)</SelectItem>
-                                                <SelectItem value="private"><HatGlasses />Subscribers only (Private)</SelectItem>
+                                                <SelectItem value="private"><HatGlasses />Learners only (Private)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -183,7 +179,7 @@ const CreateVideo = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="flex gap-0.5 text-sm font-inter ">
-                                        <span>Play list</span>
+                                        <span>Lesson</span>
                                     </FormLabel>
                                     <FormControl>
                                         <Select value={field.value} onValueChange={field.onChange}>
@@ -191,7 +187,7 @@ const CreateVideo = () => {
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent align='end' position='popper' className='bg-white text-black '>
-                                                {["None", "Use Existing Playlist", "Create New playlist"].map(
+                                                {["None", "Use Existing Lesson", "Create New Lesson"].map(
                                                     (k, ix) => (
                                                         <SelectItem
                                                             value={k}
@@ -207,18 +203,18 @@ const CreateVideo = () => {
                             )}
                         />
 
-                        {hasPlaylist == "Use Existing Playlist" && <Controller
+                        {hasPlaylist == "Use Existing Lesson" && <Controller
                             name='playlist'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="flex gap-0.5 text-sm font-inter ">
-                                        <span>Select Play list</span>
+                                        <span>Select Lesson</span>
                                     </FormLabel>
                                     <FormControl>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <SelectTrigger className={`w-full text-base !h-12 rounded-full ${isLoading && "[&_svg]:hidden p-0"}`} disabled={isLoading}>
-                                                {isLoading ? <Skeleton className='w-full h-10' /> : <SelectValue placeholder="Select Existing playlist" />}
+                                                {isLoading ? <Skeleton className='w-full h-10' /> : <SelectValue placeholder="Select Existing Lesson" />}
                                             </SelectTrigger>
                                             <SelectContent align='end' position='popper' className='bg-white text-black '>
                                                 {((playlists?.length || 0) > 0) ? playlists?.map(
@@ -236,10 +232,10 @@ const CreateVideo = () => {
                                 </FormItem>
                             )}
                         />}
-                        {hasPlaylist == "Create New playlist" && <AddPlaylistModel onSuccess={async (_id) => {
+                        {hasPlaylist == "Create New Lesson" && <AddPlaylistModel onSuccess={async (_id) => {
                             await refetch()
                             form.setValue("playlist", _id)
-                            form.setValue("hasPlaylist", "Use Existing Playlist")
+                            form.setValue("hasPlaylist", "Use Existing Lesson")
                         }}
                         />}
                         <div className='w-full flex items-center justify-between'>

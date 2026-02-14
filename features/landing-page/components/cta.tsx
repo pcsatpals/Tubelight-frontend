@@ -24,8 +24,8 @@ const CTASectionHeading = () => (
             className="lg:w-25 w-20 h-fit"
         />
         <SectionHeading
-            title="Ready to explore?"
-            description="Join Tubelight and discover stories, tools, and inspiration designed to elevate your creativity."
+            title="Ready to start learning?"
+            description="Join TubeLight and explore structured books, guided lessons, and <br /> real-world projects designed to build practical skills."
             section={{
                 id: "cta"
             }}

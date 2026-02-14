@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from 'react'
-import { Video } from '../dashboard/hooks/use-infinite-videos';
-import { VideoCard } from '../dashboard/components/common/video-card';
 import { FolderOpen } from 'lucide-react';
+import { Video } from '@/features/dashboard/hooks/use-infinite-videos';
+import VideoCard from '@/features/dashboard/components/common/video-card';
 
 const VideoGrids = ({ videos }: { videos: Video[] }) => {
     const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -19,6 +19,7 @@ const VideoGrids = ({ videos }: { videos: Video[] }) => {
             {videos.map((video: Video, idx: number) => (
                 <VideoCard
                     video={video}
+                    showDeleteDropdown
                     key={idx}
                     hoveredIndex={hoveredIndex}
                     ix={idx}

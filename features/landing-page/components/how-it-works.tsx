@@ -1,85 +1,67 @@
 "use client"
-import { StickyScroll } from '@/components/ui/sticky-scroll-reveal';
-import { Footprints, LogIn, Play, Sparkles } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react'
+import { BookOpen, Code, Footprints, LogIn } from 'lucide-react';
 import SectionHeading from './common/section-heading';
 
 const howItWorksData = [
     {
-        title: "Explore Content",
+        title: "Explore Books",
         description:
-            "Browse a curated collection of videos and discover inspiring stories from creators around the world.",
+            "Browse structured digital books designed to guide you step-by-step through practical skills and real-world concepts.",
         content: (
-            <div className="flex relative h-full w-full flex-col bg-[url(/htw-1.jpeg)] border border-[#222] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative"
-            >
-                <div className='absolute bg-black/70 w-full h-full top-0 right-0 left-0 z-0' />
-                <Play size={40} />
-                <span className="text-sm uppercase tracking-wide relative z-10">Discover</span>
+            <div className="shadow-lg shadow-white/10 flex relative h-full w-full flex-col bg-[url(/explore.avif)] border border-[#222] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative">
+                <div className='absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0' />
+                <BookOpen size={40} />
+                <span className="text-sm uppercase tracking-wide relative z-10">Explore</span>
             </div>
         ),
     },
     {
-        title: "Sign In to Continue",
+        title: "Start Learning",
         description:
-            "Sign in to unlock personalization, saved videos, and a seamless viewing experience across devices.",
+            "Sign in to access a personalized learning experience <br />with structured books, guided lessons, < br /> and seamless progress tracking.",
         content: (
-            <div className="flex relative h-full w-full flex-col border border-[#222] bg-[url(/htw-2.jpg)] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative"
-            >
-                <div className='absolute bg-black/70 w-full h-full top-0 right-0 left-0 z-0' />
+            <div className="shadow-lg shadow-white/10 flex relative h-full w-full flex-col border border-[#222] bg-[url(/learn.avif)] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative">
+                <div className='absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0' />
                 <LogIn size={40} />
-                <span className="text-sm uppercase tracking-wide relative z-10">Access</span>
+                <span className="text-sm uppercase tracking-wide relative z-10">Learn</span>
             </div>
         ),
     },
     {
-        title: "Watch & Create",
+        title: "Build Projects",
         description:
-            "Experience smooth playback and creator-friendly tools designed to help you share your ideas.",
+            "Apply what you learn by building real-world projects and strengthening your practical understanding.",
         content: (
-            <div className="flex relative h-full w-full flex-col border border-[#222] bg-[url(/htw-3.jpg)] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative"
-            >
-                <div className='absolute bg-black/70 w-full h-full top-0 right-0 left-0 z-0' />
-                <Sparkles size={40} />
-                <span className="text-sm uppercase tracking-wide relative z-10">Create</span>
+            <div className="shadow-lg shadow-white/10 flex relative h-full w-full flex-col border border-[#222] bg-[url(/code.avif)] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative">
+                <Code size={40} />
+                <div className='absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0' />
+                <span className="text-sm uppercase tracking-wide relative z-10">Build</span>
             </div>
         ),
     },
 ];
 
 const HowItWorks = () => {
-    const sectionRef = useRef<HTMLDivElement | null>(null);
-    const [isInView, setIsInView] = useState(false);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setIsInView(entry.intersectionRatio > 0.8);
-            },
-            {
-                threshold: [0.8],
-            }
-        );
-
-        if (sectionRef.current) {
-            observer.observe(sectionRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, []);
-
     return (
         <section
             className="flex flex-col gap-4 w-full items-center"
         >
             <SectionHeadingContent />
             <div
-                ref={sectionRef}
-                className={`w-full transition-all ${isInView
-                    ? "pointer-events-auto"
-                    : "pointer-events-none"
-                    }`}
+                className={`w-full transition-all  flex flex-col gap-5 md:max-w-360 mx-auto w-full xl:p-10 p-6`}
             >
-                <StickyScroll content={howItWorksData} />
+                {howItWorksData.map((item, index) => (
+                    <div key={index} className='flex xl:flex-row flex-col gap-10 justify-between sticky top-[100px] glass-card p-10 rounded-3xl  gap-2 h-[calc(100vh-100px)] md:max-h-[700px] w-full'>
+                        <div className='flex flex-col gap-2 min-w-1/2 my-auto'>
+                            <h3 className='text-2xl xl:text-3xl font-semibold text-muted-foreground'>Step {index + 1}</h3>
+                            <h3 className='xl:text-4xl text-3xl font-semibold'>{item.title}</h3>
+                            <p className='text-sm text-muted-foreground'>{item.description}</p>
+                        </div>
+                        <div className='w-full h-[600px] max-h-full'>
+                            {item.content}
+                        </div>
+                    </div>
+                ))}
             </div>
         </section>
     )
@@ -91,8 +73,8 @@ const SectionHeadingContent = () => (
         sectionName: "How it works",
         id: "steps"
     }}
-        title="Simple. Fast. Effortless."
-        description='Getting started with Tubelight takes just a few steps. <br /> No learning curve — just create, explore, and enjoy.'
+        title="Simple. Focused. Powerful."
+        description='Getting started with TubeLight takes just a few steps. <br /> Choose a book, start a lesson, and begin building real skills.'
     />
 )
 

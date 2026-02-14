@@ -29,61 +29,62 @@ const SectionHeadingContent = () => (
         sectionName: "Discover Tubelight",
         id: "discover"
     }}
-        title='Built for creators. <br /> Powered by simplicity.'
-        description='Built to support creativity at every step, <br /> Tubelight empowers creators to share their stories with confidence.'
+        title='Built for learners. <br /> Powered by simplicity.'
+        description='Designed to support growth at every step, <br /> Tubelight empowers learners to share their knowledge with confidence.'
     />
 )
 
 
 const discoverData = [
     {
-        title: "Lightning Fast Performance",
+        title: "Structured Digital Books",
         description:
-            "Experience ultra-smooth interactions and instant responses powered by optimized architecture.",
+            "Organize learning into well-structured books made up of guided lessons and practical examples.",
         video: "/slide-1.webm",
     },
     {
-        title: "Secure by Design",
+        title: "Lesson-Based Learning",
         description:
-            "Built with enterprise-grade security to keep your data safe at every layer.",
+            "Break complex topics into focused lessons designed for clarity, retention, and real-world understanding.",
+        video: "/slide-2.webm",
+    },
+    {
+        title: "Project-Driven Approach",
+        description:
+            "Learn by building real projects that strengthen your skills and prepare you for real-world development.",
         video: "/slide-3.webm",
     },
     {
-        title: "Seamless Collaboration",
+        title: "Doubt Resolution System",
         description:
-            "Work together in real time with tools designed for modern, distributed teams.",
+            "Ask questions, get answers, and mark doubts as resolved to keep your learning uninterrupted.",
         video: "/slide-4.webm",
     },
     {
-        title: "Customizable Workflows",
+        title: "Progress Tracking",
         description:
-            "Tailor every process to your team’s needs with flexible workflow management.",
+            "Track completed lessons, monitor learning progress, and stay consistent with structured milestones.",
         video: "/slide-5.webm",
     },
     {
-        title: "Advanced Analytics",
+        title: "Skill-Based Learning Tracks",
         description:
-            "Gain insights with detailed reports and real-time analytics for better decisions.",
+            "Explore curated tracks like Web Development, AI, DevOps, and more — organized for focused growth.",
         video: "/slide-6.webm",
     },
     {
-        title: "Multi-Platform Support",
+        title: "Clean Learning Experience",
         description:
-            "Access your workspace seamlessly from web, mobile, and desktop devices.",
+            "A distraction-free interface designed to keep your focus on learning and building.",
         video: "/slide-7.webm",
     },
     {
-        title: "Intuitive UI/UX",
+        title: "Focused Learning Experience",
         description:
-            "Navigate easily with a clean and intuitive interface designed for productivity.",
+            "Stay distraction-free with a clean interface designed to help you concentrate on lessons and complete projects efficiently.",
         video: "/slide-8.webm",
     },
-    {
-        title: "Reliable Customer Support",
-        description:
-            "Get help whenever you need it from our responsive and knowledgeable support team.",
-        video: "/slide-9.webm",
-    },
+
 ];
 
 
@@ -156,7 +157,7 @@ const VideoSlide = memo(
                 />
 
                 <div
-                    className={`absolute bottom-0 bg-transparent backdrop-blur-md flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3 lg:rounded-3xl rounded-2xl transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}>
+                    className={`glass-card absolute bottom-0  flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3 lg:rounded-3xl rounded-2xl transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}>
                     <p className="text-lg font-semibold">{slideData.title}</p>
                     <p className="lg:text-sm text-xs text-muted-foreground">
                         {slideData.description}

@@ -47,7 +47,7 @@ const VideoDialog = ({ video }: { video: Video }) => {
 };
 
 const DialogTriggerButton = () => (
-    <div className="absolute  inset-0 flex items-center justify-center z-10 cursor-pointer">
+    <div className="absolute glass-button  inset-0 flex items-center justify-center z-10 cursor-pointer">
         <div className="flex size-16 items-center justify-center rounded-full bg-black/20 backdrop-blur transition duration-100 ease-linear group-hover:bg-white/40 hover:bg-white/40 scale-100">
             <Play className="fill-current" />
         </div>
@@ -104,7 +104,7 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
         onError: (err, variables, context) => {
             // Rollback if the API fails
             queryClient.setQueryData(["video", video._id], context?.previousData);
-            toast.error("Could not able to subscribe");
+            toast.error("Could not able to Join");
         },
         onSettled: () => {
             // Sync with server in the background
@@ -114,7 +114,7 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
 
     return (
         <div className="flex flex-col  lg:flex-row gap-3 overflow-hidden overflow-y-auto no-scrollbar min-h-75">
-            <div className="flex flex-col gap-3 grow">
+            <div className="flex flex-col gap-3 grow min-h-fit">
                 <div className="sm:h-auto h-50 object-cover w-full mt-6 flex items-center justify-center">
                     {isLoading ? (
                         <VideoSkeleton />
@@ -132,7 +132,9 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                         </video>
                     )}
                 </div>
-                <DialogTitle className="text-xl font-bold text-foreground line-clamp-2 mb-1">{videoInfo?.title}</DialogTitle>
+                <DialogTitle className="text-xl font-bold text-foreground line-clamp-2 mb-1">
+                    {videoInfo?.title}
+                </DialogTitle>
 
                 {/* Channel Info and Action Buttons */}
                 <div className="flex items-center gap-2 sm:gap-3 justify-between w-full">
@@ -150,14 +152,19 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                     {/* Channel Details */}
                     <div className="hidden sm:flex flex-col ">
                         <p className="font-semibold text-foreground text-sm line-clamp-1">{videoInfo?.channel?.fullName}</p>
-                        <p className="text-muted-foreground text-xs">{videoInfo?.channel?.subscribersCount} subscribers</p>
+                        <p className="text-muted-foreground text-xs">{videoInfo?.channel?.subscribersCount} Learners</p>
                     </div>
 
                     {/* Subscribe Button */}
-                    <Button size="sm" className="sm:ml-2 text-xs h-7 font-medium sm:h-8 sm:text-sm rounded-full" disabled={isPending} onClick={() => {
-                        mutate()
-                    }}>
-                        {videoInfo?.channel?.isSubscribed ? "Subscribed" : "Subscribe"}
+                    <Button
+                        size="sm"
+                        className="sm:ml-2 text-xs h-7 font-medium sm:h-8 sm:text-sm rounded-full"
+                        disabled={isPending}
+                        onClick={() => {
+                            mutate()
+                        }}
+                    >
+                        {videoInfo?.channel?.isSubscribed ? "Joined" : "Join"}
                     </Button>
                     <div className="ml-auto grid grid-cols-2 bg-black/20 rounded-full">
                         <div className="flex gap-2 items-center border-r px-3">

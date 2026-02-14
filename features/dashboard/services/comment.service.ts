@@ -13,7 +13,7 @@ export async function getCommentsAction({ videoId, pageParam = 1 }: { videoId: s
         // Return a success object
         return data.data; // This returns the whole object with docs, nextPage, etc.
     } catch (error) {
-        console.log(error)
+        console.error(error)
         let errorMessage = "An unexpected error occurred";
 
         if (axios.isAxiosError(error)) {

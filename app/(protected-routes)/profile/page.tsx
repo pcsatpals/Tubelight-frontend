@@ -1,13 +1,10 @@
 import { Avatar } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Video } from '@/features/dashboard/hooks/use-infinite-videos';
-import VideoGrids from '@/features/profile/video-grids';
 import { authOptions } from '@/lib/auth';
 import { AvatarImage } from '@radix-ui/react-avatar';
 import axios from 'axios';
 import { Dot } from 'lucide-react';
 import { getServerSession } from 'next-auth';
-import Play from "@/public/play.svg"
+import ProfileContent from '@/features/my-profile/components/layout/profile-content';
 
 const BaseURL = process.env.API_BASE_URL || ""
 const UserProfile = async () => {
@@ -39,18 +36,12 @@ const UserProfile = async () => {
                         <div className='flex flex-col gap-2 '>
                             <h1 className='capitalize text-2xl lg:text-3xl xl:text-4xl font-semibold'>{user.name}</h1>
                             <p className='flex items-center text-xs sm:text-sm lg:text-base [&_svg]:size-4'>@{dashboardData.username} <Dot className='text-muted-foreground' />
-                                <span className='text-sm text-muted-foreground flex items-center'> {dashboardData.totalSubscribers} subscriber <Dot className='text-muted-foreground' /> {dashboardData.videosDetails.length} {dashboardData.videosDetails.length > 1 ? "videos" : "video"}</span></p>
+                                <span className='text-sm text-muted-foreground flex items-center'> {dashboardData.totalSubscribers} Learners <Dot className='text-muted-foreground' /> {dashboardData.videosDetails.length} {dashboardData.videosDetails.length > 1 ? "Caurses" : "Caurse"}</span></p>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* Display user info */}
-            <div className='px-3 sm:px-6 lg:px-10 pb-10 border-b flex flex-col gap-10 pt-4'>
-                <Button variant={"outline"} className='tex-base lg:[&_svg]:size-6 lg:text-xl flex gap-2 w-fit xl:w-35 h-10 rounded-full'>
-                    <Play /> Videos
-                </Button>
-                <VideoGrids videos={dashboardData.videosDetails as Video[]} />
-            </div>
+            <ProfileContent videos={dashboardData.videosDetails} caurses={dashboardData.playlistsDetails} />
         </div>
     );
 }

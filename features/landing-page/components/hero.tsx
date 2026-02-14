@@ -42,14 +42,14 @@ const HeroSectionContent = () => (
       Introducing Tubelight
     </SectionButton>
     <BlurText
-      text="Stream Smarter. Learn Faster. Enjoy More"
+      text="Learn Smarter. Build Faster. Grow Stronger."
       delay={50}
       animateBy="words"
       direction="top"
       className="lg:text-6xl md:text-4xl text-3xl mb-2 md:max-w-[55%] lg:max-w-[60%] justify-center font-figtree font-extrabold"
     />
     <BlurText
-      text="Discover high-quality videos crafted for you."
+      text="Structured digital lessons designed for real-world skills."
       delay={5}
       animateBy="words"
       direction="top"
