@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useInfiniteVideos } from "../../hooks/use-infinite-videos";
 import { VideoSkeleton } from "../common/video-skeleton";
-import { VideoCard } from "../common/video-card";
+import VideoCard from "../common/video-card";
 
 export const VideoGrid = () => {
     const { ref, inView } = useInView();

@@ -40,7 +40,7 @@ export async function refreshAccessToken(user: User) {
             accessTokenExpires: (await decodedJWT(newTokens.accessToken)).exp * 1000,
         }
     } catch (error) {
-        console.log(error)
+        console.error(error)
         return {
             ...user,
             error: "RefreshAccessTokenError",

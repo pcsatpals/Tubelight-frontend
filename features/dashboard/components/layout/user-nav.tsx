@@ -35,7 +35,7 @@ export function UserNav() {
     if (!data) return null;
 
     const { user } = data;
-    console.log(user)
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild className="group">

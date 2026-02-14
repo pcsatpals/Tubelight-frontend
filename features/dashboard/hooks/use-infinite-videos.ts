@@ -27,6 +27,14 @@ export interface Video {
     createdAt: string
 }
 
+export type Playlist = {
+    _id: string;
+    name: string;
+    description: string;
+    videos: Video[];
+    videosCount: number;
+    thumbnail: string;
+}
 export interface VideoResponse {
     docs: Video[];
     totalDocs: number;

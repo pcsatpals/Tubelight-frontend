@@ -39,7 +39,7 @@ export function AppSidebar() {
                                 TUBE LIGHT
                             </p>
                             <p className="font-figtree text-sm text-muted-foreground whitespace-nowrap">
-                                A video platform
+                                Structured Learning.
                             </p>
                         </div>
                     </SidebarMenuItem>

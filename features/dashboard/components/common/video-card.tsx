@@ -1,17 +1,25 @@
 import Image from "next/image";
 import { Video } from "../../hooks/use-infinite-videos";
 import { formatDuration } from "../../utils/format-duration";
-import VideoDialog from "./video-dialog";
 import { AnimatePresence, motion } from "motion/react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Check, EllipsisVertical, Trash2 } from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { deleteVideo } from "../../services/delete-video";
+import VideoDialog from "./video-dialog";
+
+
 
 export interface VideoCardProps {
     video: Video;
     setHoveredIndex: (ix: null | number) => void;
     ix: number;
-    hoveredIndex: number | null
+    hoveredIndex: number | null;
+    showDeleteDropdown?: boolean;
 }
 
-export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix }: VideoCardProps) => {
+export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix, showDeleteDropdown = false }: VideoCardProps) => {
     return (
         <div key={video._id}
             onMouseEnter={() => setHoveredIndex(ix)}
@@ -50,6 +58,7 @@ export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix }: VideoCar
                     </span>
                     <VideoDialog video={video as Video} />
                 </div>
+                {showDeleteDropdown && <DeleteVideoDropdown videoId={video._id} />}
 
                 {/* Info Section */}
                 <div className="flex gap-3 px-4 grow">
@@ -75,7 +84,9 @@ export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix }: VideoCar
                         <div className="text-slate-400 text-xs flex items-center gap-1">
                             <span>{video.views} views</span>
                             <span className="before:content-['•'] before:mr-1">
-                                {new Date(video.createdAt).toLocaleDateString()}
+                                {new Date(video.createdAt).toLocaleDateString("en-IN", {
+                                    timeZone: "UTC",
+                                })}
                             </span>
                         </div>
                     </div>
@@ -86,8 +97,43 @@ export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix }: VideoCar
 };
 
 
+const DeleteVideoDropdown = ({ videoId }: { videoId: string }) => {
+    const deleteVideoMutation = useMutation({
+        mutationFn: () => deleteVideo(videoId),
+    });
 
+    const handleDelete = () => {
+        toast.promise(deleteVideoMutation.mutateAsync(), {
+            error: "Failed to delete Video",
+            pending: "Deleting video...",
+            success: {
+                render: function () {
+                    window.location.reload();
+                    return "Video deleted successfully";
+                },
+                icon: Check
+            },
+        });
+    }
 
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild className="absolute top-4 right-4 z-10">
+                <button className="flex sm:gap-4 gap-1 items-center w-fit outline-hidden cursor-pointer [&_svg]:size-5 ml-auto">
+                    <EllipsisVertical />
+                </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="mt-2 w-30 bg-background" align="end">
+                <DropdownMenuItem
+                    className="w-full justify-between focus:bg-destructive/10 cursor-pointer"
+                    onClick={handleDelete}
+                >
+                    Delete
+                    <Trash2 className="h-4 w-4" />
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+}
 
-
-export default VideoDialog
+export default VideoCard

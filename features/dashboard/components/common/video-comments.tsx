@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 import { Comment, CommentsResponse } from "../../types/comment.types";
 import { formatCount } from "../../utils/format-time";
 import { toggleCommentLike } from "../../services/toggle-comment-like.service";
-import { Video } from "../../hooks/use-infinite-videos";
 import { AnimatedThumbsUp } from "@/components/common/animated-thumbs-up";
 import CountUp from "@/components/ui/CountUp";
 
