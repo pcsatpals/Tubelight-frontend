@@ -46,43 +46,43 @@ const discoverData = [
         title: "Lesson-Based Learning",
         description:
             "Break complex topics into focused lessons designed for clarity, retention, and real-world understanding.",
-        video: "/slide-2.webm",
+        video: "/slide-3.webm",
     },
     {
         title: "Project-Driven Approach",
         description:
             "Learn by building real projects that strengthen your skills and prepare you for real-world development.",
-        video: "/slide-3.webm",
+        video: "/slide-4.webm",
     },
     {
         title: "Doubt Resolution System",
         description:
             "Ask questions, get answers, and mark doubts as resolved to keep your learning uninterrupted.",
-        video: "/slide-4.webm",
+        video: "/slide-5.webm",
     },
     {
         title: "Progress Tracking",
         description:
             "Track completed lessons, monitor learning progress, and stay consistent with structured milestones.",
-        video: "/slide-5.webm",
+        video: "/slide-6.webm",
     },
     {
         title: "Skill-Based Learning Tracks",
         description:
             "Explore curated tracks like Web Development, AI, DevOps, and more — organized for focused growth.",
-        video: "/slide-6.webm",
+        video: "/slide-7.webm",
     },
     {
         title: "Clean Learning Experience",
         description:
             "A distraction-free interface designed to keep your focus on learning and building.",
-        video: "/slide-7.webm",
+        video: "/slide-8.webm",
     },
     {
         title: "Focused Learning Experience",
         description:
             "Stay distraction-free with a clean interface designed to help you concentrate on lessons and complete projects efficiently.",
-        video: "/slide-8.webm",
+        video: "/slide-9.webm",
     },
 
 ];

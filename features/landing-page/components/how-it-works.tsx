@@ -4,42 +4,49 @@ import SectionHeading from './common/section-heading';
 
 const howItWorksData = [
     {
-        title: "Explore Books",
+        title: "Explore Courses",
         description:
-            "Browse structured digital books designed to guide you step-by-step through practical skills and real-world concepts.",
+            "Browse structured video courses designed to guide you step-by-step through practical skills and real-world concepts.",
         content: (
             <div className="shadow-lg shadow-white/10 flex relative h-full w-full flex-col bg-[url(/explore.avif)] border border-[#222] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative">
-                <div className='absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0' />
+                <div className="absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0" />
                 <BookOpen size={40} />
-                <span className="text-sm uppercase tracking-wide relative z-10">Explore</span>
+                <span className="text-sm uppercase tracking-wide relative z-10">
+                    Explore
+                </span>
             </div>
         ),
     },
     {
-        title: "Start Learning",
+        title: "Start Watching",
         description:
-            "Sign in to access a personalized learning experience <br />with structured books, guided lessons, < br /> and seamless progress tracking.",
+            "Sign in to access a personalized video learning experience with structured lessons, guided explanations, and seamless progress tracking.",
         content: (
             <div className="shadow-lg shadow-white/10 flex relative h-full w-full flex-col border border-[#222] bg-[url(/learn.avif)] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative">
-                <div className='absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0' />
+                <div className="absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0" />
                 <LogIn size={40} />
-                <span className="text-sm uppercase tracking-wide relative z-10">Learn</span>
+                <span className="text-sm uppercase tracking-wide relative z-10">
+                    Learn
+                </span>
             </div>
         ),
     },
     {
-        title: "Build Projects",
+        title: "Practice & Build",
         description:
-            "Apply what you learn by building real-world projects and strengthening your practical understanding.",
+            "Apply what you learn by building real-world projects and strengthening your practical understanding through hands-on coding.",
         content: (
             <div className="shadow-lg shadow-white/10 flex relative h-full w-full flex-col border border-[#222] bg-[url(/code.avif)] items-center justify-center gap-2 text-white bg-no-repeat overflow-hidden rounded-3xl bg-center bg-cover [&_svg]:z-10 [&_svg]:relative">
+                <div className="absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0" />
                 <Code size={40} />
-                <div className='absolute bg-black/80 w-full h-full top-0 right-0 left-0 z-0' />
-                <span className="text-sm uppercase tracking-wide relative z-10">Build</span>
+                <span className="text-sm uppercase tracking-wide relative z-10">
+                    Build
+                </span>
             </div>
         ),
     },
 ];
+
 
 const HowItWorks = () => {
     return (
