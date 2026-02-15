@@ -4,10 +4,12 @@ import { formatDuration } from "../../utils/format-duration";
 import { AnimatePresence, motion } from "motion/react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Check, EllipsisVertical, Trash2 } from "lucide-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { deleteVideo } from "../../services/delete-video";
 import VideoDialog from "./video-dialog";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 
 
@@ -20,6 +22,12 @@ export interface VideoCardProps {
 }
 
 export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix, showDeleteDropdown = false }: VideoCardProps) => {
+    const { data } = useSession();
+
+    if (!data) return null;
+
+    const { user } = data;
+
     return (
         <div key={video._id}
             onMouseEnter={() => setHoveredIndex(ix)}
@@ -68,7 +76,7 @@ export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix, showDelete
                             width={400}
                             height={400}
                             src={video.channel?.avatar || "/default-avatar.png"}
-                            alt={video.channel?.username}
+                            alt={video.channel?.username || "Channel Avatar"}
                             className="h-full w-full object-cover"
                         />
                     </div>
@@ -78,9 +86,11 @@ export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix, showDelete
                         <h3 className="text-white font-semibold leading-snug line-clamp-2 grow flex items-center">
                             {video.title}
                         </h3>
-                        <p className="text-slate-400 text-sm my-1 hover:text-white transition-colors">
+                        <Link
+                            href={user?.username === video.channel?.username ? `/profile` : `/profile/${video.channel?.username}`}
+                            className="text-slate-400 text-sm my-1 hover:text-white transition-colors">
                             {video.channel?.username}
-                        </p>
+                        </Link>
                         <div className="text-slate-400 text-xs flex items-center gap-1">
                             <span>{video.views} views</span>
                             <span className="before:content-['•'] before:mr-1">

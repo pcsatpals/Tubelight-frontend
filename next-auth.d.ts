@@ -11,7 +11,8 @@ declare module "next-auth" {
         accessTokenExpires: number;
         avatar: string;
         fullName: string;
-        coverImage?: string
+        coverImage?: string;
+        username?: string;
     }
 
     /**
@@ -22,7 +23,8 @@ declare module "next-auth" {
         error?: string;
         user: {
             id: string;
-            coverImage?: string
+            coverImage?: string;
+            username?: string;
         } & DefaultSession["user"]
     }
 }
@@ -39,6 +41,6 @@ declare module "next-auth/jwt" {
         accessTokenExpires: number;
         error?: string;
         fullName: string;
-
+        username?: string;
     }
 }

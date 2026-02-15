@@ -10,7 +10,8 @@ interface BackendUser {
     email: string;
     avatar?: string;
     image?: string;
-    coverImage?: string
+    coverImage?: string;
+    username?: string;
 }
 
 interface BackendTokens {
@@ -25,6 +26,7 @@ export const formatUserSession = (userData: BackendUser, tokens: BackendTokens):
         fullName: (userData.fullName || userData.name) as string,
         email: userData.email,
         avatar: (userData.avatar || userData.image) as string,
+        username: userData.username,
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
         accessTokenExpires: decoded.exp * 1000,
