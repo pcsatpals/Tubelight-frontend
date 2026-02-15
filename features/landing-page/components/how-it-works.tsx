@@ -58,13 +58,13 @@ const HowItWorks = () => {
                 className={`w-full transition-all  flex flex-col gap-5 md:max-w-360 mx-auto w-full xl:p-10 p-6`}
             >
                 {howItWorksData.map((item, index) => (
-                    <div key={index} className='flex xl:flex-row flex-col gap-10 justify-between sticky top-[100px] glass-card p-10 rounded-3xl  gap-2 h-[calc(100vh-100px)] md:max-h-[700px] w-full'>
+                    <div key={index} className='flex xl:flex-row flex-col gap-10 justify-between sticky top-[100px] glass-card p-5 sm:p-10 rounded-3xl  gap-2 h-[calc(100vh-100px)] min-h-fit md:max-h-[700px] w-full'>
                         <div className='flex flex-col gap-2 min-w-1/2 my-auto'>
                             <h3 className='text-2xl xl:text-3xl font-semibold text-muted-foreground'>Step {index + 1}</h3>
                             <h3 className='xl:text-4xl text-3xl font-semibold'>{item.title}</h3>
                             <p className='text-sm text-muted-foreground'>{item.description}</p>
                         </div>
-                        <div className='w-full h-[600px] max-h-full'>
+                        <div className='w-full h-[200px] [&_svg]:transition-all hover:[&_svg]:scale-120  sm:h-[600px] max-h-full'>
                             {item.content}
                         </div>
                     </div>

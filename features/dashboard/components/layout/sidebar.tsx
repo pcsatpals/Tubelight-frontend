@@ -26,7 +26,6 @@ export function AppSidebar() {
 
     return (
         <Sidebar
-            collapsible="icon"
             className="bg-linear-to-b from-background/10 to-black/30 border-r-0"
         >
             {/* Header / Branding */}
@@ -51,7 +50,7 @@ export function AppSidebar() {
                 <SidebarGroup>
                     <SidebarMenu className="gap-2">
                         {NAV_ITEMS.map((item) => {
-                            const isActive = pathname.includes(item.href);
+                            const isActive = pathname == item.href;
 
                             return (
                                 <SidebarMenuItem key={item.href}>

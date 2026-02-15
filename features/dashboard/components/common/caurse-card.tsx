@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Playlist } from "../../hooks/use-infinite-videos";
 import { AnimatePresence, motion } from "motion/react";
@@ -6,6 +8,7 @@ import { deletePlaylist } from "../../services/delete-playlist";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 export interface PlaylistCardProps {
     playlist: Playlist;
@@ -16,11 +19,13 @@ export interface PlaylistCardProps {
 }
 
 const CaurseCard = ({ playlist, setHoveredIndex, hoveredIndex, ix, showDropdown = false }: PlaylistCardProps) => {
+    const router = useRouter();
     return (
         <div key={playlist._id}
             onMouseEnter={() => setHoveredIndex(ix)}
             onMouseLeave={() => setHoveredIndex(null)}
             className="w-full h-full relative group block"
+            onClick={() => router.push(`/profile/caurses/${playlist._id}`)}
         >
             <AnimatePresence>
                 {hoveredIndex === ix && (
@@ -52,12 +57,12 @@ const CaurseCard = ({ playlist, setHoveredIndex, hoveredIndex, ix, showDropdown 
                     <div className="absolute -z-10 inset-0 w-[calc(100%-8px)] left-1 right-1 h-full -top-1 rounded-[20px] bg-black/60" />
                     <div className="absolute -z-20 inset-0 w-[calc(100%-16px)] left-2 right-2 h-full -top-2 rounded-[20px] bg-white/20" />
                     <span className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-[3px] rounded flex items-center gap-1 [&_svg]:size-4">
-                        <TextAlignStart className="text-muted-foreground mr-1" />  {playlist.videosCount} {playlist.videosCount > 1 ? "videos" : "video"}
+                        <TextAlignStart className="text-muted-foreground mr-1" />  {playlist.videosCount} {playlist.videosCount > 1 ? " videos" : " video"}
                     </span>
                 </div>
                 {showDropdown && <DeleteVideoDropdown playlistId={playlist._id} />}
                 <div className="flex flex-col gap-1 pl-2">
-                    <p className="text-muted-foreground text-xs">View full playlist</p>
+                    <p className="text-muted-foreground text-xs">View full Caurse</p>
                     <div className="flex flex-col">
                         <p className="font-semibold">{playlist.name}</p>
                     </div>

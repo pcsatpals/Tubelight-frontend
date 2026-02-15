@@ -13,7 +13,7 @@ export function DashboardHeader() {
     const pathName = usePathname()
     return (
         <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6">
-            <SidebarTrigger className="md:invisible" />
+            <SidebarTrigger className="xl:invisible" />
             {!pathName.includes("caurses") && <TopSearchBar />}
             <div className="flex lg:gap-4 gap-1 items-center">
                 {!pathName.includes("caurses") && <Link

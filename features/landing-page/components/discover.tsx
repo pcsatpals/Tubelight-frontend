@@ -41,48 +41,56 @@ const discoverData = [
         description:
             "Organize learning into well-structured books made up of guided lessons and practical examples.",
         video: "/slide-1.webm",
+        poster: "/poster-1.png",
     },
     {
         title: "Lesson-Based Learning",
         description:
             "Break complex topics into focused lessons designed for clarity, retention, and real-world understanding.",
         video: "/slide-3.webm",
+        poster: "/poster-2.png",
     },
     {
         title: "Project-Driven Approach",
         description:
             "Learn by building real projects that strengthen your skills and prepare you for real-world development.",
         video: "/slide-4.webm",
+        poster: "/poster-4.png",
     },
     {
         title: "Doubt Resolution System",
         description:
             "Ask questions, get answers, and mark doubts as resolved to keep your learning uninterrupted.",
         video: "/slide-5.webm",
+        poster: "/poster-5.png",
     },
     {
         title: "Progress Tracking",
         description:
             "Track completed lessons, monitor learning progress, and stay consistent with structured milestones.",
         video: "/slide-6.webm",
+        poster: "/poster-6.png",
     },
     {
         title: "Skill-Based Learning Tracks",
         description:
             "Explore curated tracks like Web Development, AI, DevOps, and more — organized for focused growth.",
         video: "/slide-7.webm",
+        poster: "/poster-7.png",
     },
     {
         title: "Clean Learning Experience",
         description:
             "A distraction-free interface designed to keep your focus on learning and building.",
         video: "/slide-8.webm",
+        poster: "/poster-8.png",
     },
     {
         title: "Focused Learning Experience",
         description:
             "Stay distraction-free with a clean interface designed to help you concentrate on lessons and complete projects efficiently.",
         video: "/slide-9.webm",
+        poster: "/poster-9.png",
     },
 
 ];
@@ -128,6 +136,7 @@ const VideoSlide = memo(
             title: string;
             description: string;
             video: string;
+            poster: string;
         };
     }) => {
         const { isActive } = useSwiperSlide();
@@ -138,12 +147,15 @@ const VideoSlide = memo(
             if (!video) return;
 
             if (isActive) {
+                video.src = slideData.video; // attach source
                 video.currentTime = 0;
                 video.play().catch(() => { });
             } else {
                 video.pause();
+                video.removeAttribute("src"); // remove source
+                video.load(); // unload video from memory
             }
-        }, [isActive]);
+        }, [isActive, slideData.video]);
 
         return (
             <div className="relative h-full w-full">
@@ -152,7 +164,8 @@ const VideoSlide = memo(
                     src={slideData.video}
                     muted
                     playsInline
-                    preload="metadata"
+                    preload="none"
+                    poster={slideData.poster}
                     className="w-full h-full object-cover"
                 />
 

@@ -1,3 +1,5 @@
+"use client";
+
 import Play from "@/public/play.svg"
 import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
@@ -16,19 +18,20 @@ import { Video } from "../../hooks/use-infinite-videos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toggleSubscribeChannel } from "../../services/subscribe-user";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
-const VideoDialog = ({ video }: { video: Video }) => {
+const VideoDialog = ({ video, trggerButton = <DialogTriggerButton /> }: { video: Video, trggerButton?: React.ReactNode }) => {
     const [isOpen, setIsOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     if (isDesktop) {
         return (
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogTrigger>
-                    <DialogTriggerButton />
+                <DialogTrigger className="w-full">
+                    {trggerButton}
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-150 max-h-[90%] min-w-[80%] sm:overflow-hidden border-none p-4 pt-0 flex flex-col">
-                    <VideoDialogContent isOpen={isOpen} video={video} />
+                    <VideoDialogContent isOpen={isOpen} video={video} setIsOpen={setIsOpen} />
                 </DialogContent>
             </Dialog>
         );
@@ -37,25 +40,25 @@ const VideoDialog = ({ video }: { video: Video }) => {
     return (
         <Drawer open={isOpen} onOpenChange={setIsOpen}>
             <DrawerTrigger>
-                <DialogTriggerButton />
+                {trggerButton}
             </DrawerTrigger>
             <DrawerContent className=" max-h-[90%] border-none px-4 no-scrollbar">
-                <VideoDialogContent isOpen={isOpen} video={video} />
+                <VideoDialogContent isOpen={isOpen} video={video} setIsOpen={setIsOpen} />
             </DrawerContent>
         </Drawer>
     )
 };
 
 const DialogTriggerButton = () => (
-    <div className="absolute glass-button  inset-0 flex items-center justify-center z-10 cursor-pointer">
-        <div className="flex size-16 items-center justify-center rounded-full bg-black/20 backdrop-blur transition duration-100 ease-linear group-hover:bg-white/40 hover:bg-white/40 scale-100">
+    <div className="absolute inset-0 flex items-center justify-center z-10 cursor-pointer">
+        <div className="flex glass-button  size-16 items-center justify-center rounded-full bg-black/20 backdrop-blur transition duration-100 ease-linear group-hover:bg-white/40 hover:bg-white/40 scale-100">
             <Play className="fill-current" />
         </div>
     </div>
 )
 
 
-const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }) => {
+const VideoDialogContent = ({ video, isOpen, setIsOpen }: { video: Video, isOpen: boolean, setIsOpen: (value: boolean) => void }) => {
     const { data: session } = useSession();
     // Fetch only happens when isOpen is true
     const {
@@ -139,24 +142,27 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                 {/* Channel Info and Action Buttons */}
                 <div className="flex items-center gap-2 sm:gap-3 justify-between w-full">
                     {/* Channel Avatar */}
-                    <div className="size-8 sm:size-10 shrink-0 overflow-hidden rounded-full">
-                        <Image
-                            width={40}
-                            height={40}
-                            src={videoInfo?.channel?.avatar || "/logo.png"}
-                            alt={videoInfo?.channel?.username || "avatar"}
-                            className="h-full w-full object-cover"
-                        />
-                    </div>
+                    <Link href={session?.user?.username === videoInfo?.channel?.username ? "/profile" : `/profile/${videoInfo?.channel?.username}`} className="flex items-center gap-2" onClick={() => {
+                        setIsOpen(false)
+                    }}>
+                        <div className="size-8 sm:size-10 shrink-0 overflow-hidden rounded-full">
+                            <Image
+                                width={40}
+                                height={40}
+                                src={videoInfo?.channel?.avatar || "/logo.png"}
+                                alt={videoInfo?.channel?.username || "avatar"}
+                                className="h-full w-full object-cover"
+                            />
+                        </div>
 
-                    {/* Channel Details */}
-                    <div className="hidden sm:flex flex-col ">
-                        <p className="font-semibold text-foreground text-sm line-clamp-1">{videoInfo?.channel?.fullName}</p>
-                        <p className="text-muted-foreground text-xs">{videoInfo?.channel?.subscribersCount} Learners</p>
-                    </div>
-
+                        {/* Channel Details */}
+                        <div className="hidden sm:flex flex-col ">
+                            <p className="font-semibold text-foreground text-sm line-clamp-1">{videoInfo?.channel?.fullName}</p>
+                            <p className="text-muted-foreground text-xs">{videoInfo?.channel?.subscribersCount} Learners</p>
+                        </div>
+                    </Link>
                     {/* Subscribe Button */}
-                    <Button
+                    {session?.user?.username !== videoInfo?.channel?.username && <Button
                         size="sm"
                         className="sm:ml-2 text-xs h-7 font-medium sm:h-8 sm:text-sm rounded-full"
                         disabled={isPending}
@@ -165,7 +171,7 @@ const VideoDialogContent = ({ video, isOpen }: { video: Video, isOpen: boolean }
                         }}
                     >
                         {videoInfo?.channel?.isSubscribed ? "Joined" : "Join"}
-                    </Button>
+                    </Button>}
                     <div className="ml-auto grid grid-cols-2 bg-black/20 rounded-full">
                         <div className="flex gap-2 items-center border-r px-3">
                             <VideoLikeButton

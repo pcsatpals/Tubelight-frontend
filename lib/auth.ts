@@ -57,6 +57,7 @@ export const authOptions: NextAuthOptions = {
                             fullName: user.name,
                             provider: account.provider,
                             externalId: user.id,
+                            username: user.username,
                             avatar: user.image,
                             coverImage: user.coverImage
                         });
@@ -83,6 +84,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.image = token.avatar as string;
                 session.user.coverImage = token.coverImage as string;
                 session.user.name = token.fullName as string;
+                session.user.username = token.username as string;
                 session.accessToken = token.accessToken as string;
                 session.error = token.error as string;
             }
