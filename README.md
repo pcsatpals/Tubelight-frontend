@@ -1,17 +1,20 @@
 # 🌟 TubeLight
 
-A modern **video platform** built with **Next.js** that focuses on performance, smooth animations, and a clean user experience. TubeLight combines a visually engaging UI with scalable backend architecture to deliver high‑quality video content.
+A modern **structured digital learning platform** built with **Next.js**.  
+TubeLight transforms video-based content into organized books, guided lessons, and project-based learning experiences designed for consistent skill growth.
 
 ---
 
 ## 🚀 Features
 
-* ⚡ **Next.js App Router** for fast rendering and SEO
-* 🎬 **Video-first experience** with interactive thumbnails
-* 🎞️ **Carousel & hover effects** for rich UI interactions
-* ✨ **GSAP / AOS animations** (no Tailwind config hacks)
-* 🔐 **Authentication flow** (sign-in on video interaction)
-* 🎨 **Modern UI** with dark-mode friendly design
+* 📚 **Structured Books & Lessons** – Organize knowledge into guided learning paths
+* 🎥 **Lesson-Based Video System** – Each video is a focused learning module
+* 🧠 **Project-Driven Learning** – Apply concepts through real-world projects
+* ❓ **Doubt Resolution System** – Ask and track questions within lessons
+* 📈 **Progress Tracking** – Monitor completed lessons and learning milestones
+* 🔐 **Authentication & Access Control**
+* ✨ **Smooth Animations** with GSAP / AOS
+* 🎨 **Modern, distraction-free UI**
 * 📱 **Fully responsive** across devices
 
 ---
@@ -20,7 +23,7 @@ A modern **video platform** built with **Next.js** that focuses on performance, 
 
 ### Frontend
 
-* **Next.js 14+**
+* **Next.js 14+ (App Router)**
 * **React**
 * **TypeScript**
 * **Tailwind CSS**
@@ -36,7 +39,7 @@ A modern **video platform** built with **Next.js** that focuses on performance, 
 ### Deployment
 
 * **Vercel** (Frontend)
-* **Serverless backend** support
+* **Serverless-ready backend**
 
 ---
 
@@ -46,11 +49,11 @@ A modern **video platform** built with **Next.js** that focuses on performance, 
 Tubelight/
 ├── app/                # Next.js App Router
 ├── components/         # Reusable UI components
-├── animations/         # Custom animation logic
+├── features/           # Features
 ├── public/             # Static assets
 ├── styles/             # Global styles
 ├── lib/                # Utilities & helpers
-├── middleware.ts       # Auth & routing middleware
+├── middleware.ts       # Auth & route protection
 ├── next.config.js
 └── package.json
 ```
@@ -88,16 +91,31 @@ JWT_SECRET=your_secret_key
 npm run dev
 ```
 
-Open 👉 **[http://localhost:3000](http://localhost:3000)**
+Open 👉 **http://localhost:3000**
+
+---
+
+## 🎯 Platform Concept
+
+TubeLight is designed around structured learning:
+
+- **Books** → Learning collections  
+- **Lessons** → Individual video-based modules  
+- **Projects** → Practical implementation  
+- **Doubts** → Structured Q&A within lessons  
+- **Instructors** → Content creators guiding learners  
+
+This transforms a traditional video experience into a focused educational journey.
 
 ---
 
 ## 🎨 UI Highlights
 
-* Hero section with CTA button
-* Video carousel with hover slogans
-* Smooth fade, scale & border animations
-* Minimal yet premium layout inspired by modern streaming platforms
+* Hero section with learning-focused CTA
+* Interactive lesson previews
+* Smooth fade & motion animations
+* Clean, minimal, distraction-free layout
+* Dark-mode friendly design
 
 ---
 
@@ -109,10 +127,11 @@ Open 👉 **[http://localhost:3000](http://localhost:3000)**
 
 ## 🧩 Future Enhancements
 
-* 🔔 Notifications & subscriptions
-* 📊 Creator dashboard
-* 💬 Comments & likes
-* 📈 Video analytics
+* 📊 Instructor dashboard
+* 📝 Quizzes & assessments
+* 🏆 Certificates of completion
+* 🔔 Lesson notifications
+* 📈 Advanced analytics
 * 🌍 Multi-language support
 
 ---
@@ -121,9 +140,9 @@ Open 👉 **[http://localhost:3000](http://localhost:3000)**
 
 Contributions are welcome!
 
-1. Fork the repo
+1. Fork the repository
 2. Create a feature branch
-3. Commit changes
+3. Commit your changes
 4. Open a Pull Request
 
 ---
@@ -136,7 +155,7 @@ This project is licensed under the **MIT License**.
 
 ## 🙌 Author
 
-**Satpal Singh**
-Frontend / Full‑Stack Developer
+**Satpal Singh**  
+Full-Stack Developer
 
-> Built with ❤️ as part of the **TubeLight** project
+> Built with ❤️ as part of the TubeLight learning platform
