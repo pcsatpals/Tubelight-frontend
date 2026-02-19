@@ -25,7 +25,7 @@ const SectionHeading = ({
 }) => (
     <div className={cn('flex flex-col gap-2 items-center text-center md:max-w-[60%] max-w-screen w-full mt-20 pb-6', classNames.container)}
         data-aos="fade" id={section.id}>
-        {showButton && <SectionButton href={`#${section.id}`} className={cn('md:text-base text-sm glass-card ', classNames.button)}>
+        {showButton && <SectionButton href={`#${section.id}`} className={cn('md:text-base text-sm', classNames.button)}>
             {section.icon && <section.icon />}
             {section.sectionName || ""}
         </SectionButton>}
