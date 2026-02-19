@@ -10,6 +10,7 @@ import 'swiper/css/pagination';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
 import { memo, useEffect, useRef } from 'react';
 import SectionHeading from './common/section-heading';
+import LiquidGlassCard from '@/components/ui/glass-card';
 
 const TubeLightDiscover = () => (
     <section className='gap-4 w-full overflow-hidden'>
@@ -170,11 +171,13 @@ const VideoSlide = memo(
                 />
 
                 <div
-                    className={`glass-card absolute bottom-0  flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3 lg:rounded-3xl rounded-2xl transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}>
-                    <p className="text-lg font-semibold">{slideData.title}</p>
-                    <p className="lg:text-sm text-xs text-muted-foreground">
-                        {slideData.description}
-                    </p>
+                    className={`absolute bottom-0   transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}>
+                    <LiquidGlassCard className='h-full w-full lg:rounded-3xl rounded-2xl flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3 bg-black/40 '>
+                        <p className="text-lg font-semibold">{slideData.title}</p>
+                        <p className="lg:text-sm text-xs text-muted-foreground">
+                            {slideData.description}
+                        </p>
+                    </LiquidGlassCard>
                 </div>
             </div>
         );

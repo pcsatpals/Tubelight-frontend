@@ -4,6 +4,7 @@ import StarBorder from '@/components/animation/StarBorder'
 import { TrainTrack } from 'lucide-react'
 import SectionButton from './common/section-button'
 import Link from 'next/link'
+import LiquidGlassButton from '@/components/ui/liquid-glass-button'
 
 const HeroSection = () => {
   return (
@@ -37,10 +38,10 @@ const HeroSection = () => {
 
 const HeroSectionContent = () => (
   <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 flex flex-col gap-2 items-center text-center max-w-screen w-full ">
-    <SectionButton href='' id="home" className='md:text-base text-sm'>
+    <LiquidGlassButton className='flex gap-2 items-center h-10 w-fit rounded-full p-4'>
       <TrainTrack />
       Introducing Tubelight
-    </SectionButton>
+    </LiquidGlassButton>
     <BlurText
       text="Learn Smarter. Build Faster. Grow Stronger."
       delay={50}
