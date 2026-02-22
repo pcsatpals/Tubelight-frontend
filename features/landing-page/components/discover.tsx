@@ -172,7 +172,7 @@ const VideoSlide = memo(
 
                 <div
                     className={`absolute bottom-0   transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}>
-                    <LiquidGlassCard className='h-full w-full lg:rounded-3xl rounded-2xl flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3 bg-black/40 '>
+                    <LiquidGlassCard className='h-full w-full lg:rounded-3xl rounded-2xl flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3'>
                         <p className="text-lg font-semibold">{slideData.title}</p>
                         <p className="lg:text-sm text-xs text-muted-foreground">
                             {slideData.description}

@@ -42,14 +42,14 @@ export function AddPlaylistModel({ onSuccess }: { onSuccess: (id: string) => voi
             <DialogTrigger asChild>
                 <Button variant="outline">
                     <Plus />
-                    Create New Lesson
+                    Create New Caurse
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-175">
                 <DialogHeader>
-                    <DialogTitle>Add a New Lesson</DialogTitle>
+                    <DialogTitle>Add a New Caurse</DialogTitle>
                     <DialogDescription>
-                        Create a new Lesson
+                        Create a new Caurse
                     </DialogDescription>
                 </DialogHeader>
                 <FieldGroup>
@@ -58,7 +58,7 @@ export function AddPlaylistModel({ onSuccess }: { onSuccess: (id: string) => voi
                         <Input
                             id="name"
                             name="name"
-                            placeholder="Enter Lesson Name here"
+                            placeholder="Enter Caurse Name here"
                             onChange={(e) => {
                                 setFormData((prev) => ({ ...prev, name: e.target.value }))
                                 setError((prev) => ({ ...prev, name: "" }))
@@ -71,7 +71,7 @@ export function AddPlaylistModel({ onSuccess }: { onSuccess: (id: string) => voi
                         <Textarea
                             id="description"
                             name="description"
-                            placeholder="Enter Lesson Description here"
+                            placeholder="Enter Caurse Description here"
                             className="min-h-30"
                             onChange={(e) => {
                                 setFormData((prev) => ({ ...prev, description: e.target.value }))
@@ -87,10 +87,10 @@ export function AddPlaylistModel({ onSuccess }: { onSuccess: (id: string) => voi
                     </DialogClose>
                     <Button type="submit" onClick={() => {
                         if (!formData.name) {
-                            setError((prev) => ({ ...prev, name: "Lesson Name is required" }))
+                            setError((prev) => ({ ...prev, name: "Caurse Name is required" }))
                         }
                         if (!formData.description) {
-                            setError((prev) => ({ ...prev, description: "Lesson description is required" }))
+                            setError((prev) => ({ ...prev, description: "Caurse description is required" }))
                         }
                         if (formData.description && formData.name) {
                             mutate()

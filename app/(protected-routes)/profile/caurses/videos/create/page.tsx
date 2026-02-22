@@ -41,7 +41,7 @@ const videoFormSchema = z.object({
         .positive("Duration must be greater than 0"),
     isPublic: z.boolean(),
     hasPlaylist: z.string(),
-    playlist: z.string().optional(),
+    playlist: z.string().nonempty("Caurse is required"),
 });
 
 type VideoFormData = z.infer<typeof videoFormSchema>;
@@ -58,7 +58,7 @@ const CreateVideo = () => {
             isPublic: true,
             thumbnail: undefined,
             video: undefined,
-            hasPlaylist: "None"
+            hasPlaylist: "Use Existing Caurse"
         },
     });
 
@@ -95,8 +95,8 @@ const CreateVideo = () => {
     return (
         <div className='p-6 flex flex-col gap-4 grow'>
             <div className='flex flex-col gap-2 pb-4 border-b'>
-                <h1 className='text-5xl font-bold text-stroke-1'>Upload Lesson Video</h1>
-                <p className='text-sm sm:text-base text-white/80'>Upload your lesson video and provide the necessary details to publish it inside your book.</p>
+                <h1 className='text-5xl font-bold text-stroke-1'>Upload Caurse Video</h1>
+                <p className='text-sm sm:text-base text-white/80'>Upload your Caurse video and provide the necessary details to publish it inside your Caurse.</p>
             </div>
             <Form {...form}>
                 <form className='flex xl:flex-row flex-col gap-10 grow' onSubmit={form.handleSubmit(onSubmit)}>
@@ -108,7 +108,6 @@ const CreateVideo = () => {
                                 <FileDropzone
                                     onChange={field.onChange}
                                     value={field.value}
-
                                 />
                             </Field>
                         )}
@@ -179,7 +178,7 @@ const CreateVideo = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="flex gap-0.5 text-sm font-inter ">
-                                        <span>Lesson</span>
+                                        <span>Caurse</span>
                                     </FormLabel>
                                     <FormControl>
                                         <Select value={field.value} onValueChange={field.onChange}>
@@ -187,7 +186,7 @@ const CreateVideo = () => {
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent align='end' position='popper' className='bg-white text-black '>
-                                                {["None", "Use Existing Lesson", "Create New Lesson"].map(
+                                                {["Use Existing Caurse", "Create New Caurse"].map(
                                                     (k, ix) => (
                                                         <SelectItem
                                                             value={k}
@@ -203,18 +202,18 @@ const CreateVideo = () => {
                             )}
                         />
 
-                        {hasPlaylist == "Use Existing Lesson" && <Controller
+                        {hasPlaylist == "Use Existing Caurse" && <Controller
                             name='playlist'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="flex gap-0.5 text-sm font-inter ">
-                                        <span>Select Lesson</span>
+                                        <span>Select Caurse</span>
                                     </FormLabel>
                                     <FormControl>
                                         <Select value={field.value} onValueChange={field.onChange}>
                                             <SelectTrigger className={`w-full text-base !h-12 rounded-full ${isLoading && "[&_svg]:hidden p-0"}`} disabled={isLoading}>
-                                                {isLoading ? <Skeleton className='w-full h-10' /> : <SelectValue placeholder="Select Existing Lesson" />}
+                                                {isLoading ? <Skeleton className='w-full h-10' /> : <SelectValue placeholder="Select Existing Caurse" />}
                                             </SelectTrigger>
                                             <SelectContent align='end' position='popper' className='bg-white text-black '>
                                                 {((playlists?.length || 0) > 0) ? playlists?.map(
@@ -232,10 +231,10 @@ const CreateVideo = () => {
                                 </FormItem>
                             )}
                         />}
-                        {hasPlaylist == "Create New Lesson" && <AddPlaylistModel onSuccess={async (_id) => {
+                        {hasPlaylist == "Create New Caurse" && <AddPlaylistModel onSuccess={async (_id) => {
                             await refetch()
                             form.setValue("playlist", _id)
-                            form.setValue("hasPlaylist", "Use Existing Lesson")
+                            form.setValue("hasPlaylist", "Use Existing Caurse")
                         }}
                         />}
                         <div className='w-full flex items-center justify-between'>

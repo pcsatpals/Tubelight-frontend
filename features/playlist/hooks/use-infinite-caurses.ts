@@ -1,45 +1,18 @@
+import { Playlist } from "@/features/dashboard/hooks/use-infinite-videos";
 import { InfiniteData, QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { getSession } from "next-auth/react";
 
-interface VideoFilters {
+interface PlaylistFilters {
     query?: string;
     sortBy?: string;
     sortType?: "asc" | "desc";
     userId?: string;
 }
 
-export interface channelDetails {
-    _id: string;
-    avatar: string;
-    username: string;
-    isSubscribed: boolean;
-}
-export interface Video {
-    _id: string;
-    title: string;
-    thumbnail: string;
-    comments: number;
-    channel: channelDetails,
-    duration: number;
-    isLiked: boolean;
-    views: number;
-    likesCount: number;
-    createdAt: string
-}
 
-export type Playlist = {
-    _id: string;
-    name: string;
-    description: string;
-    videos: Video[];
-    videosCount: number;
-    thumbnail: string;
-    owner?: channelDetails;
-    createdAt: string;
-}
-export interface VideoResponse {
-    docs: Video[];
+export interface PlaylistResponse {
+    docs: Playlist[];
     totalDocs: number;
     limit: number;
     page: number;
@@ -49,19 +22,19 @@ export interface VideoResponse {
 }
 
 // 1. Define the fetcher function
-const fetchVideos = async ({
+const fetchPlaylists = async ({
     pageParam,
     queryKey
-}: QueryFunctionContext<readonly [string, VideoFilters], number>): Promise<VideoResponse> => {
+}: QueryFunctionContext<readonly [string, PlaylistFilters], number>): Promise<PlaylistResponse> => {
     const session = await getSession();
     const [, filters] = queryKey;
     const { query, sortBy, sortType, userId } = filters;
 
-    const { data } = await axios.get<{ data: VideoResponse }>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/video`, {
+    const { data } = await axios.get<{ data: PlaylistResponse }>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/v1/playlist`, {
         params: {
             page: pageParam,
             limit: 10,
-            query,
+            q: query,
             sortBy,
             sortType,
             userId,
@@ -74,17 +47,17 @@ const fetchVideos = async ({
     return data.data;
 };
 
-export const useInfiniteVideos = (filters: VideoFilters = {}) => {
+export const useInfinitePlaylists = (filters: PlaylistFilters = {}) => {
     return useInfiniteQuery<
-        VideoResponse,
+        PlaylistResponse,
         Error,
-        InfiniteData<VideoResponse>,
-        readonly [string, VideoFilters],
+        InfiniteData<PlaylistResponse>,
+        readonly [string, PlaylistFilters],
         number
     >({
         // 'as const' is critical here to match the tuple type
-        queryKey: ["videos", filters] as const,
-        queryFn: fetchVideos,
+        queryKey: ["playlists", filters] as const,
+        queryFn: fetchPlaylists,
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {
             return lastPage.hasNextPage ? lastPage.page + 1 : undefined;
