@@ -251,7 +251,7 @@
 }
 
 .glass-card {
-  backdrop-filter: brightness(1.1) blur(8px) url(#liquid-glass);
   -webkit-backdrop-filter: brightness(1.1) blur(8px) url(#liquid-glass);
+  backdrop-filter: brightness(1.1) blur(8px) url(#liquid-glass);
   filter: drop-shadow(-8px -10px 46px rgba(0, 0, 0, 0.35));
 }
