@@ -8,13 +8,18 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 
 export function DashboardHeader() {
     const pathName = usePathname()
     return (
         <header className="flex h-16 shrink-0 items-center justify-between gap-2 px-6">
             <SidebarTrigger className="xl:invisible" />
-            {!pathName.includes("caurses") && <TopSearchBar />}
+            {!pathName.includes("caurses") && (
+                <Suspense fallback={<div>Loading...</div>}>
+                    <TopSearchBar />
+                </Suspense>
+            )}
             <div className="flex lg:gap-4 gap-1 items-center">
                 {!pathName.includes("caurses") && <Link
                     href="/profile/caurses/videos/create"

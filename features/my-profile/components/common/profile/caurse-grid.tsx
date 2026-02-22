@@ -20,6 +20,7 @@ const CaurseGrids = ({ caurses }: { caurses: Playlist[] }) => {
                 <CaurseCard
                     playlist={caurse}
                     key={idx}
+                    showChannelDetails={false}
                     hoveredIndex={hoveredIndex}
                     ix={idx}
                     showDropdown

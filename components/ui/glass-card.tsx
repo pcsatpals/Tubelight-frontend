@@ -2,19 +2,21 @@ import { cn } from "@/lib/utils";
 
 export default function LiquidGlassCard({ className, children }: { className?: string; children: React.ReactNode }) {
     return (
-        <div className="w-fit relative">
+        <>
             <svg className="hidden">
-                <filter id="liquid-glass" primitiveUnits="objectBoundingBox">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="0.03" result="blur"></feGaussianBlur>
-                    <feDisplacementMap id="disp" in="blur" in2="map" scale="1" xChannelSelector="R" yChannelSelector="G" />
+                <filter id="liquid-glass">
+                    <feImage
+                        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAAK3RFWHRDcmVhdGlvbiBUaW1lAE1vbiAxIEp1biAyMDA5IDAwOjUwOjA4ICswMTAwlMZeaQAAAAd0SU1FB9kGAQsgET14njMAAAAJcEhZcwAACxEAAAsRAX9kX5EAAAAEZ0FNQQAAsY8L/GEFAAACvUlEQVR42u3TgQkAMAzDsBb2/81ld1gi5APvzKxZde8fVAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkHGmUF/FFYhBoAAAAASUVORK5CYII="
+                        preserveAspectRatio="none" />
+                    <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="200" xChannelSelector="R"
+                        yChannelSelector="G" />
                 </filter>
-            </svg >
-            <div className={cn("h-full w-full absolute top-0 left-0 text-white", className)}>
-                {children}
+            </svg>
+            <div className="w-fit relative p-2 flex glass-card items-center justify-center cursor-pointer rounded-2xl overflow-hidden bg-black/30 ">
+                <div className={cn("relative", className)}>
+                    {children}
+                </div>
             </div>
-            <div className={cn("relative glassBtn", className)}>
-                {children}
-            </div>
-        </div>
+        </>
     );
 }

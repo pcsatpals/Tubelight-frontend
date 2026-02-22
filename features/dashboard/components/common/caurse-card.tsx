@@ -9,6 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export interface PlaylistCardProps {
     playlist: Playlist;
@@ -16,10 +18,13 @@ export interface PlaylistCardProps {
     ix: number;
     hoveredIndex: number | null;
     showDropdown?: boolean
+    showChannelDetails?: boolean
 }
 
-const CaurseCard = ({ playlist, setHoveredIndex, hoveredIndex, ix, showDropdown = false }: PlaylistCardProps) => {
+const CaurseCard = ({ playlist, setHoveredIndex, hoveredIndex, ix, showDropdown = false, showChannelDetails = true }: PlaylistCardProps) => {
     const router = useRouter();
+    const data = useSession();
+    const user = data.data?.user;
     return (
         <div key={playlist._id}
             onMouseEnter={() => setHoveredIndex(ix)}
@@ -61,11 +66,46 @@ const CaurseCard = ({ playlist, setHoveredIndex, hoveredIndex, ix, showDropdown 
                     </span>
                 </div>
                 {showDropdown && <DeleteVideoDropdown playlistId={playlist._id} />}
-                <div className="flex flex-col gap-1 pl-2">
-                    <p className="text-muted-foreground text-xs">View full Caurse</p>
-                    <div className="flex flex-col">
-                        <p className="font-semibold">{playlist.name}</p>
+                <div className="flex justify-between items-center grow">
+                    <div className="flex flex-col gap-1 pl-2">
+                        <p className="text-muted-foreground text-xs">View full Caurse</p>
+                        <div className="flex flex-col">
+                            <p className="font-semibold line-clamp-1">{playlist.name}</p>
+                        </div>
                     </div>
+                    {showChannelDetails && (
+                        <div className="flex gap-3 px-4">
+                            {/* Text Details */}
+                            <div className="flex flex-col grow items-end">
+                                <Link
+                                    href={playlist.owner?.username === user?.username ? `/profile` : `/profile/${playlist.owner?.username}`}
+                                    className="text-slate-400 text-sm my-1 hover:text-white transition-colors text-nowrap"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    {playlist.owner?.username}
+                                </Link>
+                                <div className="text-slate-400 text-xs flex items-center gap-1">
+                                    {new Date(playlist.createdAt).toLocaleDateString("en-US", {
+                                        weekday: 'long',
+                                        year: 'numeric',
+                                        month: 'short',
+                                        day: 'numeric'
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Channel Avatar */}
+                            <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-slate-700">
+                                <Image
+                                    width={400}
+                                    height={400}
+                                    src={playlist.owner?.avatar || "/default-avatar.png"}
+                                    alt={playlist.owner?.username || "Channel Avatar"}
+                                    className="h-full w-full object-cover"
+                                />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
