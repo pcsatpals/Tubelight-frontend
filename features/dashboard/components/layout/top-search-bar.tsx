@@ -18,7 +18,14 @@ const TopSearchBar = () => {
     if (pathname != "/dashboard") return;
 
     return (
-        <div className="absolute left-13 sm:left-1/3 lg:left-1/2 sm:-translate-x-1/2 lg:w-1/3 sm:w-[45%] w-[40%] grow flex h-8 sm:h-9">
+        <form onSubmit={(e) => {
+            e.preventDefault();
+            if (query.trim() === "") {
+                router.push(`/dashboard`);
+            } else {
+                router.push(`/dashboard?query=${query}`);
+            }
+        }} className="absolute left-13 sm:left-1/3 lg:left-1/2 sm:-translate-x-1/2 lg:w-1/3 sm:w-[45%] w-[40%] grow flex h-8 sm:h-9">
             <div className='relative h-full w-full'>
                 <Input
                     placeholder='Search'
@@ -31,18 +38,12 @@ const TopSearchBar = () => {
                 {isFocused && <Search className='absolute left-3 top-1/2 -translate-y-1/2 size-4' />}
             </div>
             <Button
-                onClick={() => {
-                    if (query.trim() === "") {
-                        router.push(`/dashboard`);
-                    } else {
-                        router.push(`/dashboard?query=${query}`);
-                    }
-                }}
+                type='submit'
                 className={`!bg-muted h-full hidden sm:block border border-input rounded-r-full text-white ${isFocused ? "ring-ring/50 ring-[3px] " : ""}`}
             >
                 <Search />
             </Button>
-        </div>
+        </form>
     )
 }
 

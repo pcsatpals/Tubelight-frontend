@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, User } from "lucide-react";
+import { Home, User, History } from "lucide-react";
 
 import {
     Sidebar,
@@ -19,6 +19,7 @@ import Logo from "@/public/logo.svg";
 const NAV_ITEMS = [
     { title: "Home", href: "/dashboard", icon: Home },
     { title: "My Profile", href: "/profile", icon: User },
+    { title: "Watch History", href: "/watch-history", icon: History },
 ];
 
 export function AppSidebar() {

@@ -23,7 +23,7 @@ export interface VideoCardProps {
 
 export const VideoCard = ({ video, setHoveredIndex, hoveredIndex, ix, showDeleteDropdown = false }: VideoCardProps) => {
     const { data } = useSession();
-
+    console.log(video)
     if (!data) return null;
 
     const { user } = data;
