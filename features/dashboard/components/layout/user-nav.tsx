@@ -7,10 +7,11 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, LogOut, Loader2 } from "lucide-react";
+import { ChevronDown, LogOut, Loader2, Settings2 } from "lucide-react";
 import { useLogoutMutation } from "@/features/auth/hooks/use-logout";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 
 
@@ -49,7 +50,13 @@ export function UserNav() {
                     <ChevronDown className="transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="mt-2 w-50 bg-background" align="end">
+            <DropdownMenuContent className="mt-2 w-50 bg-background p-1" align="end">
+                <Link href="/profile/edit">
+                    <DropdownMenuItem className="w-full justify-between cursor-pointer mb-1">
+                        Settings
+                        <Settings2 className="h-4 w-4" />
+                    </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem
                     onClick={handleLogout}
                     disabled={isPending}

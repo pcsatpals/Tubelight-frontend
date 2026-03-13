@@ -14,15 +14,12 @@ import LiquidGlassCard from '@/components/ui/glass-card';
 
 const TubeLightDiscover = () => (
     <section className='gap-4 w-full overflow-hidden'>
-        <div className='flex flex-col  items-center lg:max-w-370 md:max-w-360 mx-auto overflow-visible'>
+        <div className='flex flex-col items-center lg:max-w-370 md:max-w-360 mx-auto overflow-visible'>
             <SectionHeadingContent />
             <DiscoverSwiper />
         </div>
     </section>
-
 )
-
-
 
 const SectionHeadingContent = () => (
     <SectionHeading section={{
@@ -34,7 +31,6 @@ const SectionHeadingContent = () => (
         description='Designed to support growth at every step, <br /> Tubelight empowers learners to share their knowledge with confidence.'
     />
 )
-
 
 const discoverData = [
     {
@@ -96,13 +92,12 @@ const discoverData = [
 
 ];
 
-
 const DiscoverSwiper = () => (
     <Swiper
         loop
         speed={1000}
         autoplay={{
-            delay: 3000,
+            delay: 4000,
             disableOnInteraction: false,
         }}
         effect="coverflow"
@@ -110,6 +105,7 @@ const DiscoverSwiper = () => (
         centeredSlides
         slideToClickedSlide
         slidesPerView={3}
+        watchSlidesProgress
         coverflowEffect={{
             rotate: 10,
             stretch: 40,
@@ -141,38 +137,33 @@ const VideoSlide = memo(
         };
     }) => {
         const { isActive } = useSwiperSlide();
-        const videoRef = useRef<HTMLVideoElement | null>(null);
-
-        useEffect(() => {
-            const video = videoRef.current;
-            if (!video) return;
-
-            if (isActive) {
-                video.src = slideData.video; // attach source
-                video.currentTime = 0;
-                video.play().catch(() => { });
-            } else {
-                video.pause();
-                video.removeAttribute("src"); // remove source
-                video.load(); // unload video from memory
-            }
-        }, [isActive, slideData.video]);
 
         return (
-            <div className="relative h-full w-full">
-                <video
-                    ref={videoRef}
-                    src={slideData.video}
-                    muted
-                    playsInline
-                    preload="none"
-                    poster={slideData.poster}
-                    className="w-full h-full object-cover"
+            <div className="relative h-full w-full bg-black/5">
+                {/* Always show the poster as a base layer for smooth transitions */}
+                <img
+                    src={slideData.poster}
+                    alt={slideData.title}
+                    className="absolute inset-0 w-full h-full object-cover z-0"
                 />
 
+                {/* Only mount the video element when the slide is active */}
+                {isActive && (
+                    <video
+                        src={slideData.video}
+                        muted
+                        loop
+                        playsInline
+                        autoPlay
+                        preload="auto"
+                        className="absolute inset-0 w-full h-full object-cover z-10 animate-in fade-in duration-700"
+                    />
+                )}
+
                 <div
-                    className={`absolute bottom-0   transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}>
-                    <LiquidGlassCard className='h-full w-full lg:rounded-3xl rounded-2xl flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3'>
+                    className={`absolute bottom-0 z-20 transition-opacity duration-700 md:flex hidden ${isActive ? "opacity-100" : "opacity-0"}`}
+                >
+                    <LiquidGlassCard className="h-full w-full lg:rounded-3xl rounded-2xl flex-col gap-2 xl:px-8 xl:py-6 lg:p-5 p-3">
                         <p className="text-lg font-semibold">{slideData.title}</p>
                         <p className="lg:text-sm text-xs text-muted-foreground">
                             {slideData.description}
@@ -184,6 +175,6 @@ const VideoSlide = memo(
     }
 );
 
-VideoSlide.displayName = "VideoSlide"
+VideoSlide.displayName = "VideoSlide";
 
-export default TubeLightDiscover
+export default TubeLightDiscover;

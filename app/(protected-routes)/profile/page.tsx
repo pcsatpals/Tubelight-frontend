@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Dot } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import ProfileContent from '@/features/my-profile/components/layout/profile-content';
+import Link from 'next/link';
+import { Settings2 } from 'lucide-react';
 
 const BaseURL = process.env.API_BASE_URL || ""
 const UserProfile = async () => {
@@ -33,11 +35,15 @@ const UserProfile = async () => {
                         <Avatar className="h-10 w-10 lg:h-20 lg:w-20 xl:h-40 xl:w-40 shrink-0">
                             <AvatarImage src={user?.image || ""} alt={user.name || "User"} className='w-full h-full object-cover' />
                         </Avatar>
-                        <div className='flex flex-col gap-2 '>
+                        <div className='flex flex-col gap-2 flex-1'>
                             <h1 className='capitalize text-2xl lg:text-3xl xl:text-4xl font-semibold'>{user.name}</h1>
                             <p className='flex items-center text-xs sm:text-sm lg:text-base [&_svg]:size-4'>@{dashboardData.username} <Dot className='text-muted-foreground' />
                                 <span className='text-sm text-muted-foreground flex items-center'> {dashboardData.totalSubscribers} Learners <Dot className='text-muted-foreground' /> {dashboardData.videosDetails.length} {dashboardData.videosDetails.length > 1 ? "Caurses" : "Caurse"}</span></p>
                         </div>
+                        <Link href="/profile/edit" className="px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-xl flex items-center gap-2 transition-colors font-semibold text-sm">
+                            <Settings2 className="w-4 h-4" />
+                            Edit Profile
+                        </Link>
                     </div>
                 </div>
             </div>

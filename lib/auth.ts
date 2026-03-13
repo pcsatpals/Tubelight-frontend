@@ -46,7 +46,19 @@ export const authOptions: NextAuthOptions = {
     ],
     session: { strategy: "jwt" },
     callbacks: {
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, account, trigger, session }) {
+            // Handle session update
+            if (trigger === "update" && session) {
+                // Map frontend names to token names
+                const updatedToken = { ...token };
+                if (session.image) updatedToken.avatar = session.image;
+                if (session.coverImage) updatedToken.coverImage = session.coverImage;
+                if (session.name) updatedToken.fullName = session.name;
+                if (session.email) updatedToken.email = session.email;
+                if (session.username) updatedToken.username = session.username;
+                return updatedToken;
+            }
+
             // INITIAL SIGN IN (Google or Credentials)
             if (account && user) {
                 if (account.provider === "google") {
