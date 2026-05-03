@@ -3,7 +3,6 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { QueryProvider } from "@/providers/query-provider"
 import { ReactNode } from "react"
 import { DashboardHeader } from "@/features/dashboard/components/layout/dashboard-header"
-import Script from "next/script"
 
 export default async function Layout({ children }: { children: ReactNode }) {
     return (
@@ -17,12 +16,6 @@ export default async function Layout({ children }: { children: ReactNode }) {
                     </main>
                 </SidebarInset>
             </SidebarProvider>
-            <Script
-                async
-                strategy="afterInteractive"
-                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4399133152709933"
-                crossOrigin="anonymous"
-            />
         </QueryProvider>
     )
 }

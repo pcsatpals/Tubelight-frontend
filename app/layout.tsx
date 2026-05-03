@@ -5,6 +5,7 @@ import CustomCursor from "@/components/animation/custom-cursor";
 import AOSProvider from "@/components/common/aos-provider";
 import SessionProvider from "@/providers/next-auth-provider";
 import { ToastContainer } from 'react-toastify';
+import Script from "next/script";
 
 const bartleSans = BBH_Sans_Bartle({
   variable: "--font-bartle",
@@ -107,6 +108,12 @@ export default function RootLayout({
           {children}
         </SessionProvider>
         <ToastContainer theme="dark" position="bottom-right" />
+        <Script
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4399133152709933"
+          crossOrigin="anonymous"
+        />
       </body>
     </html>
   );
