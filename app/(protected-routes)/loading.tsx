@@ -1,14 +1,9 @@
+import { Loader2 } from "lucide-react"
+
 const Loading = () => {
     return (
         <div className='w-full h-[400px] flex items-center justify-center'>
-            <video
-                src="/T.mp4"
-                className='size-20 max-w-full max-h-full'
-                autoPlay
-                muted
-                playsInline
-                loop
-            />
+            <Loader2 className="size-6 animate-spin" />
         </div>
     )
 }

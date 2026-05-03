@@ -24,6 +24,10 @@ const UserProfile = async () => {
 
     const { data: dashboardData } = dashboardStats.data;
 
+    if (!user) {
+        return;
+    }
+
     return (
         <div className='flex flex-col py-6 xl:py-10 overflow-y-auto'
         >
@@ -37,7 +41,7 @@ const UserProfile = async () => {
                         </Avatar>
                         <div className='flex flex-col gap-2 flex-1'>
                             <h1 className='capitalize text-2xl lg:text-3xl xl:text-4xl font-semibold'>{user.name}</h1>
-                            <p className='flex items-center text-xs sm:text-sm lg:text-base [&_svg]:size-4'>@{dashboardData.username} <Dot className='text-muted-foreground' />
+                            <p className='flex sm:items-center sm:flex-row flex-col text-xs sm:text-sm lg:text-base [&_svg]:size-4'>@{dashboardData.username} <Dot className='text-muted-foreground hidden sm:block' />
                                 <span className='text-sm text-muted-foreground flex items-center'> {dashboardData.totalSubscribers} Learners <Dot className='text-muted-foreground' /> {dashboardData.videosDetails.length} {dashboardData.videosDetails.length > 1 ? "Caurses" : "Caurse"}</span></p>
                         </div>
                         <Link href="/profile/edit" className="px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-xl flex items-center gap-2 transition-colors font-semibold text-sm">
